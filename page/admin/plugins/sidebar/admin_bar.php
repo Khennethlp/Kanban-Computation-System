@@ -1,0 +1,88 @@
+<aside class="main-sidebar sidebar-light-primary sidebar-light-primary elevation-0" id="sidebar">
+  <!-- Brand Logo -->
+  <a href="index.php" class="brand-link" style="background-color: #306BAC; color: #fff;">
+    <img src="../../dist/img/kcs-bg.webp" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <span class="brand-text font-weight-bold text-uppercase"style="font-size: 16px;">KANBAN COMPUTATION</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="../../dist/img/user.png" class=" elevation-0" alt="User Image">
+      </div>
+      <div class="info">
+        <a href="index.php" class="d-block"><?= htmlspecialchars($_SESSION['name']); ?></a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/index.php") { ?>
+            <a href="index.php" class="nav-link active">
+            <?php } else { ?>
+              <a href="index.php" class="nav-link">
+              <?php } ?>
+              <!-- <i class="nav-icon fa fa-home"></i> -->
+              <img src="../../dist/img/dashboard.png" class="icon-image" height="25" width="25">&nbsp;&nbsp;&nbsp;
+              <p style="margin-left: 30px;">
+                Overview
+              </p>
+              </a>
+        </li>
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/masterlist.php") { ?>
+            <a href="masterlist.php" class="nav-link active">
+            <?php } else { ?>
+              <a href="masterlist.php" class="nav-link">
+              <?php } ?>
+              <!-- <i class="nav-icon fa fa-tachometer-alt"></i> -->
+              <img src="../../dist/img/list.png" class="icon-image" height="25" width="25" >&nbsp;&nbsp;&nbsp;
+              <p style="margin-left: 30px;">
+                Masterlist
+              </p>
+              </a>
+        </li>
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/report.php") { ?>
+            <a href="report.php" class="nav-link active">
+            <?php } else { ?>
+              <a href="report.php" class="nav-link">
+              <?php } ?>
+              <i class="nav-icon fa fa-tachometer-alt"></i>
+              <!-- <img src="../../dist/img/Pacman.gif" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
+              <p style="margin-left: 30px;">
+                Reports
+              </p>
+              </a>
+        </li>
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/settings.php") { ?>
+            <a href="settings.php" class="nav-link active">
+            <?php } else { ?>
+              <a href="settings.php" class="nav-link">
+              <?php } ?>
+              <i class="nav-icon fa fa-tachometer-alt"></i>
+              <!-- <img src="../../dist/img/Settings.gif" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
+              <p style="margin-left: 30px;">
+                Settings
+              </p>
+              </a>
+        </li>
+
+        <?php include 'logout.php'; ?>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+    <!-- <p class="text-muted text-center" style="font-size: 11px;">Beta Version 1.0</p> -->
+  </div>
+  <div class="sidebar-bottom">
+    <p class="text-muted text-center" style="font-size: 11px; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">Version 1.0.0</p>
+  </div>
+  <!-- /.sidebar -->
+</aside>
