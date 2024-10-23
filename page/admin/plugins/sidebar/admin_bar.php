@@ -28,9 +28,9 @@
             <?php } else { ?>
               <a href="index.php" class="nav-link">
               <?php } ?>
-              <!-- <i class="nav-icon fa fa-home"></i> -->
-              <img src="../../dist/img/dashboard.png" class="icon-image" height="25" width="25">&nbsp;&nbsp;&nbsp;
-              <p style="margin-left: 30px;">
+              <i class="nav-icon fa fa-home"></i>
+              <!-- <img src="../../dist/img/dashboard.png" class="icon-image" height="25" width="25">&nbsp;&nbsp;&nbsp; -->
+              <p >
                 Overview
               </p>
               </a>
@@ -41,36 +41,36 @@
             <?php } else { ?>
               <a href="masterlist.php" class="nav-link">
               <?php } ?>
-              <!-- <i class="nav-icon fa fa-tachometer-alt"></i> -->
-              <img src="../../dist/img/list.png" class="icon-image" height="25" width="25" >&nbsp;&nbsp;&nbsp;
-              <p style="margin-left: 30px;">
+              <i class="nav-icon fa fa-table"></i>
+              <!-- <img src="../../dist/img/list.png" class="icon-image" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
+              <p >
                 Masterlist
               </p>
               </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/report.php") { ?>
             <a href="report.php" class="nav-link active">
             <?php } else { ?>
               <a href="report.php" class="nav-link">
               <?php } ?>
               <i class="nav-icon fa fa-tachometer-alt"></i>
-              <!-- <img src="../../dist/img/Pacman.gif" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
-              <p style="margin-left: 30px;">
+              <img src="../../dist/img/Pacman.gif" height="25" width="25" >&nbsp;&nbsp;&nbsp;
+              <p >
                 Reports
               </p>
               </a>
-        </li>
+        </li> -->
         <li class="nav-item">
-          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/settings.php") { ?>
-            <a href="settings.php" class="nav-link active">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/accounts.php") { ?>
+            <a href="accounts.php" class="nav-link active">
             <?php } else { ?>
-              <a href="settings.php" class="nav-link">
+              <a href="accounts.php" class="nav-link">
               <?php } ?>
-              <i class="nav-icon fa fa-tachometer-alt"></i>
-              <!-- <img src="../../dist/img/Settings.gif" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
-              <p style="margin-left: 30px;">
-                Settings
+              <i class="nav-icon fa fa-user-cog"></i>
+              <!-- <img src="../../dist/img/account_manager.png" class="icon-image" height="30" width="30" >&nbsp;&nbsp;&nbsp; -->
+              <p >
+                Accounts
               </p>
               </a>
         </li>

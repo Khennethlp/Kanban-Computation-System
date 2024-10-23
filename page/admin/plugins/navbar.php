@@ -15,12 +15,12 @@ if (!isset($_SESSION['username'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= $title; ?> - Admin</title>
 
-  
+
   <link rel="icon" href="../../dist/img/kcs-bg.webp" type="image/x-icon" />
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="../../dist/css/font.min.css">
 
-  <link rel="stylesheet" href="../../plugins/DataTables/datatables.min.css"> 
+  <link rel="stylesheet" href="../../plugins/DataTables/datatables.min.css">
   <link rel="stylesheet" href="../../dist/css/datatable/dataTables.dataTables.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
@@ -30,7 +30,7 @@ if (!isset($_SESSION['username'])) {
   <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Sweet Alert -->
   <link rel="stylesheet" href="../../plugins/sweetalert2/dist/sweetalert2.min.css">
-  
+
   <link rel="stylesheet" href="../../plugins/datatable/dist/dataTables.dataTables.min.css">
 
 
@@ -82,18 +82,57 @@ if (!isset($_SESSION['username'])) {
       /*#000EA4*/
       border-bottom: 2px solid #ffffff !important;
       color: #fff;
+
     }
+
     .activeBtn {
       background-color: #275DAD !important;
       color: #fff !important;
-      &:hover{
+      border-radius: 16px;
+
+      &:hover {
         background-color: #1F6C98 !important;
         color: #fff !important;
 
       }
     }
 
-    .signOutBtn{
+    .submitBtn {
+      background-color: #275DAD !important;
+      color: #fff !important;
+      border-radius: 16px;
+
+      &:hover {
+        background-color: #1F6C98 !important;
+        color: #fff !important;
+
+      }
+    }
+
+    .actionBtn {
+      background-color: #55A6F1 !important;
+      color: #fff !important;
+      border-radius: 16px;
+
+      &:hover {
+        background-color: #1F6C98 !important;
+        color: #fff !important;
+
+      }
+    }
+    .delBtn {
+      background-color: #D27484 !important;
+      color: #fff !important;
+      border-radius: 16px;
+
+      &:hover {
+        background-color: #1F6C98 !important;
+        color: #fff !important;
+
+      }
+    }
+
+    .signOutBtn {
       background-color: #f3f3f3 !important;
       /*#000EA4*/
       border-bottom: 2px solid #275DAD !important;
@@ -109,22 +148,80 @@ if (!isset($_SESSION['username'])) {
     }
 
     table th {
-        padding: 10px;
-        white-space: nowrap;
-        text-align: left;
+      /* padding: 10px; */
+      white-space: nowrap;
+      text-align: left;
     }
 
-    th.part-code { width: 150px; }
-    th.part-name { width: 200px; }
-    th.min-lot, th.max-usage, th.max-plan, th.teams, th.takt-time, th.conveyor-speed, th.usage-hour, th.lead-time, th.safety-inv, th.req-kanban, th.issued-pd, th.add-kanban, th.delete-kanban { 
-        width: 120px;
+    th.part-code {
+      width: 150px;
+    }
+
+    th.part-name {
+      width: 200px;
+    }
+
+    th.min-lot,
+    th.max-usage,
+    th.max-plan,
+    th.teams,
+    th.takt-time,
+    th.conveyor-speed,
+    th.usage-hour,
+    th.lead-time,
+    th.safety-inv,
+    th.req-kanban,
+    th.issued-pd,
+    th.add-kanban,
+    th.delete-kanban {
+      width: 120px;
     }
 
     table {
-        width: 100%; 
-        table-layout: auto;
+      width: 100%;
+      table-layout: auto;
     }
 
+    .add-btn {
+      display: block;
+      /* Visible by default */
+      position: fixed;
+      /* Fixed/sticky position */
+      bottom: 50px;
+      /* Place the button at the bottom of the page */
+      right: 30px;
+      /* Place the button 30px from the right */
+      z-index: 99;
+      /* Make sure it appears on top of other elements */
+      border: none;
+      /* Remove borders */
+      outline: none;
+      /* Remove outline */
+      background-color: #275DAD;
+      /* Dark background */
+      color: white;
+      /* White text */
+      padding: 10px 17px;
+      /* Some padding */
+      font-size: 16px;
+      /* Increase font size */
+      cursor: pointer;
+      /* Pointer/hand icon on hover */
+      border-radius: 50px;
+      /* Rounded corners */
+    }
+
+    .add-btn:hover {
+      background-color: #276DBD;
+      /* Darker background on hover */
+    }
+
+    input[type='text'],
+    input[type='password'],
+    input[type='number'],
+    input[type='date'] {
+      border-radius: 15px;
+    }
   </style>
 </head>
 

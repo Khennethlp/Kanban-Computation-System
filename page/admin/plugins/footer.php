@@ -15,6 +15,9 @@
   </footer>
 <?php
 //MODALS
+include '../../modals/add_account.php';
+include '../../modals/edit_account.php';
+
 include '../../modals/import_masterlist.php';
 include '../../modals/logout_modal.php';
 include '../../modals/timeout.php';
