@@ -77,6 +77,22 @@ if (!isset($_SESSION['username'])) {
       background: #332D2D;
     }
 
+    .add-btn {
+      display: block;
+      position: fixed;
+      bottom: 50px;
+      right: 30px;
+      z-index: 99;
+      border: none;
+      outline: none;
+      background-color: #275DAD;
+      color: white;
+      padding: 10px 17px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 50px;
+    }
+
     .active {
       background-color: #275DAD !important;
       /*#000EA4*/
@@ -120,6 +136,7 @@ if (!isset($_SESSION['username'])) {
 
       }
     }
+
     .delBtn {
       background-color: #D27484 !important;
       color: #fff !important;
@@ -182,38 +199,20 @@ if (!isset($_SESSION['username'])) {
       table-layout: auto;
     }
 
-    .add-btn {
-      display: block;
-      /* Visible by default */
-      position: fixed;
-      /* Fixed/sticky position */
-      bottom: 50px;
-      /* Place the button at the bottom of the page */
-      right: 30px;
-      /* Place the button 30px from the right */
-      z-index: 99;
-      /* Make sure it appears on top of other elements */
-      border: none;
-      /* Remove borders */
-      outline: none;
-      /* Remove outline */
-      background-color: #275DAD;
-      /* Dark background */
-      color: white;
-      /* White text */
-      padding: 10px 17px;
-      /* Some padding */
-      font-size: 16px;
-      /* Increase font size */
-      cursor: pointer;
-      /* Pointer/hand icon on hover */
-      border-radius: 50px;
-      /* Rounded corners */
-    }
 
     .add-btn:hover {
       background-color: #276DBD;
-      /* Darker background on hover */
+    }
+
+    .addBtn {
+      background-color: #275DAD !important;
+      color: #fff !important;
+      border-radius: 15px;
+      border:none;
+
+      &:hover {
+        background-color: #276DBD;
+      }
     }
 
     input[type='text'],
