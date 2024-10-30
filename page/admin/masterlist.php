@@ -8,7 +8,7 @@
         <div class="col-md-12">
           <div class="row mt-3">
             <div class="col-lg-3 col-6">
-              <div class="small-box " style="background-color: #275DAD; color:#ffffff;">
+              <div class="small-box " style="background-color: #275DAD; color:#ffffff; border-radius: 15px;">
                 <div class="inner">
                   <h3>Master</h3>
                   <p>Template</p>
@@ -16,13 +16,13 @@
                 <div class="icon">
                   <i class="fas fa-file-excel"></i>
                 </div>
-                <a href="../../template/Master.xlsx" class="small-box-footer">
+                <a href="../../template/Master.xlsx" class="small-box-footer" style="border-radius: 15px;">
                   Click to download
                 </a>
               </div>
             </div>
             <div class="col-lg-3 col-6">
-              <div class="small-box bg-success">
+              <div class="small-box bg-success" style="border-radius: 15px;">
                 <div class="inner">
                   <h3>Import</h3>
                   <p>Masterlist</p>
@@ -30,7 +30,7 @@
                 <div class="icon">
                   <i class="fas fa-file-excel"></i>
                 </div>
-                <a href="#" data-toggle="modal" data-target="#import_masterlist" class="small-box-footer">
+                <a href="#" data-toggle="modal" data-target="#import_masterlist" class="small-box-footer" style="border-radius: 15px;">
                   Click to Import
                 </a>
               </div>
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="col-md-12">
-          <div class="card mt-3" style="border-radius: 15px;">
+          <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-header">
               <h3 class="card-title text-uppercase text-bold">Masterlist</h3>
             </div>

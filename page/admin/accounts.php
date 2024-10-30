@@ -6,16 +6,21 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="col-md-3 mt-3">
-            <div class="info-box">
-              <span class="info-box-icon" style="background-color:#3765AA; color:#fff;"><i class="fas fa-user"></i></span>
-              <div class="info-box-content">
-                <h5 class="info-box-text">Add New Account</h5>
-               <button class="form-control addBtn" data-toggle="modal" data-target="#add_account">+</button>
+          <div class="col-lg-3 col-6 mt-3" >
+            <div class="small-box bg-danger" style="border-radius: 15px;">
+              <div class="inner">
+                <h4>Add Account</h4>
+                <p>&nbsp;</p>
               </div>
+              <div class="icon">
+                <i class="fas fa-user"></i>
+              </div>
+              <a href="#" data-toggle="modal" data-target="#add_account" class="small-box-footer" style="border-radius: 15px;">
+                Click to add account
+              </a>
             </div>
           </div>
-          <div class="card mt-4" style="border-radius: 15px;">
+          <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-header">
               <h3 class="card-title text-uppercase text-bold"> Accounts Management</h3>
             </div>
