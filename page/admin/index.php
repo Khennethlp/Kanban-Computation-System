@@ -17,7 +17,16 @@
                     <div class="row">
                       <div class="col-md-3">
                         <label for="">Line</label>
-                        <input type="text" name="" id="" class="form-control">
+                        <!-- <input type="text" name="" id="" class="form-control"> -->
+                         <select name="line_no" id="line_no" class="form-control" style="border-radius: 15px;">
+                           <option value=""></option>
+                           <option value="">Daihatsu</option>
+                           <option value="">Honda</option>
+                           <option value="">Mazda</option>
+                           <option value="">Subaru</option>
+                           <option value="">Suzuki</option>
+                           <option value="">Toyota</option>
+                         </select>
                       </div>
                       <div class="col-md-3">
                         <label for="">Date</label>
@@ -26,6 +35,10 @@
                       <div class="col-md-2">
                         <label for="">&nbsp;</label>
                         <button class="form-control btn activeBtn"><i class="fas fa-search"></i> Search</button>
+                      </div>
+                      <div class="col-md-2 ml-auto">
+                        <label for="">&nbsp;</label>
+                        <button class="form-control btn btn-danger"><i class="fas fa-file-export"></i> Export</button>
                       </div>
                     </div>
                   </div>
