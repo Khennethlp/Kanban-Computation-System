@@ -13,8 +13,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <form id="csvFileForm" method="post" enctype="multipart/form-data">
-                            <input type="file" class="form-control p-1" name="csvFile" accept=".csv, .xls, .xlsx" id="csvFileInput">
-                            <input type="submit" class="form-control mt-5  btn-success" value="Upload">
+                            <input type="file" class="form-control p-1" name="file" accept=".csv, .xls, .xlsx" id="csvFileInput">
+                            <input type="submit" name="upload" class="form-control mt-5  btn-success" value="Upload">
                         </form>
                     </div>
                 </div>

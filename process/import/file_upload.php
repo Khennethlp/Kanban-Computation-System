@@ -1,130 +1,111 @@
 <?php
-
-require '../../vendor/autoload.php'; // Ensure the PhpSpreadsheet library is loaded
+require '../conn.php';
+require '../../vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-// Function to read and parse CSV file
-function readCsvFile($filename) {
+function readCsvData($filename)
+{
     if (!file_exists($filename)) {
         return false;
     }
 
-    $data = array();
+    $data = [];
     $file = fopen($filename, 'r');
+    fgetcsv($file);
 
     while (($line = fgetcsv($file)) !== false) {
-        $data[] = $line;
+        if (array_filter($line)) {
+            $data[] = $line;
+        }
     }
 
     fclose($file);
     return $data;
 }
 
-function readExcelFile($filename) {
+function readExcelData($filename)
+{
     if (!file_exists($filename)) {
         return false;
     }
 
-    // Load the spreadsheet
     $spreadsheet = IOFactory::load($filename);
     $data = [];
 
-    foreach ($spreadsheet->getActiveSheet()->getRowIterator() as $row) {
+    foreach ($spreadsheet->getActiveSheet()->getRowIterator(2) as $row) {
         $rowData = [];
         foreach ($row->getCellIterator() as $cell) {
-            try {
-                // Try to get the formatted value first
-                $formattedValue = $cell->getFormattedValue();
-
-                // Check if the cell has a formula
-                if ($cell->isFormula()) {
-                    try {
-                        // Try to get the calculated value if it's a formula
-                        $calculatedValue = $cell->getCalculatedValue();
-
-                        // If PhpSpreadsheet can't calculate, return the formula instead
-                        if ($calculatedValue === null || $calculatedValue === '') {
-                            // Fallback to show the formula as a string
-                            $rowData[] = 'Formula: ' . $cell->getValue();
-                        } else {
-                            $rowData[] = $calculatedValue;
-                        }
-                    } catch (Exception $e) {
-                        // Handle any errors in calculation and show formula instead
-                        $rowData[] = 'Formula Error: ' . $cell->getValue();
-                    }
-                } elseif ($formattedValue) {
-                    // If there's a formatted value, use it
-                    $rowData[] = $formattedValue;
-                } else {
-                    // Fallback to the raw value if no formatted or calculated value is available
-                    $rowData[] = $cell->getValue();
-                }
-            } catch (Exception $e) {
-                // Handle any errors that occur
-                $rowData[] = 'Error: ' . $e->getMessage();
-            }
+            $rowData[] = $cell->getFormattedValue();
         }
-        $data[] = $rowData;
+        if (array_filter($rowData)) {
+            $data[] = $rowData;
+        }
     }
 
     return $data;
 }
 
-
-
-// Handle file upload and display as a table
 if (isset($_FILES['csvFile'])) {
     $file = $_FILES['csvFile'];
 
-    // Check if the file was uploaded
     if ($file['error'] === UPLOAD_ERR_OK) {
-        // Move the uploaded file to a temporary location
         $tempFile = tempnam(sys_get_temp_dir(), 'file_upload');
         move_uploaded_file($file['tmp_name'], $tempFile);
 
-        // Determine the file extension
         $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-        // Read the data based on the file type
+        // Read the data based on file type
         if ($fileExtension === 'csv') {
-            $data = readCsvFile($tempFile);
+            $data = readCsvData($tempFile);
         } elseif (in_array($fileExtension, ['xls', 'xlsx'])) {
-            $data = readExcelFile($tempFile);
+            $data = readExcelData($tempFile);
         } else {
             echo "Error: Unsupported file type.";
             unlink($tempFile);
             exit;
         }
 
-        // Display the data as a table
         if ($data) {
-            // echo '<table class="table table-striped table-bordered">';
-            
-            // Generate table headers from the first row (if available)
-            if (!empty($data[0])) {
-                echo '<thead class="thead-dark mt-3" style="position: sticky; top: 0; z-index: 1000; background-color: #343a40;"><tr>';
-                foreach ($data[0] as $header) {
-                    echo '<th style="width: 100%;">' . htmlspecialchars($header) . '</th>';
+            $insertedRows = 0;
+            $errorMessages = [];
+
+            foreach ($data as $row) {
+                $line_no = $row[0];
+                $partcode = $row[1];
+                $partname = $row[2];
+                $min_lot = $row[3];
+                $max_usage = $row[4];
+                $max_plan = $row[5];
+                $no_teams = $row[6];
+                $issued_to_pd = $row[7];
+
+                $checkSql = "SELECT COUNT(*) FROM m_master WHERE partcode = ? AND partname = ?";
+                $checkStmt = $conn->prepare($checkSql);
+                $checkStmt->execute([$partcode, $partname]);
+                $exists = $checkStmt->fetchColumn();
+
+                if ($exists == 0) { // If not exists, insert
+                    $sql = "INSERT INTO m_master (line_no, partcode, partname, min_lot, max_usage, max_plan, no_teams, issued_to_pd)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([$line_no, $partcode, $partname, $min_lot, $max_usage, $max_plan, $no_teams, $issued_to_pd]);
+                    $insertedRows++;
+                } else {
+                    echo 'exist '; //data with partcode and partname already exist in the database
                 }
-                echo '</tr></thead>';
             }
 
-            echo '<tbody>';
-            foreach (array_slice($data, 1) as $row) {
-                echo '<tr>';
-                foreach ($row as $cell) {
-                    echo '<td>' . htmlspecialchars($cell) . '</td>';
-                }
-                echo '</tr>';
+            if ($insertedRows > 0) {
+                echo "success";
             }
-            echo '</tbody></table>';
+            if (!empty($errorMessages)) {
+                echo 'error';
+            }
         } else {
-            echo "Error: Could not read the file.";
+            echo "Could not read the file.";
         }
 
-        // Delete the temporary file
         unlink($tempFile);
     } else {
         echo "Error: File upload failed.";
@@ -132,4 +113,3 @@ if (isset($_FILES['csvFile'])) {
 } else {
     echo "Please select a file to upload.";
 }
-?>
