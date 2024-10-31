@@ -18,15 +18,27 @@
                       <div class="col-md-3">
                         <label for="">Line</label>
                         <!-- <input type="text" name="" id="" class="form-control"> -->
-                         <select name="line_no" id="line_no" class="form-control" style="border-radius: 15px;">
-                           <option value=""></option>
-                           <option value="">Daihatsu</option>
-                           <option value="">Honda</option>
-                           <option value="">Mazda</option>
-                           <option value="">Subaru</option>
-                           <option value="">Suzuki</option>
-                           <option value="">Toyota</option>
-                         </select>
+                        <select name="line_no" id="line_no" class="form-control" style="border-radius: 15px;">
+                          <option value=""></option>
+                          <?php
+                          require '../../process/conn.php';
+
+                          $getLine = "SELECT DISTINCT line_no FROM m_master";
+                          $stmt = $conn->prepare($getLine, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+                          $stmt->execute();
+
+                          if ($stmt->rowCount() > 0) {
+                            // Output data of each row
+                            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            // Output data of each row
+                            foreach ($rows as $row) {
+
+                              echo '<option value="' . $row["line_no"] . '">' . $row["line_no"] . '</option>';
+                            }
+                          }
+                          ?>
+                        </select>
                       </div>
                       <div class="col-md-3">
                         <label for="">Date</label>
@@ -43,8 +55,8 @@
                     </div>
                   </div>
                   <div class="col-md-12 mt-5" style="width:100%; height:600px; overflow:auto;">
-                    <table class="table table-condensed table-hover">
-                      <thead>
+                    <table class="table table-condensed table-hover text-center">
+                      <thead class="bg-light sticky-top">
                         <tr>
                           <th class="part-code">Line No.</th>
                           <th class="part-code">Part Code</th>

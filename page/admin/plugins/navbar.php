@@ -223,8 +223,12 @@ if (!isset($_SESSION['username'])) {
     }
 
     .red-highlight{
-      background-color: #D27484;
-      color:#fff;
+      /* background-color: #D27484; */
+      color:#D27484;
+    }
+
+    td{
+      white-space: nowrap;
     }
   </style>
 </head>
