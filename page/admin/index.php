@@ -42,11 +42,11 @@
                       </div>
                     </div>
                   </div>
-                  
                   <div class="col-md-12 mt-5" style="width:100%; height:600px; overflow:auto;">
                     <table class="table table-condensed table-hover">
                       <thead>
                         <tr>
+                          <th class="part-code">Line No.</th>
                           <th class="part-code">Part Code</th>
                           <th class="part-name">Part Name</th>
                           <th class="min-lot">Min Lot</th>
@@ -64,7 +64,7 @@
                           <th class="delete-kanban">Delete Kanban No.</th>
                         </tr>
                       </thead>
-                      <tbody> </tbody>
+                      <tbody class="text-center text-middle" id="table_dashboard"> </tbody>
                     </table>
                   </div>
                 </div>
@@ -80,4 +80,5 @@
 
 <?php
 include 'plugins/footer.php';
+include 'plugins/js/load_data/load_dashboard_script.php';
 ?>

@@ -221,6 +221,11 @@ if (!isset($_SESSION['username'])) {
     input[type='date'] {
       border-radius: 15px;
     }
+
+    .red-highlight{
+      background-color: #D27484;
+      color:#fff;
+    }
   </style>
 </head>
 
