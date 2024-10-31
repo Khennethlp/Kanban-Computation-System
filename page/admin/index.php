@@ -42,11 +42,11 @@
                       </div>
                       <div class="col-md-3">
                         <label for="">Date</label>
-                        <input type="date" name="" id="" class="form-control">
+                        <input type="date" name="" id="getDate" class="form-control">
                       </div>
                       <div class="col-md-2">
                         <label for="">&nbsp;</label>
-                        <button class="form-control btn activeBtn"><i class="fas fa-search"></i> Search</button>
+                        <button class="form-control btn activeBtn" onclick="load_dashboard();"><i class="fas fa-search"></i> Search</button>
                       </div>
                       <div class="col-md-2 ml-auto">
                         <label for="">&nbsp;</label>
