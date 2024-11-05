@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-sm-6">
                         <span><b>Line No:</b></span>
-                        <input type="text" id="edit_lotNo" class="form-control mb-2" placeholder="" autocomplete="off" required readonly>
+                        <input type="text" id="edit_lineNo" class="form-control mb-2" placeholder="" autocomplete="off" required readonly>
                     </div>
                     <div class="col-sm-6">
                         <span><b>Partname:</b></span>
@@ -53,7 +53,7 @@
             </div>
             <div class="modal-footer ">
                 <div class="col-md-3">
-                    <button class="btn  btn-block submitBtn" onclick="">Save changes</button>
+                    <button class="btn  btn-block submitBtn" onclick="update_master();">Save changes</button>
                 </div>
             </div>
         </div>

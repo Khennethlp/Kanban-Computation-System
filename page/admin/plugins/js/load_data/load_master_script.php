@@ -1,5 +1,5 @@
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         load_master();
     });
 
@@ -30,20 +30,19 @@
         $issued_to_pd = $data[8];
         $added_by = $data[9];
 
-
-        console.log("id: " +$id);
-        console.log("line_no: " +$line_no);
-        console.log("partcode: " +$partcode);
-        console.log("partname: " +$partname);
-        console.log("min_lot: " +$min_lot);
-        console.log("max_usage: " +$max_usage);
-        console.log("max_plan: " +$max_plan);
-        console.log("no_teams: " +$no_teams);
-        console.log("issued_to_pd: " +$issued_to_pd);
-        console.log("added_by: " +$added_by);
+        console.log("id: " + $id);
+        console.log("line_no: " + $line_no);
+        console.log("partcode: " + $partcode);
+        console.log("partname: " + $partname);
+        console.log("min_lot: " + $min_lot);
+        console.log("max_usage: " + $max_usage);
+        console.log("max_plan: " + $max_plan);
+        console.log("no_teams: " + $no_teams);
+        console.log("issued_to_pd: " + $issued_to_pd);
+        console.log("added_by: " + $added_by);
 
         $('#id_master').val($id);
-        $('#edit_lotNo').val($line_no);
+        $('#edit_lineNo').val($line_no);
         $('#edit_partname').val($partcode);
         $('#edit_partcode').val($partname);
         $('#edit_minLot').val($min_lot);
@@ -52,5 +51,40 @@
         $('#edit_issued').val($issued_to_pd);
         $('#edit_noTeams').val($no_teams);
 
+    }
+
+    const update_master = () => {
+        var id = $('#id_master').val();
+        var partname = $('#edit_partname').val();
+        var partcode = $('#edit_partcode').val();
+        var minLot = $('#edit_minLot').val();
+        var maxPlan = $('#edit_maxPlan').val();
+        var noTeams = $('#edit_noTeams').val();
+
+        $.ajax({
+            type: "POST",
+            url: "../../process/admin/masterlist/functions.php",
+            data: {
+                method: 'update_master',
+                id: id,
+                partname: partname,
+                partcode: partcode,
+                minLot: minLot,
+                maxPlan: maxPlan,
+                noTeams: noTeams
+
+            },
+            success: function(response) {
+                if (response == 'success') {
+                    Swal.fire("Updated Successfully!", "", "success");
+                    load_master();
+                    $('#edit_masterlist').modal('hide');
+                } else if (response == 'failed') {
+                    Swal.fire("Update failed. Try again.", "", "error");
+                } else {
+                    Swal.fire("Something went wrong.", "", "error");
+                }
+            }
+        });
     }
 </script>
