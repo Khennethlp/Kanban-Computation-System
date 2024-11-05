@@ -137,6 +137,19 @@ if (!isset($_SESSION['username'])) {
       }
     }
 
+    .exportBtn {
+      background-color: #ffff !important;
+      color: #111 !important;
+      border-radius: 16px;
+      border: 2px solid #ccc;
+
+      &:hover {
+        background-color: #f3f3f3 !important;
+        color: #111 !important;
+
+      }
+    }
+
     .delBtn {
       background-color: #D27484 !important;
       color: #fff !important;
@@ -208,7 +221,7 @@ if (!isset($_SESSION['username'])) {
       background-color: #275DAD !important;
       color: #fff !important;
       border-radius: 15px;
-      border:none;
+      border: none;
 
       &:hover {
         background-color: #276DBD;
@@ -223,12 +236,12 @@ if (!isset($_SESSION['username'])) {
       border-radius: 15px;
     }
 
-    .red-highlight{
+    .red-highlight {
       /* background-color: #D27484; */
-      color:#D27484;
+      color: #D27484;
     }
 
-    td{
+    td {
       white-space: nowrap;
     }
   </style>

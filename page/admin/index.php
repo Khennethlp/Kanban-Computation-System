@@ -50,7 +50,7 @@
                       </div>
                       <div class="col-md-2 ml-auto">
                         <label for="">&nbsp;</label>
-                        <button class="form-control btn btn-danger"><i class="fas fa-file-export"></i> Export</button>
+                        <button class="form-control btn exportBtn" onclick="export_dashboard();"><i class="fas fa-file-export"></i> Export</button>
                       </div>
                     </div>
                   </div>

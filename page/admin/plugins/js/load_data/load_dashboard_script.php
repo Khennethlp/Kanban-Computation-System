@@ -21,4 +21,11 @@
             }
         });
     }
+
+    const export_dashboard = () => {
+        var line_no = document.getElementById('line_no').value;
+        var date = document.getElementById('getDate').value;
+
+        window.open('../../process/export/export_dash.php?line_no='+line_no+'&date='+date, '_blank');
+    }
 </script>
