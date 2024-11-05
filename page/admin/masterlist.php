@@ -42,6 +42,7 @@
             <div class="card-header">
               <h3 class="card-title text-uppercase text-bold">Masterlist</h3>
             </div>
+            <input type="hidden" id="user_name" class="form-control mb-2" value="<?= $_SESSION['name']; ?>">
             <div class="card-body">
               <div class="row">
                 <div class="col-md-12">
@@ -67,36 +68,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-12">
-          <div class="card mt-3" style="border-radius: 15px;">
-            <div class="card-header">
-              <h3 class="card-title text-uppercase text-bold">Bom Masterlist</h3>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-2 ">
-                  <button class="btn btn-success " data-toggle="modal" data-target="#import_masterlist">Import Masterlist</button>
-                </div>
-                <div class="col-12">
-                  <div class="mt-2" style="height: 450px; overflow:auto;">
-                    <table id="" class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>No.</th>
-                          <th>No.</th>
-                          <th>No.</th>
-                          <th>No.</th>
-                          <th>No.</th>
-                        </tr>
-                      </thead>
-                      <tbody id=""></tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </section>

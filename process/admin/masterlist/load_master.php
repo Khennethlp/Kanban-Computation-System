@@ -5,7 +5,7 @@ $method = $_POST['method'];
 
 if ($method == 'load_master') {
     
-    $sql = "SELECT * FROM m_master";
+    $sql = "SELECT * FROM m_master ORDER BY id DESC";
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
     $master = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -6,6 +6,7 @@
             event.preventDefault();
 
             var formData = new FormData();
+            var user_name = $('#user_name').val();
             var fileInput = $('#csvFileInput')[0].files[0];
 
             if (!fileInput) {
@@ -13,6 +14,7 @@
                 return;
             }
 
+            formData.append('userName', user_name);
             formData.append('csvFile', fileInput);
 
             $.ajax({

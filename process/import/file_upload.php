@@ -47,6 +47,7 @@ function readExcelData($filename)
 }
 
 if (isset($_FILES['csvFile'])) {
+    $userName = $_POST['userName'];
     $file = $_FILES['csvFile'];
 
     if ($file['error'] === UPLOAD_ERR_OK) {
@@ -86,10 +87,10 @@ if (isset($_FILES['csvFile'])) {
                 $exists = $checkStmt->fetchColumn();
 
                 if ($exists == 0) { // If not exists, insert
-                    $sql = "INSERT INTO m_master (line_no, partcode, partname, min_lot, max_usage, max_plan, no_teams, issued_to_pd)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    $sql = "INSERT INTO m_master (line_no, partcode, partname, min_lot, max_usage, max_plan, no_teams, issued_to_pd, added_by)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     $stmt = $conn->prepare($sql);
-                    $stmt->execute([$line_no, $partcode, $partname, $min_lot, $max_usage, $max_plan, $no_teams, $issued_to_pd]);
+                    $stmt->execute([$line_no, $partcode, $partname, $min_lot, $max_usage, $max_plan, $no_teams, $issued_to_pd, $userName]);
                     $insertedRows++;
                 } else {
                     echo 'exist '; //data with partcode and partname already exist in the database

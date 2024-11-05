@@ -14,6 +14,7 @@
                     <div class="col-md-12">
                         <form id="csvFileForm" method="post" enctype="multipart/form-data">
                             <input type="file" class="form-control p-1" name="file" accept=".csv, .xls, .xlsx" id="csvFileInput">
+                            <input type="hidden" id="user_name" class="form-control mb-2 mt-2" value="<?= $_SESSION['name']; ?>">
                             <input type="submit" name="upload" class="form-control mt-5  btn-success" value="Upload">
                         </form>
                     </div>
