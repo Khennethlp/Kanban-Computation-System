@@ -131,7 +131,7 @@ if (!isset($_SESSION['username'])) {
       border-radius: 16px;
 
       &:hover {
-        background-color: #1F6C98 !important;
+        background-color: #275DAD !important;
         color: #fff !important;
 
       }
@@ -143,7 +143,7 @@ if (!isset($_SESSION['username'])) {
       border-radius: 16px;
 
       &:hover {
-        background-color: #1F6C98 !important;
+        background-color: #DD5755 !important;
         color: #fff !important;
 
       }
