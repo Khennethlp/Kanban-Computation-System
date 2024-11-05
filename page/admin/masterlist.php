@@ -56,6 +56,7 @@
                         <th>Max Plan / Day (pcs)</th>
                         <th>No. of Teams</th>
                         <th>Issued to PD</th>
+                        <th>Action</th>
                         </tr>
                       </thead>
                       <tbody id="import_table"></tbody>

@@ -12,14 +12,16 @@ if ($method == 'load_master') {
     
     if ($master) {
         foreach ($master as $row) {
-            // $line_no = $row['line_no'];
-            // $partcode = $row['partcode'];
-            // $partname = $row['partname'];
-            // $min_lot = $row['min_lot'];
-            // $max_usage = $row['max_usage'];
-            // $max_plan = $row['max_plan'];
-            // $no_teams = $row['no_teams'];
-            // $issued_to_pd = $row['issued_to_pd'];
+            $id = $row['id'];
+            $added_by = $row['added_by'];
+            $line_no = $row['line_no'];
+            $partcode = $row['partcode'];
+            $partname = $row['partname'];
+            $min_lot = $row['min_lot'];
+            $max_usage = $row['max_usage'];
+            $max_plan = $row['max_plan'];
+            $no_teams = $row['no_teams'];
+            $issued_to_pd = $row['issued_to_pd'];
             
             echo '<tr>';
             echo '<td>' . $row['line_no'] . '</td>';
@@ -30,6 +32,9 @@ if ($method == 'load_master') {
             echo '<td>' . $row['max_plan'] . '</td>';
             echo '<td>' . $row['no_teams'] . '</td>';
             echo '<td>' . $row['issued_to_pd'] . '</td>';
+            echo '<td>
+            <button class="btn actionBtn" data-toggle="modal" data-target="#edit_masterlist" onclick="getMaster(\'' . htmlspecialchars($id) . '~!~' . htmlspecialchars($line_no) . '~!~' . htmlspecialchars($partcode) . '~!~' . htmlspecialchars($partname) . '~!~' . htmlspecialchars($min_lot) . '~!~' . htmlspecialchars($max_usage) . '~!~' . htmlspecialchars($max_plan) . '~!~' . htmlspecialchars($no_teams) . '~!~' . htmlspecialchars($issued_to_pd) . '~!~' . htmlspecialchars($added_by) . '\');">Edit</button>
+            </td>';
             echo '</tr>';
         }
     }
