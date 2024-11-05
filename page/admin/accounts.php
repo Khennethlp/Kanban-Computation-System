@@ -32,12 +32,12 @@
                     <div class="row">
                       <div class="col-md-3">
                         <label for="">Search</label>
-                        <input type="text" name="" id="" class="form-control" placeholder="Keywords...">
+                        <input type="search" name="" id="search_acc" class="form-control" placeholder="Keywords...">
                       </div>
 
                       <div class="col-md-2">
                         <label for="">&nbsp;</label>
-                        <button class="form-control btn activeBtn"><i class="fas fa-search"></i> Search</button>
+                        <button class="form-control btn activeBtn" onclick="load_accounts();"><i class="fas fa-search"></i> Search</button>
                       </div>
                       <!-- <div class="col-md-0 ml-auto">
                         <label for="">&nbsp;</label>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-md-12 mt-5" style="max-height: 600px; overflow: auto;">
                       <table class="table table-condensed table-hover">
-                        <thead>
+                        <thead class="thead-bg">
                           <tr>
                             <th>No.</th>
                             <th>Employee ID</th>

@@ -3,13 +3,23 @@
         load_accounts();
     });
 
+    document.querySelectorAll('#search_acc').forEach(input => {
+        input.addEventListener("keyup", e => {
+            if (e.which === 13) {
+                load_accounts();
+            }
+        });
+    });
+
     const load_accounts = () => {
+        var acc_search = document.getElementById('search_acc').value;
 
         $.ajax({
             type: "POST",
             url: "../../process/admin/account/load_accounts.php",
             data: {
-                method: 'load_accounts'
+                method: 'load_accounts',
+                search: acc_search
             },
             success: function(response) {
                 // $('#accounts_table').html(response);

@@ -8,7 +8,7 @@
         <div class="col-sm-12">
           <div class="card mt-4" style="border-radius: 15px;">
             <div class="card-header">
-              <h3 class="card-title text-uppercase text-bold"> overview dashboard</h3>
+              <h3 class="card-title text-uppercase text-bold"> computation dashboard</h3>
             </div>
             <div class="card-body">
               <div class="col-md-12">
@@ -56,7 +56,7 @@
                   </div>
                   <div class="col-md-12 mt-5" style="width:100%; height:600px; overflow:auto;">
                     <table class="table table-condensed table-hover text-center">
-                      <thead class="bg-light sticky-top">
+                      <thead class="thead-bg sticky-top">
                         <tr>
                           <th class="part-code">Line No.</th>
                           <th class="part-code">Part Code</th>

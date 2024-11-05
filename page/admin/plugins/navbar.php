@@ -55,128 +55,6 @@ if (!isset($_SESSION['username'])) {
       }
     }
 
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 10px;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #332D2D;
-    }
-
-    .add-btn {
-      display: block;
-      position: fixed;
-      bottom: 50px;
-      right: 30px;
-      z-index: 99;
-      border: none;
-      outline: none;
-      background-color: #275DAD;
-      color: white;
-      padding: 10px 17px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 50px;
-    }
-
-    .active {
-      background-color: #275DAD !important;
-      /*#000EA4*/
-      border-bottom: 2px solid #ffffff !important;
-      color: #fff;
-
-    }
-
-    .activeBtn {
-      background-color: #275DAD !important;
-      color: #fff !important;
-      border-radius: 16px;
-
-      &:hover {
-        background-color: #1F6C98 !important;
-        color: #fff !important;
-
-      }
-    }
-
-    .submitBtn {
-      background-color: #275DAD !important;
-      color: #fff !important;
-      border-radius: 16px;
-
-      &:hover {
-        background-color: #1F6C98 !important;
-        color: #fff !important;
-
-      }
-    }
-
-    .actionBtn {
-      background-color: #55A6F1 !important;
-      color: #fff !important;
-      border-radius: 16px;
-
-      &:hover {
-        background-color: #275DAD !important;
-        color: #fff !important;
-
-      }
-    }
-
-    .exportBtn {
-      background-color: #ffff !important;
-      color: #111 !important;
-      border-radius: 16px;
-      border: 2px solid #ccc;
-
-      &:hover {
-        background-color: #f3f3f3 !important;
-        color: #111 !important;
-
-      }
-    }
-
-    .delBtn {
-      background-color: #D27484 !important;
-      color: #fff !important;
-      border-radius: 16px;
-
-      &:hover {
-        background-color: #DD5755 !important;
-        color: #fff !important;
-
-      }
-    }
-
-    .signOutBtn {
-      background-color: #f3f3f3 !important;
-      /*#000EA4*/
-      border-bottom: 2px solid #275DAD !important;
-      color: #111 !important;
-    }
-
-    .active .icon-image {
-      filter: brightness(0) invert(1);
-    }
-
-    .icon-image {
-      filter: none;/
-    }
-
     table th {
       /* padding: 10px; */
       white-space: nowrap;
@@ -212,6 +90,125 @@ if (!isset($_SESSION['username'])) {
       table-layout: auto;
     }
 
+    td {
+      white-space: nowrap;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #332D2D;
+    }
+
+    .active .icon-image {
+      filter: brightness(0) invert(1);
+    }
+
+    .icon-image {
+      filter: none;/
+    }
+
+    input[type='text'],
+    input[type='password'],
+    input[type='number'],
+    input[type='search'],
+    input[type='date'] {
+      border-radius: 15px;
+    }
+
+    .add-btn {
+      display: block;
+      position: fixed;
+      bottom: 50px;
+      right: 30px;
+      z-index: 99;
+      border: none;
+      outline: none;
+      background-color: #275DAD;
+      color: white;
+      padding: 10px 17px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 50px;
+    }
+
+    .active {
+      background-color: #275DAD !important;
+      /*#000EA4*/
+      border-bottom: 2px solid #ffffff !important;
+      color: #fff;
+
+    }
+
+    .activeBtn {
+      background-color: #275DAD !important;
+      color: #fff !important;
+      border-radius: 16px;
+
+      &:hover {
+        background-color: #2D5C8B !important;
+        color: #fff !important;
+
+      }
+    }
+
+    .submitBtn {
+      background-color: #275DAD !important;
+      color: #fff !important;
+      border-radius: 16px;
+
+      &:hover {
+        background-color: #1F6C98 !important;
+        color: #fff !important;
+
+      }
+    }
+
+    .actionBtn {
+      background-color: #55A6F1 !important;
+      color: #fff !important;
+      border-radius: 16px;
+
+      &:hover {
+        background-color: #275DAD !important;
+        color: #fff !important;
+
+      }
+    }
+
+    .delBtn {
+      background-color: #D27484 !important;
+      color: #fff !important;
+      border-radius: 16px;
+
+      &:hover {
+        background-color: #DD5755 !important;
+        color: #fff !important;
+
+      }
+    }
+    .signOutBtn {
+      background-color: #f3f3f3 !important;
+      /*#000EA4*/
+      border-bottom: 2px solid #275DAD !important;
+      color: #111 !important;
+    }
 
     .add-btn:hover {
       background-color: #276DBD;
@@ -228,21 +225,28 @@ if (!isset($_SESSION['username'])) {
       }
     }
 
-    input[type='text'],
-    input[type='password'],
-    input[type='number'],
-    input[type='search'],
-    input[type='date'] {
-      border-radius: 15px;
+    
+    .thead-bg {
+      background-color: #2D5C8B !important;
+      color: #fff !important;
     }
 
+    .exportBtn {
+      background-color: #ffff !important;
+      color: #111 !important;
+      border-radius: 16px;
+      border: 2px solid #ccc;
+
+      &:hover {
+        background-color: #f3f3f3 !important;
+        color: #111 !important;
+
+      }
+    }
+    
     .red-highlight {
       /* background-color: #D27484; */
       color: #D27484;
-    }
-
-    td {
-      white-space: nowrap;
     }
   </style>
 </head>

@@ -5,8 +5,28 @@ $method = $_POST['method'];
 
 if ($method == 'load_accounts') {
 
+    $search_key = $_POST['search'];
+
     $sql = "SELECT * FROM m_accounts";
+
+    $conditions = [];
+    if (!empty($search_key)) {
+        $conditions[] = "(emp_id LIKE :search_key_empid OR fullname LIKE :search_key_fullname OR username LIKE :search_key_username OR dept LIKE :search_like_dept)";
+    }
+
+    if (!empty($conditions)) {
+        $sql .= " WHERE " . implode(" AND ", $conditions);
+    }
+
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+    if (!empty($search_key)) {
+        $search_keys = "%$search_key%";
+        $stmt->bindParam(':search_key_empid', $search_keys);
+        $stmt->bindParam(':search_key_fullname', $search_keys);
+        $stmt->bindParam(':search_key_username', $search_keys);
+        $stmt->bindParam(':search_like_dept', $search_keys);
+    }
     $stmt->execute();
 
     $accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -37,6 +57,8 @@ if ($method == 'load_accounts') {
             </td>';
             echo '</tr>';
         }
+    }else {
+        echo '<tr><td colspan="10" style="text-align:center;">No user found.</td></tr>';
     }
 }
 

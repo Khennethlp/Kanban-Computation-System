@@ -65,7 +65,7 @@
                 <div class="col-md-12 mt-4">
                   <div class="mt-3" style="height: 450px; overflow:auto;">
                     <table class="table table-hover ">
-                      <thead class="bg-light sticky-top">
+                      <thead class="thead-bg sticky-top">
                         <th>Line No.</th>
                         <th>Part Code</th>
                         <th>Part Name</th>
