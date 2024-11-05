@@ -218,6 +218,7 @@ if (!isset($_SESSION['username'])) {
     input[type='text'],
     input[type='password'],
     input[type='number'],
+    input[type='search'],
     input[type='date'] {
       border-radius: 15px;
     }

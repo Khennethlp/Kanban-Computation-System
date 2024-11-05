@@ -42,16 +42,33 @@
             <div class="card-header">
               <h3 class="card-title text-uppercase text-bold">Masterlist</h3>
             </div>
-            <input type="hidden" id="user_name" class="form-control mb-2" value="<?= $_SESSION['name']; ?>">
+
             <div class="card-body">
               <div class="row">
                 <div class="col-md-12">
+                  <div class="row">
+                      <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
+                    <div class="col-md-3">
+                      <label for="">Search</label>
+                      <input type="search" name="" id="search_key" class="form-control" placeholder="Keyword...">
+                    </div>
+                    <div class="col-md-3">
+                      <label for="">Date</label>
+                      <input type="date" name="" id="search_date" class="form-control" placeholder="">
+                    </div>
+                    <div class="col-md-2">
+                      <label for="">&nbsp;</label>
+                      <button class="form-control btn activeBtn" onclick="load_master();">Search</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 mt-4">
                   <div class="mt-3" style="height: 450px; overflow:auto;">
-                    <table  class="table table-hover ">
+                    <table class="table table-hover ">
                       <thead class="bg-light sticky-top">
                         <th>Line No.</th>
-                        <th>Part Name</th>
                         <th>Part Code</th>
+                        <th>Part Name</th>
                         <th>Min. Lot</th>
                         <th>Max Usage / Harness</th>
                         <th>Max Plan / Day (pcs)</th>

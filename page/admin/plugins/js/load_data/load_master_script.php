@@ -2,13 +2,25 @@
     document.addEventListener("DOMContentLoaded", function() {
         load_master();
     });
-
+    document.querySelectorAll('#search_key', '#search_date').forEach(input => {
+        input.addEventListener("keyup", e => {
+            if (e.which === 13) {
+                load_master();
+            }
+        });
+    });
     const load_master = () => {
+        var user_name = $('#user_name').val();
+        var search_key = $('#search_key').val();
+        var search_date = $('#search_date').val();
         $.ajax({
             type: "POST",
             url: "../../process/admin/masterlist/load_master.php",
             data: {
-                method: 'load_master'
+                method: 'load_master',
+                user_name: user_name,
+                search_key: search_key,
+                search_date: search_date
             },
             success: function(response) {
                 document.getElementById('import_table').innerHTML = response;

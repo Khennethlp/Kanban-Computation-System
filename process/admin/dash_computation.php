@@ -20,6 +20,9 @@ if ($method == 'load_dashboard') {
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
+
+    $sql .= " ORDER BY id DESC";
+    
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
     if (!empty($line_no)) {
