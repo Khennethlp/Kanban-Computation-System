@@ -80,6 +80,7 @@
                       <tbody id="import_table"></tbody>
                     </table>
                   </div>
+                  <p class="mt-3" id="count_master">Total: 100</p>
                 </div>
               </div>
             </div>

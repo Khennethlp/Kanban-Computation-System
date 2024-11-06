@@ -1,6 +1,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         load_master();
+        
     });
     document.querySelectorAll('#search_key', '#search_date').forEach(input => {
         input.addEventListener("keyup", e => {
@@ -24,6 +25,25 @@
             },
             success: function(response) {
                 document.getElementById('import_table').innerHTML = response;
+                count_master();
+            }
+        });
+    }
+
+    const count_master = () => {
+        var search_key = document.getElementById('search_key').value;
+        var getDate = document.getElementById('search_date').value;
+
+        $.ajax({
+            type: "POST",
+            url: "../../process/admin/masterlist/load_master.php",
+            data: {
+                method: 'count_master',
+                search_key: search_key,
+                search_date: getDate
+            },
+            success: function(response) {
+                $('#count_master').html(response);
             }
         });
     }
