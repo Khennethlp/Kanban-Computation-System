@@ -22,7 +22,7 @@
               </div>
             </div>
             <div class="col-lg-3 col-6">
-              <div class="small-box bg-success" style="border-radius: 15px;">
+              <div class="small-box bg-success" style=" border-radius: 15px;">
                 <div class="inner">
                   <h3>Import</h3>
                   <p>Masterlist</p>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="col-md-2">
                       <label for="">&nbsp;</label>
-                      <button class="form-control btn activeBtn" onclick="load_master();">Search</button>
+                      <button class="form-control btn activeBtn" onclick="load_master();"><i class="fas fa-search"></i> Search</button>
                     </div>
                   </div>
                 </div>

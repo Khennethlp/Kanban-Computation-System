@@ -227,7 +227,7 @@ if (!isset($_SESSION['username'])) {
 
     
     .thead-bg {
-      background-color: #2D5C8B !important;
+      background-color: #3e7cb1 !important;
       color: #fff !important;
     }
 
