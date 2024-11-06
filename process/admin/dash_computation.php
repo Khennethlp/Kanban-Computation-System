@@ -22,7 +22,7 @@ if ($method == 'load_dashboard') {
     }
 
     $sql .= " ORDER BY id DESC";
-    
+
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
     if (!empty($line_no)) {
@@ -99,5 +99,45 @@ if ($method == 'load_dashboard') {
         }
     } else {
         echo '<tr><td colspan="10" style="text-align:center;">No results found.</td></tr>';
+    }
+}
+
+if ($method == 'count_dash') {
+    $line_no = $_POST['line_no'];
+    $search_date = $_POST['search_date'];
+
+    $sql = "SELECT count(id) as total FROM m_master";
+
+    $conditions = [];
+    if (!empty($line_no)) {
+        $conditions[] = "line_no = :line_no";
+    }
+    if (!empty($search_date)) {
+        $conditions[] = "CAST(created_at AS DATE) = :search_date";
+    }
+
+    if (!empty($conditions)) {
+        $sql .= " WHERE " . implode(" AND ", $conditions);
+    }
+
+    $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+    if (!empty($line_no)) {
+        $stmt->bindParam(':line_no', $line_no);
+    }
+    if (!empty($search_date)) {
+        $stmt->bindParam(':search_date', $search_date);
+    }
+
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        foreach ($stmt as $c) {
+            $count = $c['total'];
+
+            echo 'Total: ' . $count;
+        }
+    } else {
+        echo 'Total: 0';
     }
 }

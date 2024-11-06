@@ -19,7 +19,7 @@
                         <label for="">Line</label>
                         <!-- <input type="text" name="" id="" class="form-control"> -->
                         <select name="line_no" id="line_no" class="form-control" style="border-radius: 15px;">
-                          <option value=""></option>
+                          <option value="">All Line</option>
                           <?php
                           require '../../process/conn.php';
 
@@ -79,6 +79,7 @@
                       <tbody class="text-center text-middle" id="table_dashboard"> </tbody>
                     </table>
                   </div>
+                  <p class="mt-2" id="dash_count"></p>
                 </div>
               </div>
             </div>
