@@ -2,7 +2,7 @@
   <!-- Brand Logo -->
   <a href="index.php" class="brand-link" style="background-color: #306BAC; color: #fff;">
     <img src="../../dist/img/kcs-bg.webp" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-bold text-uppercase"style="font-size: 16px;">KANBAN COMPUTATION</span>
+    <span class="brand-text font-weight-bold text-uppercase" style="font-size: 16px;">KANBAN COMPUTATION</span>
   </a>
 
   <!-- Sidebar -->
@@ -30,7 +30,7 @@
               <?php } ?>
               <i class="nav-icon fa fa-home"></i>
               <!-- <img src="../../dist/img/dashboard.png" class="icon-image" height="25" width="25">&nbsp;&nbsp;&nbsp; -->
-              <p >
+              <p>
                 Overview
               </p>
               </a>
@@ -43,24 +43,23 @@
               <?php } ?>
               <i class="nav-icon fa fa-table"></i>
               <!-- <img src="../../dist/img/list.png" class="icon-image" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
-              <p >
+              <p>
                 Masterlist
               </p>
               </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/kanban_master.php") { ?>
             <a href="kanban_master.php" class="nav-link active">
             <?php } else { ?>
               <a href="kanban_master.php" class="nav-link">
               <?php } ?>
               <i class="nav-icon fa fa-list"></i>
-              <!-- <img src="../../dist/img/Pacman.gif" class="icon-image" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
-              <p >
+              <p>
                 Kanban Master
               </p>
               </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/accounts.php") { ?>
             <a href="accounts.php" class="nav-link active">
@@ -69,7 +68,7 @@
               <?php } ?>
               <i class="nav-icon fa fa-user-cog"></i>
               <!-- <img src="../../dist/img/account_manager.png" class="icon-image" height="30" width="30" >&nbsp;&nbsp;&nbsp; -->
-              <p >
+              <p>
                 Accounts
               </p>
               </a>

@@ -57,13 +57,13 @@
                         <th>Line No.</th>
                         <th>Part Code</th>
                         <th>Part Name</th>
-                        <th>Action</th>
+                        <!-- <th>Action</th> -->
                         </tr>
                       </thead>
                       <tbody id="import_kanban_table"></tbody>
                     </table>
                   </div>
-                  <p class="mt-3" id="count_master">Total: 0</p>
+                  <!-- <p class="mt-3" id="count_master">Total: 0</p> -->
                 </div>
               </div>
             </div>
@@ -78,5 +78,5 @@
 <?php
 include 'plugins/footer.php';
 include 'plugins/js/import/kanban_import_script.php';
-// include 'plugins/js/load_data/load_master_script.php';
+include 'plugins/js/load_data/load_kanban_master_script.php';
 ?>
