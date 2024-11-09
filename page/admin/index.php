@@ -54,6 +54,10 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- <button id="view_all_btn" class="ml-auto mt-5 btn exportBtn" onclick="view_all()"><i class="far fa-eye"></i> Show All</button>
+                  <button id="hide_btn" class="ml-auto mt-5 btn exportBtn" style="display:none;" onclick="load_dashboard()"><i class="far fa-eye-slash"></i> Show Less</button> -->
+
                   <div class="col-md-12 mt-5" style="width:100%; height:600px; overflow:auto;">
                     <table class="table table-condensed table-hover text-center">
                       <thead class="thead-bg sticky-top">

@@ -8,29 +8,15 @@
         <div class="col-md-12">
           <div class="row mt-3">
             <div class="col-lg-3 col-6">
-              <div class="small-box " style="background-color: #275DAD; color:#ffffff; border-radius: 15px;">
-                <div class="inner">
-                  <h3>Master</h3>
-                  <p>Template</p>
-                </div>
-                <div class="icon">
-                  <i class="fas fa-file-excel"></i>
-                </div>
-                <a href="../../template/Master.xlsx" class="small-box-footer" style="border-radius: 15px;">
-                  Click to download
-                </a>
-              </div>
-            </div>
-            <div class="col-lg-3 col-6">
               <div class="small-box bg-success" style=" border-radius: 15px;">
                 <div class="inner">
                   <h3>Import</h3>
-                  <p>Masterlist</p>
+                  <p>Kanban Masterlist</p>
                 </div>
                 <div class="icon">
                   <i class="fas fa-file-excel"></i>
                 </div>
-                <a href="#" data-toggle="modal" data-target="#import_masterlist" class="small-box-footer" style="border-radius: 15px;">
+                <a href="#" data-toggle="modal" data-target="#import_k_master" class="small-box-footer" style="border-radius: 15px;">
                   Click to Import
                 </a>
               </div>
@@ -71,18 +57,13 @@
                         <th>Line No.</th>
                         <th>Part Code</th>
                         <th>Part Name</th>
-                        <th>Min. Lot</th>
-                        <th>Max Usage / Harness</th>
-                        <th>Max Plan / Day (pcs)</th>
-                        <th>No. of Teams</th>
-                        <th>Issued to PD</th>
                         <th>Action</th>
                         </tr>
                       </thead>
-                      <tbody id="import_table"></tbody>
+                      <tbody id="import_kanban_table"></tbody>
                     </table>
                   </div>
-                  <p class="mt-3" id="count_master">Total: 100</p>
+                  <p class="mt-3" id="count_master">Total: 0</p>
                 </div>
               </div>
             </div>
@@ -96,6 +77,6 @@
 
 <?php
 include 'plugins/footer.php';
-include 'plugins/js/import/masterlist_import_script.php';
-include 'plugins/js/load_data/load_master_script.php';
+include 'plugins/js/import/kanban_import_script.php';
+// include 'plugins/js/load_data/load_master_script.php';
 ?>

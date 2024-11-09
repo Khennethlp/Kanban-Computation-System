@@ -48,19 +48,19 @@
               </p>
               </a>
         </li>
-        <!-- <li class="nav-item">
-          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/report.php") { ?>
-            <a href="report.php" class="nav-link active">
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/kanban_master.php") { ?>
+            <a href="kanban_master.php" class="nav-link active">
             <?php } else { ?>
-              <a href="report.php" class="nav-link">
+              <a href="kanban_master.php" class="nav-link">
               <?php } ?>
-              <i class="nav-icon fa fa-tachometer-alt"></i>
-              <img src="../../dist/img/Pacman.gif" height="25" width="25" >&nbsp;&nbsp;&nbsp;
+              <i class="nav-icon fa fa-list"></i>
+              <!-- <img src="../../dist/img/Pacman.gif" class="icon-image" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
               <p >
-                Reports
+                Kanban Master
               </p>
               </a>
-        </li> -->
+        </li>
         <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/accounts.php") { ?>
             <a href="accounts.php" class="nav-link active">
