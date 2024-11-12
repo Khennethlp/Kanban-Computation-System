@@ -55,13 +55,11 @@
                     </div>
                   </div>
 
-                  <!-- <button id="view_all_btn" class="ml-auto mt-5 btn exportBtn" onclick="view_all()"><i class="far fa-eye"></i> Show All</button>
-                  <button id="hide_btn" class="ml-auto mt-5 btn exportBtn" style="display:none;" onclick="load_dashboard()"><i class="far fa-eye-slash"></i> Show Less</button> -->
-
-                  <div class="col-md-12 mt-5" style="width:100%; height:600px; overflow:auto;">
+                  <div class="col-md-12 mt-5" id="tbl_container" style="width:100%; height:500px; overflow:auto;">
                     <table class="table table-condensed table-hover text-center">
                       <thead class="thead-bg sticky-top">
                         <tr>
+                          <th class="part-code">No.</th>
                           <th class="part-code">Line No.</th>
                           <th class="part-code">Part Code</th>
                           <th class="part-name">Part Name</th>
@@ -83,7 +81,19 @@
                       <tbody class="text-center text-middle" id="table_dashboard"> </tbody>
                     </table>
                   </div>
-                  <p class="mt-2" id="dash_count"></p>
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p class="mt-2" id="dash_count"></p>
+                      </div>
+                      <div class="col-md-12">
+                        <div id="load_more" class="text-center" style="display: none;">
+                          <p class="badge badge-dark border border-outline px-3 py-2 mt-3 " style="cursor: pointer;">Load More...</p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
