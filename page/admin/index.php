@@ -18,7 +18,7 @@
                       <div class="col-md-3">
                         <label for="">Line</label>
                         <!-- <input type="text" name="" id="" class="form-control"> -->
-                        <select name="line_no" id="line_no" class="form-control" style="border-radius: 15px;">
+                        <select name="line_no" id="line_no" class="form-control" style="border-radius: 15px;" onchange="load_dashboard();">
                           <option value="">All Line</option>
                           <?php
                           require '../../process/conn.php';
@@ -42,7 +42,7 @@
                       </div>
                       <div class="col-md-3">
                         <label for="">Date</label>
-                        <input type="date" name="" id="getDate" class="form-control">
+                        <input type="date" name="" id="getDate" class="form-control" onchange="load_dashboard();">
                       </div>
                       <div class="col-md-2">
                         <label for="">&nbsp;</label>
