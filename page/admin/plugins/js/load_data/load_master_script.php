@@ -1,8 +1,9 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        load_master();
-        
+        // load_master();
+
     });
+
     document.querySelectorAll('#search_key', '#search_date').forEach(input => {
         input.addEventListener("keyup", e => {
             if (e.which === 13) {
@@ -10,25 +11,85 @@
             }
         });
     });
-    const load_master = () => {
+
+    const rowsPerPage = 10;
+    let page = 1;
+    let debounceTimeout = null;
+    let isLoading = false;
+    let hasMoreData = true;
+
+    const load_master = (isPagination = false) => {
+        if (!isPagination) {
+            page = 1;
+            hasMoreData = true;
+        }
+
+        if (isLoading || !hasMoreData) return;
+
+        isLoading = true;
+
         var user_name = $('#user_name').val();
         var search_key = $('#search_key').val();
         var search_date = $('#search_date').val();
+
         $.ajax({
             type: "POST",
             url: "../../process/admin/masterlist/load_master.php",
+            cache: false, // Prevent caching
             data: {
                 method: 'load_master',
                 user_name: user_name,
                 search_key: search_key,
-                search_date: search_date
+                search_date: search_date,
+                page: page,
+                rows_per_page: rowsPerPage
             },
             success: function(response) {
-                document.getElementById('import_table').innerHTML = response;
+                const responseData = JSON.parse(response);
                 count_master();
+
+                if (isPagination) {
+                    if (responseData.html.trim() !== '') {
+                        document.getElementById('import_table').innerHTML += responseData.html;
+                        page++;
+                        if (responseData.has_more) {
+                            document.getElementById('load_more').style.display = 'block';
+                        } else {
+                            document.getElementById('load_more').style.display = 'none';
+                            hasMoreData = false;
+                        }
+                    } else {
+                        document.getElementById('load_more').style.display = 'none';
+                        hasMoreData = false;
+                    }
+                } else {
+                    document.getElementById('import_table').innerHTML = responseData.html;
+                    page++;
+                    if (responseData.has_more) {
+                        document.getElementById('load_more').style.display = 'block';
+                    } else {
+                        document.getElementById('load_more').style.display = 'none';
+                        hasMoreData = false;
+                    }
+                }
+
+                isLoading = false;
             }
         });
     }
+
+    document.getElementById('load_more').addEventListener('click', () => load_master(true));
+
+    $('#tbl_container').on('scroll', function() {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+            const $this = $(this);
+            if ($this.scrollTop() + $this.innerHeight() >= $this[0].scrollHeight - 100) {
+                load_master(true);
+            }
+        }, 200);
+    });
+
 
     const count_master = () => {
         var search_key = document.getElementById('search_key').value;
