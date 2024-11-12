@@ -84,11 +84,11 @@
                   <div class="col-md-12">
                     <div class="row">
                       <div class="col-md-12">
-                        <p class="mt-2" id="dash_count"></p>
+                        <p class="mt-3" id="dash_count"></p>
                       </div>
                       <div class="col-md-12">
                         <div id="load_more" class="text-center" style="display: none;">
-                          <p class="badge badge-dark border border-outline px-3 py-2 mt-3 " style="cursor: pointer;">Load More...</p>
+                          <p class="badge badge-dark border border-outline px-3 py-2 mt-3 " style="cursor: pointer; font-size: 15px; padding: 20px 0;">Load More...</p>
                         </div>
 
                       </div>
