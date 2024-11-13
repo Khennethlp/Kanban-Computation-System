@@ -48,6 +48,19 @@
               </p>
               </a>
         </li>
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/master_combine.php") { ?>
+            <a href="master_combine.php" class="nav-link active">
+            <?php } else { ?>
+              <a href="master_combine.php" class="nav-link">
+              <?php } ?>
+              <i class="nav-icon fa fa-file-alt"></i>
+              <!-- <img src="../../dist/img/list.png" class="icon-image" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
+              <p>
+               BOM & BOM AID Master
+              </p>
+              </a>
+        </li>
         <!-- <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/kanban_master.php") { ?>
             <a href="kanban_master.php" class="nav-link active">

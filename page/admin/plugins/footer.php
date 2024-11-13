@@ -21,6 +21,8 @@ include '../../modals/edit_masterlist.php';
 
 include '../../modals/import_masterlist.php';
 include '../../modals/import_k_master.php';
+include '../../modals/master_combine.php';
+include '../../modals/bom_aid.php';
 
 include '../../modals/logout_modal.php';
 include '../../modals/timeout.php';
