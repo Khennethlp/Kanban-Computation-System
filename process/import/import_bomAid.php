@@ -1,142 +1,88 @@
 <?php
+session_start();
 require '../conn.php';
-require '../../vendor/autoload.php';
 
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Reader\Csv;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
-
-function readDataInChunks($filename, $chunkSize, $limit, $fileExtension)
-{
-    // Select the appropriate reader based on file extension
-    if ($fileExtension === 'csv') {
-        $reader = new Csv();
-        $reader->setDelimiter(',');
-        $reader->setEnclosure('"');
-        $reader->setSheetIndex(0);
-    } elseif ($fileExtension === 'xlsx') {
-        $reader = new Xlsx();
-    } else {
-        throw new Exception("Unsupported file type");
-    }
-
-    $spreadsheet = $reader->load($filename);
-    $worksheet = $spreadsheet->getActiveSheet();
-    
-    $data = [];
-    $rowCount = 0;
-
-    // Skip the first row (header)
-    $headerSkipped = false;
-
-    foreach ($worksheet->getRowIterator() as $row) {
-        // Skip the header row
-        if (!$headerSkipped) {
-            $headerSkipped = true;
-            continue;
-        }
-
-        if ($rowCount >= $limit) {
-            break;
-        }
-
-        $rowData = [];
-        foreach ($row->getCellIterator() as $cell) {
-            $rowData[] = $cell->getFormattedValue();
-        }
-
-        // Skip empty rows
-        if (array_filter($rowData)) {
-            $data[] = $rowData;
-            $rowCount++;
-        }
-
-        if (count($data) >= $chunkSize) {
-            yield $data;
-            $data = [];
-        }
-    }
-
-    if (!empty($data)) {
-        yield $data;
-    }
-}
-
-function insertDataIntoDatabase($conn, $data)
-{
-    $sql = "INSERT INTO m_bomAid (maker_code, product_no, partcode, partname, need_qty) 
-            VALUES (:maker_code, :product_no, :partcode, :partname, :need_qty)";
-    $stmt = $conn->prepare($sql);
-
-    foreach ($data as $row) {
-        $maker_code = $row[0];
-        $product_no = $row[1];
-        $partcode = $row[2];
-        $partname = $row[4];
-        $need_qty = $row[9];
-
-        var_dump($row); 
-        
-        $stmt->bindParam(':maker_code', $maker_code);
-        $stmt->bindParam(':product_no', $product_no);
-        $stmt->bindParam(':partcode', $partcode);
-        $stmt->bindParam(':partname', $partname);
-        $stmt->bindParam(':need_qty', $need_qty);
-
-        try {
-            if ($stmt->execute()) {
-                echo "Inserted: " . $maker_code . "\n"; // Log the insertion
-            } else {
-                echo "Error inserting data\n";
-            }
-        } catch (Exception $e) {
-            echo 'Insert failed: ' . $e->getMessage();
-        }
-    }
-}
+ini_set('memory_limit', '4096M');
+ini_set('post_max_size', '2000M');
+ini_set('upload_max_filesize', '2000M');
+set_time_limit(0); // Unlimited time to process large files
 
 if (isset($_FILES['csvFile_bomAid'])) {
-    $file = $_FILES['csvFile_bomAid'];
+    $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
 
-    if ($file['error'] === UPLOAD_ERR_OK) {
-        $tempFile = tempnam(sys_get_temp_dir(), 'file_upload');
-        move_uploaded_file($file['tmp_name'], $tempFile);
+    if (!empty($_FILES['csvFile_bomAid']['name']) && in_array($_FILES['csvFile_bomAid']['type'], $csvMimes)) {
+        if (is_uploaded_file($_FILES['csvFile_bomAid']['tmp_name'])) {
+            $csvFile = fopen($_FILES['csvFile_bomAid']['tmp_name'], 'r');
+            if (!$csvFile) {
+                die("Error opening file");
+            }
 
-        // Check file extension
-        $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        if (!in_array($fileExtension, ['csv', 'xlsx'])) {
-            echo "Error: The uploaded file must be a CSV or XLSX file.";
-            unlink($tempFile);
-            exit;
+            fgetcsv($csvFile); // Skip header row
+
+            $batch = [];
+            $rowsInserted = 0;
+            $batchSize = 1000; // Number of rows per batch
+
+            while (($line = fgetcsv($csvFile)) !== false) {
+                if (empty(array_filter($line))) {
+                    continue;
+                }
+
+                $batch[] = [
+                    'maker_code' => $line[0],
+                    'product_no' => $line[1],
+                    'parts_code' => $line[2],
+                    'parts_name' => $line[3],
+                    'need_qty' => $line[4]
+                ];
+
+                // Once batch size is reached, perform the insert
+                if (count($batch) >= $batchSize) {
+                    insertBatch($conn, $batch);
+                    $rowsInserted += count($batch);
+                    $batch = []; // Clear batch
+                }
+            }
+
+            // Insert remaining records
+            if (count($batch) > 0) {
+                insertBatch($conn, $batch);
+                $rowsInserted += count($batch);
+            }
+
+            fclose($csvFile);
+
+            // Return success with the number of rows inserted
+            echo json_encode(['status' => 'success', 'rowsInserted' => $rowsInserted]);
         }
-
-        $limit = 2000;
-        $chunkSize = 100; // Process 100 rows at a time
-        $totalRowsInserted = 0;
-
-        echo "Data is being processed..."; 
-        ob_flush();
-        flush();
-
-        $conn->beginTransaction();
-
-        foreach (readDataInChunks($tempFile, $chunkSize, $limit, $fileExtension) as $dataChunk) {
-            insertDataIntoDatabase($conn, $dataChunk);
-            $totalRowsInserted += count($dataChunk);
-
-            $progress = ($totalRowsInserted / $limit) * 100;
-            file_put_contents("progress.json", json_encode(["progress" => $progress]));
-    
-            if ($totalRowsInserted >= $limit) break;
-        }
-
-        $conn->commit();
-        unlink($tempFile);
-        echo "success";
-    } else {
-        echo "error";
     }
-} else {
-    echo "Please select a file to upload.";
+}
+
+/**
+ * Function to insert batch into the database
+ */
+function insertBatch($conn, $batch) {
+    $sql = "INSERT INTO m_bomAid (maker_code, product_no, partcode, partname, need_qty) VALUES ";
+    $values = [];
+    $params = [];
+
+    // Build placeholders and parameters for batch insert
+    foreach ($batch as $index => $row) {
+        $values[] = "(:maker_code{$index}, :product_no{$index}, :parts_code{$index}, :parts_name{$index}, :need_qty{$index})";
+        $params["maker_code{$index}"] = $row['maker_code'];
+        $params["product_no{$index}"] = $row['product_no'];
+        $params["parts_code{$index}"] = $row['parts_code'];
+        $params["parts_name{$index}"] = $row['parts_name'];
+        $params["need_qty{$index}"] = $row['need_qty'];
+    }
+
+    $sql .= implode(", ", $values);
+    $stmt = $conn->prepare($sql);
+
+    // Bind parameters and execute batch insert
+    foreach ($params as $param => $value) {
+        $stmt->bindValue(":$param", $value);
+    }
+    $stmt->execute();
 }
 ?>

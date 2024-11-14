@@ -12,12 +12,12 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <form id="a" method="post" enctype="multipart/form-data">
+                        <form id="csvFileForm_combine" method="post" enctype="multipart/form-data">
                             <input type="hidden" id="user_name" class="form-control mb-2 mt-2" value="<?= $_SESSION['name']; ?>">
                            <label for="">BOM</label>
                            <input type="file" class="form-control p-1" name="file_bom" accept=".csv, .xls, .xlsx" id="csvFileInput_bom">
-                           <!-- <label for="">BOM AID</label>
-                            <input type="file" class="form-control p-1" name="file_aidBom" accept=".csv, .xls, .xlsx" id="csvFileInput_bomAid"> -->
+                           <label for="">BOM AID</label>
+                            <input type="file" class="form-control p-1" name="file_aidBom" accept=".csv, .xls, .xlsx" id="csvFileInput_bomAid">
                             <input type="submit" name="upload" class="form-control mt-5  btn-success" value="Upload">
                         </form>
                     </div>

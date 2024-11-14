@@ -11,12 +11,12 @@
               <div class="small-box bg-success" style=" border-radius: 15px;">
                 <div class="inner">
                   <h3>Import</h3>
-                  <p>BOM Masterlist</p>
+                  <p>Combine Masterlist</p>
                 </div>
                 <div class="icon">
                   <i class="fas fa-file-excel"></i>
                 </div>
-                <a href="#" data-toggle="modal" data-target="#" class="small-box-footer" style="border-radius: 15px;">
+                <a href="#" data-toggle="modal" data-target="#import_master_combine" class="small-box-footer" style="border-radius: 15px;">
                   Click to Import
                 </a>
               </div>

@@ -14,11 +14,57 @@
                 return;
             }
 
+            // Check if files are CSV
+            if (fileInputBom.type !== 'text/csv' || fileInputBomAid.type !== 'text/csv') {
+                alert("Please select CSV files for both BOM and BOM Aid.");
+                return;
+            }
+
             // Append data to formData
             formData.append('userName', userName);
             formData.append('csvFile_bom', fileInputBom);
             formData.append('csvFile_bomAid', fileInputBomAid);
 
+            Swal.fire({
+                icon: 'info',
+                title: 'Processing...',
+                html: 'Please wait while we process your file.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+
+                    // Update after 30 seconds
+                    setTimeout(() => {
+                        Swal.update({
+                            html: 'Still processing... Please be patient.',
+                        });
+                        Swal.showLoading();
+                    }, 30000);
+
+                    setTimeout(() => {
+                        Swal.update({
+                            html: 'You can do other task while waiting.',
+                        });
+                        Swal.showLoading();
+                    }, 60000); //1 min
+
+                    setTimeout(() => {
+                        Swal.update({
+                            html: 'Still processing... Hang tight, this might take a while.',
+                        });
+                        Swal.showLoading();
+                    }, 120000); // 2 minutes
+
+                    setTimeout(() => {
+                        Swal.update({
+                            html: 'Still processing...',
+                        });
+                        Swal.showLoading();
+                    }, 160000); //  minutes
+                }
+            });
+            $('#import_master_combine').modal('hide');
             $.ajax({
                 url: '../../process/import/import_combine.php',
                 type: 'POST',
@@ -27,8 +73,7 @@
                 contentType: false,
                 success: function(response) {
                     try {
-
-                        if (response.includes === 'success') {
+                        if (response === 'success') {
                             Swal.fire({
                                 icon: "success",
                                 title: "Imported Successfully!",
@@ -36,14 +81,14 @@
                                 timer: 2000
                             });
                             $('#import_master_combine').modal('hide');
-                        } else if (response.includes === 'error') {
+                        } else if (response === 'error') {
                             Swal.fire({
                                 icon: "error",
                                 title: "There were errors during the upload.",
                                 showConfirmButton: false,
                                 timer: 2000
                             });
-                        } else if (response.includes === 'no_matches') {
+                        } else if (response === 'no_matches') {
                             Swal.fire({
                                 icon: "warning",
                                 title: "No matching rows found!",
@@ -52,7 +97,7 @@
                             });
                         }
                     } catch (e) {
-                        console.error('Error parsing JSON:', e);
+                        console.error('Error parsing response:', e);
                         alert('Unexpected server response.');
                     }
                 },
