@@ -3,7 +3,7 @@
         <div class="modal-content" style="border-radius: 18px;">
             <div class="modal-header">
                 <h5 class="modal-title " id="exampleModalLabel">
-                    <b>Import Master to Combine</b>
+                    <b>Auto Combine</b>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -16,9 +16,9 @@
                             <input type="hidden" id="user_name" class="form-control mb-2 mt-2" value="<?= $_SESSION['name']; ?>">
                            <label for="">BOM</label>
                            <input type="file" class="form-control p-1" name="file_bom" accept=".csv, .xls, .xlsx" id="csvFileInput_bom">
-                           <label for="">BOM AID</label>
+                           <label class="mt-3">BOM AID</label>
                             <input type="file" class="form-control p-1" name="file_aidBom" accept=".csv, .xls, .xlsx" id="csvFileInput_bomAid">
-                            <input type="submit" name="upload" class="form-control mt-5  btn-success" value="Upload">
+                            <input type="submit" name="upload" class="form-control mt-5  btn-success" value="Combine Now">
                         </form>
                     </div>
                 </div>

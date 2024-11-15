@@ -3,7 +3,7 @@
         <div class="modal-content" style="border-radius: 18px;">
             <div class="modal-header">
                 <h5 class="modal-title " id="exampleModalLabel">
-                    <b>Import Bom Aid</b>
+                    <b>Import Combined Master</b>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -14,10 +14,15 @@
                     <div class="col-md-12">
                         <form id="csvFileForm_bomAid" method="post" enctype="multipart/form-data">
                             <input type="hidden" id="user_name" class="form-control mb-2 mt-2" value="<?= $_SESSION['name']; ?>">
-                           <label for="">BOM AID</label>
+                            <label for="">BOM Master</label>
                             <input type="file" class="form-control p-1" name="csvFile_bomAid" accept=".csv, .xls, .xlsx" id="csvFileInput_bomAid">
                             <input type="submit" name="upload" class="form-control mt-5  btn-success" value="Upload">
                         </form>
+                        <hr>
+                        <div class="mt-0">
+                            <a href="../../template/Master Record.csv" class="form-control btn btn-danger">Download Template</a>
+                        </div>
+                        
                     </div>
                 </div>
                 <br>

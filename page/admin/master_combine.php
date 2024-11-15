@@ -8,16 +8,16 @@
         <div class="col-md-12">
           <div class="row mt-3">
             <div class="col-lg-3 col-6">
-              <div class="small-box bg-success" style=" border-radius: 15px;">
+              <div class="small-box" style="background-color: #275DAD; color:#ffffff; border-radius: 15px;">
                 <div class="inner">
-                  <h3>Import</h3>
-                  <p>Combine Masterlist</p>
+                  <h3>Auto Combine</h3>
+                  <p>BOM & BOM AID</p>
                 </div>
                 <div class="icon">
-                  <i class="fas fa-file-excel"></i>
+                  <i class="fas fa-object-group"></i>
                 </div>
                 <a href="#" data-toggle="modal" data-target="#import_master_combine" class="small-box-footer" style="border-radius: 15px;">
-                  Click to Import
+                  Click to Upload Files
                 </a>
               </div>
             </div>
@@ -25,7 +25,7 @@
               <div class="small-box bg-success" style=" border-radius: 15px;">
                 <div class="inner">
                   <h3>Import</h3>
-                  <p>BOM AID Masterlist</p>
+                  <p>Combined Master</p>
                 </div>
                 <div class="icon">
                   <i class="fas fa-file-excel"></i>
@@ -40,7 +40,7 @@
         <div class="col-md-12">
           <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-header">
-              <h3 class="card-title text-uppercase text-bold">Master Combine</h3>
+              <h3 class="card-title text-uppercase text-bold">Master Table</h3>
             </div>
 
             <div class="card-body">

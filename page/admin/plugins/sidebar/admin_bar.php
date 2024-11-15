@@ -57,7 +57,7 @@
               <i class="nav-icon fa fa-file-alt"></i>
               <!-- <img src="../../dist/img/list.png" class="icon-image" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
               <p>
-               BOM & BOM AID Master
+               Master Record
               </p>
               </a>
         </li>
