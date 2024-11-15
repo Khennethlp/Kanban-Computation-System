@@ -68,6 +68,8 @@
                   <div class="mt-3" style="height: 450px; overflow:auto;">
                     <table class="table table-hover ">
                       <thead class="thead-bg sticky-top">
+                        <th>No.</th>
+                        <th>Car Model</th>
                         <th>Product No</th>
                         <th>Part Code</th>
                         <th>Part Name</th>
@@ -92,7 +94,7 @@
 
 <?php
 include 'plugins/footer.php';
+include 'plugins/js/load_data/load_combine_script.php';
 include 'plugins/js/import/master_combine_script.php';
 include 'plugins/js/import/bom_aid_script.php';
-// include 'plugins/js/load_data/load_kanban_master_script.php';
 ?>
