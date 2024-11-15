@@ -133,3 +133,5 @@ if ($method == 'count_master') {
         echo 'Total: 0';
     }
 }
+
+

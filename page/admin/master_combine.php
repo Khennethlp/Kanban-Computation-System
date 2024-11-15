@@ -49,6 +49,16 @@
                   <div class="row">
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
                     <div class="col-md-3">
+                      <label for="">Search By Car Model</label>
+                      <select name="search_by_carModel" id="search_by_carModel" class="form-control" style="border-radius: 15px;">
+                        <option value="">All</option>
+                        <option value="A">Mazda</option>
+                        <option value="B">Daihatsu</option>
+                        <option value="C">Honda</option>
+                        <option value="D">Toyota</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
                       <label for="">Search</label>
                       <input type="search" name="" id="search_key" class="form-control" placeholder="Keyword...">
                     </div>
@@ -58,14 +68,14 @@
                     </div>
                     <div class="col-md-2">
                       <label for="">&nbsp;</label>
-                      <button class="form-control btn activeBtn" onclick="load_master();"><i class="fas fa-search"></i> Search</button>
+                      <button class="form-control btn activeBtn" onclick="load_combined();"><i class="fas fa-search"></i> Search</button>
                     </div>
                   </div>
                 </div>
                 <!-- <button id="view_all_btn" class="ml-auto mt-2 btn exportBtn" onclick="load_all_master()">Show All</button>
                 <button id="hide_btn" class="ml-auto mt-2 btn exportBtn" style="display:none;" onclick="load_master()">Show Less</button> -->
                 <div class="col-md-12 mt-2">
-                  <div class="mt-3" style="height: 450px; overflow:auto;">
+                  <div class="mt-3" style="height: 650px; overflow:auto;">
                     <table class="table table-hover ">
                       <thead class="thead-bg sticky-top">
                         <th>No.</th>
@@ -80,7 +90,12 @@
                       <tbody id="combine_table"></tbody>
                     </table>
                   </div>
-                  <!-- <p class="mt-3" id="count_master">Total: 0</p> -->
+                  <div class="col-md-12">
+                    <p class="mt-3" >Total: <span id="counts"></span></p>
+                    <div id="load_more" class="text-center" style="display: none;">
+                      <p class="badge badge-dark border border-outline px-3 py-2 mt-3 " style="cursor: pointer; font-size: 15px; padding: 20px 0;">Load More...</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
