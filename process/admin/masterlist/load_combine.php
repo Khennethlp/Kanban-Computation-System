@@ -3,7 +3,7 @@ require '../../conn.php';
 
 $method = $_POST['method'];
 
-if ($method == 'load_combine') { // Fixed '=' to '=='
+if ($method == 'load_combine') {
     $user = $_POST['user_name'];
     $search_key = $_POST['search_key'];
     $search_date = $_POST['search_date'];
@@ -90,48 +90,39 @@ if ($method == 'count_combine') {
     $search_date = $_POST['search_date'];
     $car_model = $_POST['car_model'];
 
-    // Count query
     $sqls = "SELECT count(*) as TOTAL FROM m_combine";
 
-    // Array for conditions
     $conditions = [];
 
-    // Apply filters if search_key is provided
     if (!empty($search_key)) {
         $conditions[] = "(product_no LIKE :search_key OR partcode LIKE :search_key OR partname LIKE :search_key)";
     }
     
-    // Apply filter if car_model is provided
     if (!empty($car_model)) {
         $conditions[] = "maker_code LIKE :search_key_model";
     }
 
-    // Add conditions to SQL if they exist
     if (!empty($conditions)) {
         $sqls .= " WHERE " . implode(" AND ", $conditions);
     }
 
-    // Prepare statement
     $stmt = $conn->prepare($sqls, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
-    // Bind parameters
     if (!empty($search_key)) {
-        $search_keys = "%$search_key%"; // Wrap search term with %
+        $search_keys = "%$search_key%";
         $stmt->bindParam(':search_key', $search_keys);
     }
     if (!empty($car_model)) {
         $stmt->bindParam(':search_key_model', $car_model);
     }
-
-    // Execute query
+ 
     $stmt->execute();
 
-    // Fetch count
     if ($stmt->rowCount() > 0) {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo $row['TOTAL'];  // Output the numeric count
+        echo $row['TOTAL']; 
     } else {
-        echo '0'; // If no records, output 0
+        echo '0';
     }
 }
 

@@ -45,7 +45,7 @@ if ($method == 'load_dashboard') {
     $master = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $has_more = count($master) > $rowsPerPage;
     if ($has_more) {
-        array_pop($master); // Remove the extra row used for the check
+        array_pop($master);
     }
 
     $data = '';
@@ -156,9 +156,9 @@ if ($method == 'count_dash') {
         foreach ($stmt as $c) {
             $count = $c['total'];
 
-            echo 'Total: ' . $count;
+            echo 'Results: ' . $count;
         }
     } else {
-        echo 'Total: 0';
+        echo 'Results: 0';
     }
 }

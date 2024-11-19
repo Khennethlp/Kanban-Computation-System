@@ -127,10 +127,10 @@ if ($method == 'count_master') {
         foreach ($stmt as $c) {
             $count = $c['total'];
 
-            echo 'Total: ' . $count;
+            echo 'Results: ' . $count;
         }
     } else {
-        echo 'Total: 0';
+        echo 'Results: 0';
     }
 }
 
