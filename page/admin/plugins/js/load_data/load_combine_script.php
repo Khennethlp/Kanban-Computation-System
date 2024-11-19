@@ -3,6 +3,13 @@
         load_combined();
     });
 
+    const countDisplayedRows = () => {
+        // Count the rows in the table body (or entire table depending on your structure)
+        const rowCount = document.querySelectorAll('#combine_table tr').length;
+        console.log(`Rows currently in the table: ${rowCount}`);
+        return rowCount;
+    };
+
     let page = 1;
     const rowsPerPage = 100;
     const load_combined = (isPagination = false) => {
@@ -43,11 +50,13 @@
                 const responseData = JSON.parse(response);
                 counter();
                 Swal.close();
-
+                
                 if (isPagination) {
                     if (responseData.html.trim() !== '') {
                         document.getElementById('combine_table').innerHTML += responseData.html;
+                        document.getElementById('count_per_load').innerHTML = countDisplayedRows() + ' out of ';
                         page++;
+                        
                         if (responseData.has_more) {
                             document.getElementById('load_more').style.display = 'block';
                         } else {
@@ -61,6 +70,7 @@
                 } else {
                     document.getElementById('combine_table').innerHTML = responseData.html;
                     page++;
+                   
                     if (responseData.has_more) {
                         document.getElementById('load_more').style.display = 'block';
                     } else {
@@ -71,8 +81,8 @@
             }
         });
     }
-    document.getElementById('load_more').addEventListener('click', () => load_combined(true));
-
+    document.getElementById('load_more').addEventListener('click', () => load_combined(true), countDisplayedRows());
+  
     const counter = () => {
         var search_key = $('#search_key').val();
         var search_date = $('#search_date').val();
@@ -90,6 +100,7 @@
             success: function(response) {
                 const formattedResponse = parseInt(response).toLocaleString();
                 $('#counts').html(formattedResponse);
+               
             }
         });
     }
