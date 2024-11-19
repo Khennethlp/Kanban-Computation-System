@@ -56,6 +56,8 @@
                         <option value="B">Daihatsu</option>
                         <option value="C">Honda</option>
                         <option value="D">Toyota</option>
+                        <option value="E">Suzuki</option>
+                        <option value="F">Subaru</option>
                       </select>
                     </div>
                     <div class="col-md-3">

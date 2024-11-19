@@ -6,7 +6,6 @@ ini_set('post_max_size', '2000M');
 ini_set('upload_max_filesize', '2000M');
 set_time_limit(0); // Unlimited time to process large files
 
-// Function to read CSV data
 function readCsvData($filename)
 {
     if (!file_exists($filename)) {
@@ -27,89 +26,93 @@ function readCsvData($filename)
     return $data;
 }
 
-// Check if files are uploaded
 if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
-    $userName = $_POST['userName'];
     $bom = $_FILES['csvFile_bom'];
     $bomAid = $_FILES['csvFile_bomAid'];
 
-    // Check if both files were uploaded successfully
     if ($bom['error'] === UPLOAD_ERR_OK && $bomAid['error'] === UPLOAD_ERR_OK) {
         // Handle BOM file
-        $bomTempFile = tempnam(sys_get_temp_dir(), 'bom_upload');
-        move_uploaded_file($bom['tmp_name'], $bomTempFile);
-
-        // Handle BOM Aid file
-        $bomAidTempFile = tempnam(sys_get_temp_dir(), 'bomAid_upload');
-        move_uploaded_file($bomAid['tmp_name'], $bomAidTempFile);
-
-        // Read BOM file data
-        $bomData = readCsvData($bomTempFile);
+        $bomData = readCsvData($bom['tmp_name']);
         if (!$bomData) {
             echo "Error: Could not read BOM file.";
-            unlink($bomTempFile);
-            unlink($bomAidTempFile);
+            echo "file1 error";
             exit;
         }
-
-        // Read BOM Aid file data
-        $bomAidData = readCsvData($bomAidTempFile);
+        
+        // Handle BOM Aid file
+        $bomAidData = readCsvData($bomAid['tmp_name']);
         if (!$bomAidData) {
             echo "Error: Could not read BOM Aid file.";
-            unlink($bomTempFile);
-            unlink($bomAidTempFile);
+            echo "file2 error";
             exit;
         }
 
-        // Perform matching and insert data into the database
-        $matches = [];
-        foreach ($bomData as $bomRow) {
-            foreach ($bomAidData as $bomAidRow) {
-                // Match on Product No (B), Parts Code (C), Parts Name (E)
-                if (
-                    $bomRow[1] === $bomAidRow[1] &&  // Product No
-                    $bomRow[2] === $bomAidRow[2] &&  // Parts Code
-                    $bomRow[4] === $bomAidRow[4]     // Parts Name
-                ) {
-                    // Check if Column D (index 3) in BOM is 0
-                    if ($bomRow[3] == 0) {
-                        // Insert matched row where Column D is 0
-                        $maker_code = $bomRow[0];
-                        $product_no = $bomRow[1];
-                        $parts_code = $bomRow[2];
-                        $parts_name = $bomRow[4];
-                        $need_qty = $bomAidRow[9]; // Assuming Need QTY is in the 10th column (index 9)
+        try {
+            $conn->beginTransaction();
 
-                        // Insert into the database
-                        $sql = "INSERT INTO m_combine (maker_code, product_no, partcode, partname, need_qty) 
-                        VALUES (:maker_code, :product_no, :parts_code, :parts_name, :need_qty)";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bindParam(':maker_code', $maker_code);
-                        $stmt->bindParam(':product_no', $product_no);
-                        $stmt->bindParam(':parts_code', $parts_code);
-                        $stmt->bindParam(':parts_name', $parts_name);
-                        $stmt->bindParam(':need_qty', $need_qty);
+            // Create temporary tables
+            $conn->exec("CREATE TABLE #temp_bom (
+                maker_code NVARCHAR(255),
+                product_no NVARCHAR(255),
+                partcode NVARCHAR(255),
+                tube_len DECIMAL(10, 2),
+                partname NVARCHAR(255)
+            )");
 
-                        if ($stmt->execute()) {
-                            $matches[] = $bomRow; // Add to matches array if inserted successfully
-                            break; // Break after inserting the first match to avoid duplicates
-                        }
-                    }
-                }
+            $conn->exec("CREATE TABLE #temp_bom_aid (
+                maker_code NVARCHAR(255),
+                product_no NVARCHAR(255),
+                partcode NVARCHAR(255),
+                tube_len DECIMAL(10, 2),
+                partname NVARCHAR(255),
+                need_qty numeric(2,3)
+            )");
+
+            // Bulk insert BOM data
+            $stmt = $conn->prepare("INSERT INTO #temp_bom (maker_code, product_no, partcode, tube_len, partname) VALUES (?, ?, ?, ?, ?)");
+            foreach ($bomData as $row) {
+                $stmt->execute([$row[0], $row[1], $row[2], $row[3], $row[4]]);
             }
-        }
 
-        if (!empty($matches)) {
-            echo 'success'; // Return success if matches are found and inserted
-        } else {
-            echo 'no_matches'; // Return if no matches were found
-        }
+            // Bulk insert BOM Aid data
+            $stmt = $conn->prepare("INSERT INTO #temp_bom_aid (maker_code, product_no, partcode, tube_len, partname, need_qty) VALUES (?, ?, ?, ?, ?, ?)");
+            foreach ($bomAidData as $row) {
+                $stmt->execute([$row[0], $row[1], $row[2], $row[3], $row[4], $row[9]]);
+            }
 
-        // Clean up temporary files
-        unlink($bomTempFile);
-        unlink($bomAidTempFile);
+            // Perform matching in the database
+            $sql = "
+                INSERT INTO m_combine (maker_code, product_no, partcode, partname, need_qty)
+                SELECT DISTINCT
+                    bom.maker_code,
+                    bom.product_no,
+                    bom.partcode,
+                    bom.partname,
+                    aid.need_qty
+                FROM #temp_bom bom
+                INNER JOIN #temp_bom_aid aid
+                ON bom.product_no = aid.product_no
+                AND bom.partcode = aid.partcode
+                AND bom.partname = aid.partname
+                WHERE (bom.tube_len = 0 OR bom.tube_len = 0.00)
+                AND (aid.tube_len = 0 OR aid.tube_len = 0.00);
+            ";
+            $conn->exec($sql);
+
+            // Drop temporary tables
+            $conn->exec("DROP TABLE #temp_bom");
+            $conn->exec("DROP TABLE #temp_bom_aid");
+
+            $conn->commit();
+            echo "success";
+        } catch (Exception $e) {
+            $conn->rollBack();
+            echo "error";
+            echo "Error: " . $e->getMessage();
+        }
     } else {
         echo "Error: File upload failed for one or both files.";
+        echo 'file upload';
     }
 } else {
     echo "Please select files to upload.";

@@ -95,6 +95,28 @@
                                 showConfirmButton: false,
                                 timer: 2000
                             });
+                        } else if (response === 'file1 error') {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Could not read file 1",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        } else if (response === 'file2 error') {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Could not read file 2",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        } else if (response === 'file upload') {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Failed uploaded files.",
+                                text: "Please, check both files.",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
                         }
                     } catch (e) {
                         console.error('Error parsing response:', e);
