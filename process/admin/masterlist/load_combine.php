@@ -22,6 +22,9 @@ if ($method == 'load_combine') {
     if (!empty($car_model)) {
         $conditions[] = "maker_code LIKE :search_key_model";
     }
+    if (!empty($search_date)) {
+        $conditions[] = "CAST(created_at AS DATE) = :search_date";
+    }
 
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
@@ -43,6 +46,9 @@ if ($method == 'load_combine') {
     }
     if (!empty($car_model)) {
         $stmt->bindParam(':search_key_model', $car_model);
+    }
+    if (!empty($search_date)) {
+        $stmt->bindParam(':search_date', $search_date);
     }
 
     $stmt->execute();

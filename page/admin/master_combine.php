@@ -50,7 +50,7 @@
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
                     <div class="col-md-3">
                       <label for="">Search By Car Model</label>
-                      <select name="search_by_carModel" id="search_by_carModel" class="form-control" style="border-radius: 15px;">
+                      <select name="search_by_carModel" id="search_by_carModel" class="form-control" style="border-radius: 15px;" onchange="load_combined();">
                         <option value="">All</option>
                         <option value="A">Mazda</option>
                         <option value="B">Daihatsu</option>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-md-3">
                       <label for="">Date</label>
-                      <input type="date" name="" id="search_date" class="form-control" placeholder="">
+                      <input type="date" name="" id="search_date" class="form-control" placeholder="" onchange="load_combined();">
                     </div>
                     <div class="col-md-2">
                       <label for="">&nbsp;</label>
