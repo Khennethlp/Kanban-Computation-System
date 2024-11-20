@@ -28,8 +28,7 @@
             Swal.fire({
                 icon: 'info',
                 title: 'Processing...',
-                html: 'Please wait while we process your file.',
-                text: "Please, do not refresh the page.",
+                html: 'Please wait while we process your file.<br><span style="font-size: 16px;"><em>Please, do not refresh the page.</em></span>',
                 allowOutsideClick: false,
                 showConfirmButton: false,
                 willOpen: () => {
@@ -42,13 +41,6 @@
                         });
                         Swal.showLoading();
                     }, 30000);
-
-                    setTimeout(() => {
-                        Swal.update({
-                            html: 'You can do other task while waiting.',
-                        });
-                        Swal.showLoading();
-                    }, 60000); //1 min
 
                     setTimeout(() => {
                         Swal.update({
@@ -77,11 +69,10 @@
                         if (response === 'success') {
                             Swal.fire({
                                 icon: "success",
-                                title: "Imported Successfully!",
+                                title: "Combined Successfully!",
                                 showConfirmButton: true,
-                                timer: 2000
+                                // timer: 2000
                             });
-                            Swal.close();
                             $('#import_master_combine').modal('hide');
                         } else if (response === 'error') {
                             Swal.fire({
@@ -97,7 +88,6 @@
                                 showConfirmButton: false,
                                 timer: 2000
                             });
-                            Swal.close();
                         } else if (response === 'file1 error') {
                             Swal.fire({
                                 icon: "warning",
@@ -105,7 +95,6 @@
                                 showConfirmButton: false,
                                 timer: 2000
                             });
-                            Swal.close();
                         } else if (response === 'file2 error') {
                             Swal.fire({
                                 icon: "warning",
@@ -113,7 +102,6 @@
                                 showConfirmButton: false,
                                 timer: 2000
                             });
-                            Swal.close();
                         } else if (response === 'file upload') {
                             Swal.fire({
                                 icon: "warning",
@@ -122,7 +110,6 @@
                                 showConfirmButton: false,
                                 timer: 2000
                             });
-                            Swal.close();
                         }
                     } catch (e) {
                         console.error('Error parsing response:', e);
