@@ -7,7 +7,8 @@
         // Count the rows in the table body (or entire table depending on your structure)
         const rowCount = document.querySelectorAll('#combine_table tr').length;
         console.log(`Rows currently in the table: ${rowCount}`);
-        return rowCount;
+        const formattedResponse = parseInt(rowCount).toLocaleString();
+        return formattedResponse;
     };
 
     let page = 1;
