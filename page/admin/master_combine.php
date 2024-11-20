@@ -40,7 +40,7 @@
         <div class="col-md-12">
           <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-header">
-              <h3 class="card-title text-uppercase text-bold">Master Table</h3>
+              <h3 class="card-title text-uppercase text-bold">Master Record</h3>
             </div>
 
             <div class="card-body">

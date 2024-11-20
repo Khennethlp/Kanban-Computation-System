@@ -20,7 +20,7 @@
                         </form>
                         <hr>
                         <div class="mt-0">
-                            <a href="../../template/Master Record.csv" class="form-control btn btn-danger">Download Template</a>
+                            <a href="../../template/Master Record.csv" class="form-control btn text-blue"><i class="fas fa-download"></i> Download Template</a>
                         </div>
                         
                     </div>
