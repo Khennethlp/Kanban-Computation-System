@@ -34,7 +34,7 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
         // Handle BOM file
         $bomData = readCsvData($bom['tmp_name']);
         if (!$bomData) {
-            echo "Error: Could not read BOM file.";
+            echo "Error: Could not read BOM file."."</br>";
             echo "file1 error";
             exit;
         }
@@ -42,7 +42,7 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
         // Handle BOM Aid file
         $bomAidData = readCsvData($bomAid['tmp_name']);
         if (!$bomAidData) {
-            echo "Error: Could not read BOM Aid file.";
+            echo "Error: Could not read BOM Aid file."."</br>";
             echo "file2 error";
             exit;
         }
@@ -55,17 +55,18 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
                 maker_code NVARCHAR(255),
                 product_no NVARCHAR(255),
                 partcode NVARCHAR(255),
-                tube_len DECIMAL(10, 2),
-                partname NVARCHAR(255)
+                tube_len DECIMAL(10,3),
+                partname NVARCHAR(255),
+                need_qty DECIMAL(10,3)
             )");
 
             $conn->exec("CREATE TABLE #temp_bom_aid (
                 maker_code NVARCHAR(255),
                 product_no NVARCHAR(255),
                 partcode NVARCHAR(255),
-                tube_len DECIMAL(10, 2),
+                tube_len DECIMAL(10,4),
                 partname NVARCHAR(255),
-                need_qty numeric(2,3)
+                need_qty DECIMAL(10,3)
             )");
 
             // Bulk insert BOM data
@@ -81,8 +82,7 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
             }
 
             // Perform matching in the database
-            $sql = "
-                INSERT INTO m_combine (maker_code, product_no, partcode, partname, need_qty)
+            $sql = "INSERT INTO m_combine (maker_code, product_no, partcode, partname, need_qty)
                 SELECT DISTINCT
                     bom.maker_code,
                     bom.product_no,
