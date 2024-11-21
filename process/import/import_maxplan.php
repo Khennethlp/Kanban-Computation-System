@@ -45,7 +45,7 @@ if (isset($_FILES['csvFile_maxplan'])) {
                 $maker_code = $row[0];
                 $max_plan = $row[1];
 
-                if (!empty($max_plan) && is_numeric($max_plan)) {
+                if (is_numeric($max_plan)) {
                     $stmt->execute([$maker_code, $max_plan]);
                 }
             }
