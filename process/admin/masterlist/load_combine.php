@@ -30,7 +30,7 @@ if ($method == 'load_combine') {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
 
-    $sql .= " ORDER BY id DESC OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
+    $sql .= " ORDER BY id ASC OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
 
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
