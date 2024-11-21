@@ -104,12 +104,19 @@ if ($method == 'count_combine') {
 
     $conditions = [];
 
+    // if (!empty($search_key)) {
+    //     $conditions[] = "(product_no LIKE :search_key OR partcode LIKE :search_key OR partname LIKE :search_key)";
+    // }
     if (!empty($search_key)) {
-        $conditions[] = "(product_no LIKE :search_key OR partcode LIKE :search_key OR partname LIKE :search_key)";
+        $conditions[] = "(product_no LIKE :search_key_productNo OR partcode LIKE :search_key_partcode OR partname LIKE :search_key_partname)";
     }
     
     if (!empty($car_model)) {
         $conditions[] = "maker_code LIKE :search_key_model";
+    }
+
+    if (!empty($search_date)) {
+        $conditions[] = "CAST(created_at AS DATE) = :search_date";
     }
 
     if (!empty($conditions)) {
@@ -118,14 +125,23 @@ if ($method == 'count_combine') {
 
     $stmt = $conn->prepare($sqls, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
+    // if (!empty($search_key)) {
+    //     $search_keys = "%$search_key%";
+    //     $stmt->bindParam(':search_key', $search_keys);
+    // }
     if (!empty($search_key)) {
         $search_keys = "%$search_key%";
-        $stmt->bindParam(':search_key', $search_keys);
+        $stmt->bindParam(':search_key_productNo', $search_keys);
+        $stmt->bindParam(':search_key_partcode', $search_keys);
+        $stmt->bindParam(':search_key_partname', $search_keys);
     }
     if (!empty($car_model)) {
         $stmt->bindParam(':search_key_model', $car_model);
     }
- 
+    if (!empty($search_date)) {
+        $stmt->bindParam(':search_date', $search_date);
+    }
+    
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {

@@ -1,0 +1,111 @@
+<?php
+require '../conn.php';
+
+ini_set('memory_limit', '4096M');
+ini_set('post_max_size', '2000M');
+ini_set('upload_max_filesize', '2000M');
+set_time_limit(0); // Unlimited time to process large files
+
+function readCsvData($filename)
+{
+    if (!file_exists($filename)) {
+        return false;
+    }
+
+    $data = [];
+    $file = fopen($filename, 'r');
+    fgetcsv($file); // Skip the header row
+
+    while (($line = fgetcsv($file)) !== false) {
+        if (array_filter($line)) {
+            $data[] = $line;
+        }
+    }
+
+    fclose($file);
+    return $data;
+}
+
+if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
+    $bom = $_FILES['csvFile_bom'];
+    $bomAid = $_FILES['csvFile_bomAid'];
+
+    if ($bom['error'] === UPLOAD_ERR_OK && $bomAid['error'] === UPLOAD_ERR_OK) {
+        // Handle BOM file
+        $bomData = readCsvData($bom['tmp_name']);
+        if (!$bomData) {
+            echo "Error: Could not read BOM file." . "</br>";
+            echo "file1 error";
+            exit;
+        }
+
+        // Handle BOM Aid file
+        $bomAidData = readCsvData($bomAid['tmp_name']);
+        if (!$bomAidData) {
+            echo "Error: Could not read BOM Aid file." . "</br>";
+            echo "file2 error";
+            exit;
+        }
+
+        try {
+            $conn->beginTransaction();
+
+            // Create a single temporary table for combined data
+            $conn->exec("CREATE TABLE #temp_combined (
+                maker_code NVARCHAR(255),
+                product_no NVARCHAR(255),
+                partcode NVARCHAR(255),
+                partname NVARCHAR(255),
+                need_qty NVARCHAR(255),
+                tube_len DECIMAL(10,3),
+                wire_size NVARCHAR(255),
+                shield_wire_code NVARCHAR(255)
+            )");
+
+            // Bulk insert BOM data
+            $stmt = $conn->prepare("INSERT INTO #temp_combined (maker_code, product_no, partcode, partname, need_qty, tube_len, wire_size, shield_wire_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            foreach ($bomData as $row) {
+                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[8]]);
+            }
+
+            // Bulk insert BOM Aid data
+            $stmt = $conn->prepare("INSERT INTO #temp_combined (maker_code, product_no, partcode, partname, need_qty, tube_len, wire_size, shield_wire_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            foreach ($bomAidData as $row) {
+                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[8]]);
+            }
+
+            // Filter and insert into m_combine table
+            $sql = "
+                INSERT INTO m_combine (maker_code, product_no, partcode, partname, need_qty)
+                SELECT
+                    maker_code,
+                    product_no,
+                    partcode,
+                    partname,
+                    need_qty
+                FROM #temp_combined
+                WHERE 
+                    (tube_len = 0 OR tube_len = 0.00) 
+                    AND (wire_size IS NULL OR wire_size = '') 
+                    AND (shield_wire_code IS NULL OR shield_wire_code = '');
+            ";
+            $conn->exec($sql);
+
+            // Drop temporary table
+            $conn->exec("DROP TABLE #temp_combined");
+
+            $conn->commit();
+            echo "success";
+        } catch (Exception $e) {
+            $conn->rollBack();
+            echo "error";
+            echo "Error: " . $e->getMessage();
+        }
+    } else {
+        echo "Error: File upload failed for one or both files.";
+        echo 'file upload';
+    }
+} else {
+    echo "Please select files to upload.";
+}
+?>

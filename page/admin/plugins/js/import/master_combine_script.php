@@ -59,7 +59,7 @@
             });
             $('#import_master_combine').modal('hide');
             $.ajax({
-                url: '../../process/import/import_combine.php',
+                url: '../../process/import/import_new_combine.php',
                 type: 'POST',
                 data: formData,
                 processData: false,
