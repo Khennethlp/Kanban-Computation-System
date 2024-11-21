@@ -57,7 +57,7 @@
               <i class="nav-icon fa fa-file-alt"></i>
               <!-- <img src="../../dist/img/list.png" class="icon-image" height="25" width="25" >&nbsp;&nbsp;&nbsp; -->
               <p>
-               Master Record
+               Bom Combine
               </p>
               </a>
         </li>
@@ -73,6 +73,42 @@
               </p>
               </a>
         </li> -->
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/max_plan.php") { ?>
+            <a href="max_plan.php" class="nav-link active">
+            <?php } else { ?>
+              <a href="max_plan.php" class="nav-link">
+              <?php } ?>
+              <i class="nav-icon fa fa-chart-bar"></i>
+              <p>
+                Max Plan
+              </p>
+              </a>
+        </li>
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/min_lot.php") { ?>
+            <a href="min_lot.php" class="nav-link active">
+            <?php } else { ?>
+              <a href="min_lot.php" class="nav-link">
+              <?php } ?>
+              <i class="nav-icon fa fa-list"></i>
+              <p>
+                Min Lot
+              </p>
+              </a>
+        </li>
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/teams.php") { ?>
+            <a href="teams.php" class="nav-link active">
+            <?php } else { ?>
+              <a href="teams.php" class="nav-link">
+              <?php } ?>
+              <i class="nav-icon fa fa-users"></i>
+              <p>
+               No. of Teams
+              </p>
+              </a>
+        </li>
         <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/accounts.php") { ?>
             <a href="accounts.php" class="nav-link active">

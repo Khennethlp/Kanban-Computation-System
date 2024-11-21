@@ -19,6 +19,9 @@ include '../../modals/add_account.php';
 include '../../modals/edit_account.php';
 include '../../modals/edit_masterlist.php';
 
+include '../../modals/import_max_plan.php';
+include '../../modals/import_min_lot.php';
+include '../../modals/import_teams.php';
 include '../../modals/import_masterlist.php';
 include '../../modals/import_k_master.php';
 include '../../modals/master_combine.php';
