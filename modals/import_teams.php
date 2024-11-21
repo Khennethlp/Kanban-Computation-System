@@ -3,7 +3,7 @@
         <div class="modal-content" style="border-radius: 18px;">
             <div class="modal-header">
                 <h5 class="modal-title " id="exampleModalLabel">
-                    <b>Import Min Lot</b>
+                    <b>Import No. of Teams</b>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

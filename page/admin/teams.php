@@ -35,25 +35,13 @@
                   <div class="row">
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
                     <div class="col-md-3">
-                      <label for="">Search By Car Model</label>
-                      <select name="search_by_carModel" id="search_by_carModel" class="form-control" style="border-radius: 15px;" >
-                        <option value="">All</option>
-                        <option value="A">Mazda</option>
-                        <option value="B">Daihatsu</option>
-                        <option value="C">Honda</option>
-                        <option value="D">Toyota</option>
-                        <option value="E">Suzuki</option>
-                        <option value="F">Subaru</option>
-                      </select>
-                    </div>
-                    <div class="col-md-3">
                       <label for="">Search</label>
                       <input type="search" name="" id="search_key" class="form-control" placeholder="Keyword...">
                     </div>
-                    <div class="col-md-3">
+                    <!-- <div class="col-md-3">
                       <label for="">Date</label>
                       <input type="date" name="" id="search_date" class="form-control" placeholder="" >
-                    </div>
+                    </div> -->
                     <div class="col-md-2">
                       <label for="">&nbsp;</label>
                       <button class="form-control btn activeBtn" onclick=""><i class="fas fa-search"></i> Search</button>
@@ -91,6 +79,5 @@
 <?php
 include 'plugins/footer.php';
 // include 'plugins/js/load_data/load_combine_script.php';
-include 'plugins/js/import/maxplan_script.php';
-include 'plugins/js/import/minlot_script.php';
+include 'plugins/js/import/teams_script.php';
 ?>
