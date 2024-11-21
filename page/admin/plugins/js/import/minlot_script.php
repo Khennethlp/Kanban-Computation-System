@@ -1,6 +1,5 @@
 <script>
     $(document).ready(function() {
-        load_master();
 
         $('#csvFileForm_minlot').on('submit', function(event) {
             event.preventDefault();
@@ -14,9 +13,21 @@
                 return;
             }
 
-            formData.append('userName', user_name);
-            formData.append('csvFile', fileInput);
+            Swal.fire({
+                icon: 'info',
+                title: 'Processing...',
+                html: 'Please wait while we process your file.<br><span style="font-size: 16px;"><em>Please, do not refresh the page.</em></span>',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
+            formData.append('userName', user_name);
+            formData.append('csvFile_minlot', fileInput);
+
+            $('#import_minlot').modal('hide');
             $.ajax({
                 url: '../../process/import/import_minlot.php',
                 type: 'POST',
@@ -25,17 +36,13 @@
                 contentType: false,
                 success: function(response) {
                     if (response.includes('success')) {
-                        // alert('Upload successful!');
-                        // Optionally reload the master list or update the UI
                         Swal.fire({
                             icon: "success",
-                            title: "Imported Successfully!",
-                            showConfirmButton: false,
-                            timer: 2000
+                            title: "Uploaded Successfully!",
+                            showConfirmButton: true,
+                            // timer: 2000
                         });
-                        load_master();
                     } else if (response.includes('error')) {
-                        // alert('There were errors during the upload. Details: ' + response);
                         Swal.fire({
                             icon: "error",
                             title: "There were errors during the upload.",
@@ -43,16 +50,13 @@
                             timer: 2000
                         });
                     } else {
-                        // alert('Upload completed with some existing records. Details: ' + response);
                         Swal.fire({
                             icon: "warning",
-                            title: "Some data already exist!",
+                            title: "Oops! Something went wrong.",
                             showConfirmButton: false,
                             timer: 2000
                         });
                     }
-                    $('#import_masterlist').modal('hide');
-                    // $('#import_table').html(response);
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
