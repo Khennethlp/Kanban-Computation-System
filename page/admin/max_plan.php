@@ -34,7 +34,7 @@
                 <div class="col-md-12">
                   <div class="row">
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
-                    <div class="col-md-3">
+                    <!-- <div class="col-md-3">
                       <label for="">Search By Car Model</label>
                       <select name="search_by_carModel" id="search_by_carModel" class="form-control" style="border-radius: 15px;">
                         <option value="">All</option>
@@ -45,7 +45,7 @@
                         <option value="E">Suzuki</option>
                         <option value="F">Subaru</option>
                       </select>
-                    </div>
+                    </div> -->
                     <div class="col-md-3">
                       <label for="">Search</label>
                       <input type="search" name="" id="search_key" class="form-control" placeholder="Keyword...">
@@ -65,9 +65,10 @@
                     <table class="table table-hover ">
                       <thead class="thead-bg sticky-top">
                         <th>No.</th>
-                        <th>Part Code</th>
-                        <th>Part Name</th>
+                        <!-- <th>Maker Code</th> -->
+                        <th>Line No.</th>
                         <th>Max Plan</th>
+                        <th>Action</th>
                         </tr>
                       </thead>
                       <tbody id="maxplan_table"></tbody>
@@ -91,6 +92,6 @@
 
 <?php
 include 'plugins/footer.php';
-// include 'plugins/js/load_data/load_combine_script.php';
+include 'plugins/js/load_data/load_maxplan_script.php';
 include 'plugins/js/import/maxplan_script.php';
 ?>
