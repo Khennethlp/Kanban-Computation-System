@@ -61,7 +61,7 @@
                   </div>
                 </div>
                 <div class="col-md-12 mt-2">
-                  <div class="mt-3" style="height: 650px; overflow:auto;">
+                  <div class="mt-3" id="maxplan_container" style="height: 650px; overflow:auto;">
                     <table class="table table-hover ">
                       <thead class="thead-bg sticky-top">
                         <th>No.</th>
@@ -75,7 +75,7 @@
                     </table>
                   </div>
                   <div class="col-md-12">
-                    <p class="mt-3">Results: <span id="count_per_load"></span><span id="counts"></span></p>
+                    <p class="mt-3">Results: <span id="maxplan_count_per_load"></span><span id="counts"></span></p>
                     <div id="load_more" class="text-center" style="display: none;">
                       <p class="badge badge-dark border border-outline px-3 py-2 mt-3 " style="cursor: pointer; font-size: 15px; padding: 20px 0;">Load More...</p>
                     </div>
