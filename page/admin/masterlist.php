@@ -91,7 +91,7 @@
                   </div>
                 </div>
                 <div class="col-md-12 mt-2">
-                  <div class="mt-3" id="tbl_container" style="height: 450px; overflow:auto;">
+                  <div class="mt-3" id="tbl_container" style="height: 650px; overflow:auto;">
                     <table class="table table-hover ">
                       <thead class="thead-bg sticky-top">
                         <th>No.</th>

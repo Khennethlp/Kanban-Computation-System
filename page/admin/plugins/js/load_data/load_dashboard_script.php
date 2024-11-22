@@ -4,7 +4,7 @@
     });
 
     let page = 1;
-    const rowsPerPage = 10;
+    const rowsPerPage = 100;
     let isLoading = false; // Flag to track if data is being loaded
     let hasMoreData = true; // Flag to track if there's more data to load
     let debounceTimeout = null; // Timeout for debounce

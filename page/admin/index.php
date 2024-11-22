@@ -55,7 +55,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-12 mt-5" id="tbl_container" style="width:100%; height:500px; overflow:auto;">
+                  <div class="col-md-12 mt-5" id="tbl_container" style="width:100%; height:650px; overflow:auto;">
                     <table class="table table-condensed table-hover text-center">
                       <thead class="thead-bg sticky-top">
                         <tr>
