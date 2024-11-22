@@ -11,16 +11,23 @@ if ($method == 'load_dashboard') {
     $rowsPerPage = isset($_POST['rows_per_page']) ? (int)$_POST['rows_per_page'] : 10;
     $offset = ($page - 1) * $rowsPerPage;
 
-    $sql = "SELECT * FROM m_master ";
+    $sql = "SELECT a.*, b.partcode AS partcode, b.partname AS partname, b.min_lot AS min_lot, c.product_no AS product_no, c.max_plan AS max_plan, c.line_no AS line_no, d.no_teams AS no_teams
+            FROM m_combine a
+            LEFT JOIN m_min_lot b ON a.partcode = b.partcode AND a.partname = b.partname
+            LEFT JOIN m_max_plan c ON a.product_no = c.product_no
+            LEFT JOIN m_no_teams d ON c.line_no = d.line_no
+         
+            ";
 
     $conditions = [];
     if (!empty($line_no)) {
-        $conditions[] = "line_no = :line_no";
+        $conditions[] = "d.line_no = :line_no";
     }
     if (!empty($search_date)) {
         $conditions[] = "CAST(created_at AS DATE) = :search_date";
     }
-
+    
+    $conditions[] = "c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
@@ -58,10 +65,12 @@ if ($method == 'load_dashboard') {
         $partcode = $row['partcode'];
         $partname = $row['partname'];
         $min_lot = $row['min_lot'];
-        $max_usage = $row['max_usage'];
+        // $max_usage = $row['max_usage'];
+        $max_usage = 1;
         $max_plan = $row['max_plan'];
         $no_teams = $row['no_teams'];
-        $issued_to_pd = $row['issued_to_pd'];
+        // $issued_to_pd = $row['issued_to_pd'];
+        $issued_to_pd = 2;
 
         $takt_time = floor(510 / ($max_plan / $no_teams) * 60);
 
@@ -90,6 +99,7 @@ if ($method == 'load_dashboard') {
         $lead_time = $usage_hour * 5;
         $safety_inv = $usage_hour * 1;
         $kanban_qty = ceil(($lead_time + $safety_inv) / $min_lot);
+        // $kanban_qty = 0;
         $add_reduce_kanban = $kanban_qty -  $issued_to_pd;
 
         $fill_color = ($add_reduce_kanban < 0) ? ' red-highlight' : '';
@@ -127,15 +137,23 @@ if ($method == 'count_dash') {
     $line_no = $_POST['line_no'];
     $search_date = $_POST['search_date'];
 
-    $sql = "SELECT count(id) as total FROM m_master";
+    $sql = "SELECT count(*) as total 
+     FROM m_combine a
+            LEFT JOIN m_min_lot b ON a.partcode = b.partcode AND a.partname = b.partname
+            LEFT JOIN m_max_plan c ON a.product_no = c.product_no
+            LEFT JOIN m_no_teams d ON c.line_no = d.line_no
+            
+            ";
 
     $conditions = [];
     if (!empty($line_no)) {
-        $conditions[] = "line_no = :line_no";
+        $conditions[] = "c.line_no = :line_no";
     }
     if (!empty($search_date)) {
         $conditions[] = "CAST(created_at AS DATE) = :search_date";
     }
+    
+    $conditions[] = "c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
 
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);

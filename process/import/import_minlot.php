@@ -37,17 +37,18 @@ if (isset($_FILES['csvFile_minlot'])) {
         }
 
         try {
-            $stmt = $conn->prepare("INSERT INTO m_min_lot (parts_code, parts_name, min_lot) VALUES (?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO m_min_lot (partcode, partname, min_lot, parts_group) VALUES (?, ?, ?, ?)");
 
             $conn->beginTransaction();
 
             foreach ($minlot_data as $row) {
+                $parts_group = $row[0];
                 $partname = $row[1];
                 $partcode = $row[2];
                 $min_lot_qty = $row[3];
 
                 if (!empty($partname) && !empty($partcode) && !empty($min_lot_qty)) {
-                    $stmt->execute([$partname, $partcode, $min_lot_qty]);
+                    $stmt->execute([$partname, $partcode, $min_lot_qty, $parts_group]);
                 }
             }
 

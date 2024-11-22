@@ -68,6 +68,7 @@
                       <thead class="thead-bg sticky-top">
                         <th>No.</th>
                         <th>Line No.</th>
+                        <th>Product No.</th>
                         <th>Part Code</th>
                         <th>Part Name</th>
                         <th>Min. Lot</th>

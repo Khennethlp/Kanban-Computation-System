@@ -37,16 +37,17 @@ if (isset($_FILES['csvFile_maxplan'])) {
         }
 
         try {
-            $stmt = $conn->prepare("INSERT INTO m_max_plan (maker_code, max_plan) VALUES (?, ?)");
+            $stmt = $conn->prepare("INSERT INTO m_max_plan (product_no, line_no, max_plan) VALUES (?, ?, ?)");
 
             $conn->beginTransaction();
 
             foreach ($maxplan_data as $row) {
-                $maker_code = $row[0];
-                $max_plan = $row[1];
+                $product_no = $row[0];
+                $line_no = $row[1];
+                $max_plan = $row[2];
 
                 if (is_numeric($max_plan)) {
-                    $stmt->execute([$maker_code, $max_plan]);
+                    $stmt->execute([$product_no, $line_no, $max_plan]);
                 }
             }
 

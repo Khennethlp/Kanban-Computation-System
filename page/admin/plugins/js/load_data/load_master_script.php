@@ -12,7 +12,7 @@
         });
     });
 
-    const rowsPerPage = 10;
+    const rowsPerPage = 100;
     let page = 1;
     let debounceTimeout = null;
     let isLoading = false;
