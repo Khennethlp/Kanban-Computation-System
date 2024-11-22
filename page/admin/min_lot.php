@@ -56,6 +56,7 @@
                         <th>Part Code</th>
                         <th>Part Name</th>
                         <th>Min Lot</th>
+                        <th>Action</th>
                         </tr>
                       </thead>
                       <tbody id="minlot_table"></tbody>
@@ -79,6 +80,6 @@
 
 <?php
 include 'plugins/footer.php';
-// include 'plugins/js/load_data/load_combine_script.php';
+include 'plugins/js/load_data/load_minlot_script.php';
 include 'plugins/js/import/minlot_script.php';
 ?>
