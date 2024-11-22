@@ -1,14 +1,14 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // load_minlot();
+        load_minlot();
     });
 
     const load_minlot = () => {
         Swal.fire({
                 icon: 'info',
-                title: 'Processing...',
-                html: 'Please wait while we process your file.<br><span style="font-size: 16px;"><em>Please, do not refresh the page.</em></span>',
-                allowOutsideClick: false,
+                title: 'In Progress...',
+                html: 'Just a moment, we\'re loading your data...',
+                allowOutsideClick: true,
                 showConfirmButton: false,
                 willOpen: () => {
                     Swal.showLoading();

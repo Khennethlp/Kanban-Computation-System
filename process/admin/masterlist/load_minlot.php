@@ -16,8 +16,8 @@ if ($method == 'load_minlot') {
             $c++;
             echo '<tr>';
             echo '<td>' . $c . '</td>';
-            echo '<td>' . $row['parts_code'] . '</td>';
-            echo '<td>' . $row['parts_name'] . '</td>';
+            echo '<td>' . $row['partcode'] . '</td>';
+            echo '<td>' . $row['partname'] . '</td>';
             echo '<td>' . $row['min_lot'] . '</td>';
             echo '<td>
             <button class="btn actionBtn" data-toggle="modal" data-target="#" onclick="">Edit</button>

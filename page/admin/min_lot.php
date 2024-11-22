@@ -52,11 +52,11 @@
                   <div class="mt-3" style="height: 650px; overflow:auto;">
                     <table class="table table-hover ">
                       <thead class="thead-bg sticky-top">
-                        <th>No.</th>
-                        <th>Part Code</th>
-                        <th>Part Name</th>
-                        <th>Min Lot</th>
-                        <th>Action</th>
+                        <th class="th-width">No.</th>
+                        <th class="th-width">Part Code</th>
+                        <th class="th-width">Part Name</th>
+                        <th class="th-width">Min Lot</th>
+                        <th class="th-width">Action</th>
                         </tr>
                       </thead>
                       <tbody id="minlot_table"></tbody>

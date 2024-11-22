@@ -10,11 +10,11 @@
             <div class="col-lg-3 col-6">
               <div class="small-box " style="background-color: #275DAD; color:#ffffff; border-radius: 15px;">
                 <div class="inner">
-                  <h3>Master</h3>
-                  <p>Template</p>
+                  <h3>Template</h3>
+                  <!-- <p>&nbsp;</p> -->
                 </div>
                 <div class="icon">
-                  <i class="fas fa-file-excel"></i>
+                  <!-- <i class="fas fa-file-csv"></i> -->
                 </div>
                 <a href="../../template/Master.xlsx" class="small-box-footer" style="border-radius: 15px;">
                   Click to download
@@ -24,14 +24,42 @@
             <div class="col-lg-3 col-6">
               <div class="small-box bg-success" style=" border-radius: 15px;">
                 <div class="inner">
-                  <h3>Import</h3>
-                  <p>Masterlist</p>
+                  <h3>Max Plan</h3>
+                  <!-- <p>&nbsp;</p> -->
                 </div>
                 <div class="icon">
-                  <i class="fas fa-file-excel"></i>
+                  <!-- <i class="fas fa-file-csv"></i> -->
                 </div>
-                <a href="#" data-toggle="modal" data-target="#import_masterlist" class="small-box-footer" style="border-radius: 15px;">
-                  Click to Import
+                <a href="#" data-toggle="modal" data-target="#import_maxplan" class="small-box-footer" style="border-radius: 15px;">
+                  Click to Upload
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <div class="small-box bg-danger" style=" border-radius: 15px;">
+                <div class="inner">
+                  <h3>Min Lot</h3>
+                  <!-- <p>&nbsp;</p> -->
+                </div>
+                <div class="icon">
+                  <!-- <i class="fas fa-file-csv"></i> -->
+                </div>
+                <a href="#" data-toggle="modal" data-target="#import_minlot" class="small-box-footer" style="border-radius: 15px;">
+                  Click to Upload
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <div class="small-box " style="background-color: #F5AD29; color:#ffffff; border-radius: 15px;">
+                <div class="inner">
+                  <h3>No. of Team</h3>
+                  <!-- <p>&nbsp;</p> -->
+                </div>
+                <div class="icon">
+                  <!-- <i class="fas fa-file-csv"></i> -->
+                </div>
+                <a href="#" data-toggle="modal" data-target="#import_teams" class="small-box-footer" style="border-radius: 15px;">
+                  Click to Upload
                 </a>
               </div>
             </div>
@@ -109,6 +137,9 @@
 
 <?php
 include 'plugins/footer.php';
-include 'plugins/js/import/masterlist_import_script.php';
 include 'plugins/js/load_data/load_master_script.php';
+include 'plugins/js/import/masterlist_import_script.php';
+include 'plugins/js/import/maxplan_script.php';
+include 'plugins/js/import/minlot_script.php';
+include 'plugins/js/import/teams_script.php';
 ?>

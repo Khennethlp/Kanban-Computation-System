@@ -81,7 +81,8 @@ if (!isset($_SESSION['username'])) {
     th.req-kanban,
     th.issued-pd,
     th.add-kanban,
-    th.delete-kanban {
+    th.delete-kanban,
+    th.th-width {
       width: 120px;
     }
 
