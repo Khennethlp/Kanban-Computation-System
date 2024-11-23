@@ -77,7 +77,7 @@
                 <!-- <button id="view_all_btn" class="ml-auto mt-2 btn exportBtn" onclick="load_all_master()">Show All</button>
                 <button id="hide_btn" class="ml-auto mt-2 btn exportBtn" style="display:none;" onclick="load_master()">Show Less</button> -->
                 <div class="col-md-12 mt-2">
-                  <div class="mt-3" style="height: 650px; overflow:auto;">
+                  <div class="mt-3" id="combine_container" style="height: 650px; overflow:auto;">
                     <table class="table table-hover ">
                       <thead class="thead-bg sticky-top">
                         <th>No.</th>

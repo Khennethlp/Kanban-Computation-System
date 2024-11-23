@@ -11,12 +11,21 @@
         return formattedResponse;
     };
 
-    let page = 1;
     const rowsPerPage = 100;
+    let page = 1;
+    let debounceTimeout = null;
+    let isLoading = false;
+    let hasMoreData = true;
+
     const load_combined = (isPagination = false) => {
         if (!isPagination) {
             page = 1;
+            hasMoreData = true;
         }
+
+        if (isLoading || !hasMoreData) return;
+
+        isLoading = true;
 
         Swal.fire({
             icon: 'info',
@@ -51,39 +60,51 @@
                 const responseData = JSON.parse(response);
                 counter();
                 Swal.close();
-                
+
                 if (isPagination) {
                     if (responseData.html.trim() !== '') {
                         document.getElementById('combine_table').innerHTML += responseData.html;
                         document.getElementById('count_per_load').innerHTML = countDisplayedRows() + ' out of ';
                         page++;
-                        
+
                         if (responseData.has_more) {
                             document.getElementById('load_more').style.display = 'block';
                         } else {
                             document.getElementById('load_more').style.display = 'none';
-
+                            hasMoreData = false;
                         }
                     } else {
                         document.getElementById('load_more').style.display = 'none';
-
+                        hasMoreData = false;
                     }
                 } else {
                     document.getElementById('combine_table').innerHTML = responseData.html;
                     page++;
-                   
                     if (responseData.has_more) {
                         document.getElementById('load_more').style.display = 'block';
                     } else {
                         document.getElementById('load_more').style.display = 'none';
-
+                        hasMoreData = false;
                     }
                 }
+
+                isLoading = false;
             }
         });
     }
+    
     document.getElementById('load_more').addEventListener('click', () => load_combined(true), countDisplayedRows());
-  
+    
+    $('#combine_container').on('scroll', function() {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+            const $this = $(this);
+            if ($this.scrollTop() + $this.innerHeight() >= $this[0].scrollHeight - 100) {
+                load_combined(true);
+            }
+        }, 100);
+    });
+
     const counter = () => {
         var search_key = $('#search_key').val();
         var search_date = $('#search_date').val();
@@ -101,7 +122,7 @@
             success: function(response) {
                 const formattedResponse = parseInt(response).toLocaleString();
                 $('#counts').html(formattedResponse);
-               
+
             }
         });
     }
