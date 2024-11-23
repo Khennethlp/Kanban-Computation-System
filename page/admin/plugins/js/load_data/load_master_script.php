@@ -28,6 +28,17 @@
 
         isLoading = true;
 
+        Swal.fire({
+            icon: 'info',
+            title: 'In Progress...',
+            html: 'Just a moment, we\'re loading your data...',
+            allowOutsideClick: true,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
         var user_name = $('#user_name').val();
         var search_key = $('#search_key').val();
         var search_date = $('#search_date').val();
@@ -47,7 +58,7 @@
             success: function(response) {
                 const responseData = JSON.parse(response);
                 count_master();
-
+                Swal.close();
                 if (isPagination) {
                     if (responseData.html.trim() !== '') {
                         document.getElementById('import_table').innerHTML += responseData.html;
@@ -87,7 +98,7 @@
             if ($this.scrollTop() + $this.innerHeight() >= $this[0].scrollHeight - 100) {
                 load_master(true);
             }
-        }, 200);
+        }, 100);
     });
 
 

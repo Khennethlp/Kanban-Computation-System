@@ -18,6 +18,17 @@
         if (isLoading || !hasMoreData) return; // Avoid loading if already loading or no more data
         isLoading = true; // Set loading flag
 
+        Swal.fire({
+            icon: 'info',
+            title: 'In Progress...',
+            html: 'Just a moment, we\'re loading your data...',
+            allowOutsideClick: true,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
         var line_no = document.getElementById('line_no').value;
         var getDate = document.getElementById('getDate').value;
 
@@ -34,7 +45,7 @@
             success: function(response) {
                 const responseData = JSON.parse(response);
                 count_dash();
-                
+                Swal.close();
                 if (isPagination) {
                     if (responseData.html.trim() !== '') {
                         document.getElementById('table_dashboard').innerHTML += responseData.html;
@@ -60,7 +71,7 @@
                     }
                 }
 
-                isLoading = false; 
+                isLoading = false;
             }
         });
     }
