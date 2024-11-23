@@ -7,14 +7,28 @@
       <div class="row">
         <div class="col-md-12">
           <div class="row mt-3">
+          <div class="col-lg-3 col-6">
+              <div class="small-box " style="background-color: #275DAD; color:#ffffff; border-radius: 15px;">
+                <div class="inner">
+                  <h3>Template</h3>
+                  <!-- <p>&nbsp;</p> -->
+                </div>
+                <div class="icon">
+                  <!-- <i class="fas fa-file-csv"></i> -->
+                </div>
+                <a href="../../template/Master.xlsx" class="small-box-footer" style="border-radius: 15px;">
+                  Click to download
+                </a>
+              </div>
+            </div>
             <div class="col-lg-3 col-6">
               <div class="small-box" style="background-color: #275DAD; color:#ffffff; border-radius: 15px;">
                 <div class="inner">
                   <h3>Max Plan</h3>
-                  <p>&nbsp;</p>
+                  <!-- <p>&nbsp;</p> -->
                 </div>
                 <div class="icon">
-                  <i class="fas fa-file-csv"></i>
+                  <!-- <i class="fas fa-file-csv"></i> -->
                 </div>
                 <a href="#" data-toggle="modal" data-target="#import_maxplan" class="small-box-footer" style="border-radius: 15px;">
                   Click to Upload Files
