@@ -24,9 +24,10 @@ if ($method == 'load_dashboard') {
         $conditions[] = "d.line_no = :line_no";
     }
     if (!empty($search_date)) {
-        $conditions[] = "CAST(created_at AS DATE) = :search_date";
+        $conditions[] = "CAST(a.created_at AS DATE) = :search_date";
     }
-    
+    $conditions[] = "MONTH(a.created_at) = :current_month";
+
     $conditions[] = "c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
@@ -46,6 +47,10 @@ if ($method == 'load_dashboard') {
     if (!empty($search_date)) {
         $stmt->bindParam(':search_date', $search_date);
     }
+
+    //$current_month = '11';
+    $current_month = date('n');
+    $stmt->bindParam(':current_month', $current_month, PDO::PARAM_INT);
 
     $stmt->execute();
 
@@ -152,7 +157,7 @@ if ($method == 'count_dash') {
     if (!empty($search_date)) {
         $conditions[] = "CAST(created_at AS DATE) = :search_date";
     }
-    
+
     $conditions[] = "c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
 
     if (!empty($conditions)) {

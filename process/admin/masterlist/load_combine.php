@@ -26,6 +26,8 @@ if ($method == 'load_combine') {
         $conditions[] = "CAST(created_at AS DATE) = :search_date";
     }
 
+    $conditions[] = "MONTH(created_at) = :current_month";
+
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
@@ -50,6 +52,9 @@ if ($method == 'load_combine') {
     if (!empty($search_date)) {
         $stmt->bindParam(':search_date', $search_date);
     }
+    // $current_month = '11';
+    $current_month = date('n');
+    $stmt->bindParam(':current_month', $current_month, PDO::PARAM_INT);
 
     $stmt->execute();
 
@@ -75,9 +80,9 @@ if ($method == 'load_combine') {
             $data .= '<td> Honda </td>';
         } else if ($maker_code == 'D') {
             $data .= '<td> Toyota </td>';
-        }else if ($maker_code == 'E') {
+        } else if ($maker_code == 'E') {
             $data .= '<td> Suzuki </td>';
-        }else if ($maker_code == 'F') {
+        } else if ($maker_code == 'F') {
             $data .= '<td> Subaru </td>';
         }
         $data .= '<td>' . $row['product_no'] . '</td>';
@@ -110,7 +115,7 @@ if ($method == 'count_combine') {
     if (!empty($search_key)) {
         $conditions[] = "(product_no LIKE :search_key_productNo OR partcode LIKE :search_key_partcode OR partname LIKE :search_key_partname)";
     }
-    
+
     if (!empty($car_model)) {
         $conditions[] = "maker_code LIKE :search_key_model";
     }
@@ -141,16 +146,13 @@ if ($method == 'count_combine') {
     if (!empty($search_date)) {
         $stmt->bindParam(':search_date', $search_date);
     }
-    
+
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo $row['TOTAL']; 
+        echo $row['TOTAL'];
     } else {
         echo '0';
     }
 }
-
-
-?>
