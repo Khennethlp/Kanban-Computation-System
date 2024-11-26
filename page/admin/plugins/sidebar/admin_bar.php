@@ -122,6 +122,19 @@
               </p>
               </a>
         </li>
+        <li class="nav-item">
+          <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/others.php") { ?>
+            <a href="others.php" class="nav-link active">
+            <?php } else { ?>
+              <a href="others.php" class="nav-link">
+              <?php } ?>
+              <i class="nav-icon fa fa-cog"></i>
+              <!-- <img src="../../dist/img/account_manager.png" class="icon-image" height="30" width="30" >&nbsp;&nbsp;&nbsp; -->
+              <p>
+                Others
+              </p>
+              </a>
+        </li>
 
         <?php include 'logout.php'; ?>
       </ul>
