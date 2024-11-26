@@ -11,7 +11,7 @@ if ($method == 'load_maxplan') {
 
     $sql = "SELECT * FROM m_max_plan ";
 
-    $sql .= " ORDER BY id OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
+    $sql .= "WHERE max_plan != 0 ORDER BY id OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
 
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
@@ -34,7 +34,7 @@ if ($method == 'load_maxplan') {
       
             $data .= '<tr>';
             $data .= '<td>' . $c . '</td>';
-            $data .= '<td>N/A</td>';
+            $data .= '<td>' . $row['line_no'] . '</td>';
             $data .= '<td>' . $row['max_plan'] . '</td>';
             $data .= '<td>
             <button class="btn actionBtn" data-toggle="modal" data-target="#" onclick="">Edit</button>
@@ -52,7 +52,7 @@ if ($method == 'load_maxplan') {
 
 if ($method == 'maxplan_counts') {
 
-    $sql = "SELECT count(*) as total FROM m_max_plan ";
+    $sql = "SELECT count(*) as total FROM m_max_plan WHERE max_plan != 0";
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
     $stmt->execute();
 
