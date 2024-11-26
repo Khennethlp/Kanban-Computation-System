@@ -28,6 +28,10 @@
                       <label for="">&nbsp;</label>
                       <button class="form-control btn activeBtn" onclick="load_master();"><i class="fas fa-search"></i> Search</button>
                     </div>
+                    <div class="col-md-2 ml-auto">
+                      <label for="">&nbsp;</label>
+                      <button class="form-control btn exportBtn" data-toggle="modal" data-target="#import_masters"><i class="fas fa-upload"></i> Import Master</button>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-12 mt-2">
