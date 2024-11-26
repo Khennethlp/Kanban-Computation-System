@@ -70,6 +70,7 @@
                         <th class="th-width">Part Code</th>
                         <th class="th-width">Part Name</th>
                         <th class="th-width">Min Lot</th>
+                        <th class="th-width">Parts Group</th>
                         <th class="th-width">Action</th>
                         </tr>
                       </thead>

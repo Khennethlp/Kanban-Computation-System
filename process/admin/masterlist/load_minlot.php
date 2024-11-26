@@ -30,12 +30,12 @@ if ($method == 'load_minlot') {
     $c = ($page - 1) * $rowsPerPage + 1;
 
     foreach ($minlot as $row) {
-        $c++;
         $data .= '<tr>';
         $data .= '<td>' . $c . '</td>';
         $data .= '<td>' . $row['partcode'] . '</td>';
         $data .= '<td>' . $row['partname'] . '</td>';
         $data .= '<td>' . $row['min_lot'] . '</td>';
+        $data .= '<td>' . $row['parts_group'] . '</td>';
         $data .= '<td>
             <button class="btn actionBtn" data-toggle="modal" data-target="#" onclick="">Edit</button>
             </td>';
