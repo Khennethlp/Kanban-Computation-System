@@ -17,19 +17,18 @@ if ($method == 'load_master') {
             LEFT JOIN m_min_lot b ON a.partcode = b.partcode AND a.partname = b.partname
             LEFT JOIN m_max_plan c ON a.product_no = c.product_no
             LEFT JOIN m_no_teams d ON c.line_no = d.line_no
-            WHERE c.line_no IS NOT NULL AND c.product_no IS NOT NULL 
-            AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL
      ";
 
     $conditions = [];
     if (!empty($search_key)) {
-        $conditions[] = "(line_no LIKE :search_key OR partcode LIKE :search_key_partcode OR partname LIKE :search_key_partname)";
+        $conditions[] = "(c.line_no LIKE :search_key OR a.partcode LIKE :search_key_partcode OR a.partname LIKE :search_key_partname)";
     }
 
     if (!empty($search_date)) {
-        $conditions[] = "CAST(created_at AS DATE) = :search_date";
+        $conditions[] = "CAST(a.created_at AS DATE) = :search_date";
     }
-
+    
+    $conditions[] = "c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
     // $conditions[] = "added_by = :user";
 
     if (!empty($conditions)) {
@@ -118,7 +117,7 @@ if ($method == 'count_master') {
         $conditions[] = "c.line_no = :line_no";
     }
     if (!empty($search_date)) {
-        $conditions[] = "CAST(created_at AS DATE) = :search_date";
+        $conditions[] = "CAST(a.created_at AS DATE) = :search_date";
     }
     $conditions[] = "c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
 

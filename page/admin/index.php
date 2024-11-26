@@ -23,7 +23,7 @@
                           <?php
                           require '../../process/conn.php';
 
-                          $getLine = "SELECT DISTINCT line_no FROM m_master";
+                          $getLine = "SELECT DISTINCT line_no FROM m_max_plan";
                           $stmt = $conn->prepare($getLine, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
                           $stmt->execute();
 
