@@ -24,7 +24,8 @@
             formData.append('userName', userName);
             formData.append('csvFile_bom', fileInputBom);
             formData.append('csvFile_bomAid', fileInputBomAid);
-
+            console.log(userName);
+            
             Swal.fire({
                 icon: 'info',
                 title: 'Processing...',

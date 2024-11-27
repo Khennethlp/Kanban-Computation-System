@@ -1,9 +1,9 @@
 <?php
 require '../conn.php';
 
-ini_set('memory_limit', '4096M');
-ini_set('post_max_size', '2000M');
-ini_set('upload_max_filesize', '2000M');
+ini_set('post_max_size', '100M');
+ini_set('upload_max_filesize', '100M');
+ini_set('memory_limit', '256M');
 set_time_limit(0); // Unlimited time to process large files
 
 function readCsvData($filename)
@@ -27,6 +27,7 @@ function readCsvData($filename)
 }
 
 if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
+    $userName = $_POST['userName'];
     $bom = $_FILES['csvFile_bom'];
     $bomAid = $_FILES['csvFile_bomAid'];
 
@@ -59,30 +60,32 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
                 need_qty NVARCHAR(255),
                 tube_len DECIMAL(10,3),
                 wire_size NVARCHAR(255),
-                shield_wire_code NVARCHAR(255)
+                shield_wire_code NVARCHAR(255),
+                created_by NVARCHAR(255)
             )");
 
             // Bulk insert BOM data
-            $stmt = $conn->prepare("INSERT INTO #temp_combined (maker_code, product_no, partcode, partname, need_qty, tube_len, wire_size, shield_wire_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO #temp_combined (maker_code, product_no, partcode, partname, need_qty, tube_len, wire_size, shield_wire_code, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             foreach ($bomData as $row) {
-                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[8]]);
+                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[8], $userName]);
             }
 
             // Bulk insert BOM Aid data
-            $stmt = $conn->prepare("INSERT INTO #temp_combined (maker_code, product_no, partcode, partname, need_qty, tube_len, wire_size, shield_wire_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO #temp_combined (maker_code, product_no, partcode, partname, need_qty, tube_len, wire_size, shield_wire_code, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             foreach ($bomAidData as $row) {
-                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[8]]);
+                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[8], $userName]);
             }
 
             // Filter and insert into m_combine table
             $sql = "
-                INSERT INTO m_combine (maker_code, product_no, partcode, partname, need_qty)
+                INSERT INTO m_combine (maker_code, product_no, partcode, partname, need_qty, created_by)
                 SELECT
                     maker_code,
                     product_no,
                     partcode,
                     partname,
-                    need_qty
+                    need_qty,
+                    created_by
                 FROM #temp_combined
                 WHERE 
                     (tube_len = 0 OR tube_len = 0.00) 
