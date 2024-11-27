@@ -83,4 +83,7 @@
 include 'plugins/footer.php';
 include 'plugins/js/load_data/load_master_script.php';
 include 'plugins/js/import/masterlist_import_script.php';
+include 'plugins/js/import/maxplan_script.php';
+include 'plugins/js/import/minlot_script.php';
+include 'plugins/js/import/teams_script.php';
 ?>

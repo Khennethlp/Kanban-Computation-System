@@ -27,6 +27,7 @@ function readCsvData($filename)
 }
 
 if (isset($_FILES['csvFile_maxplan'])) {
+    $userName = $_POST['userName'];
     $maxplan = $_FILES['csvFile_maxplan'];
 
     if ($maxplan['error'] === UPLOAD_ERR_OK) {
@@ -37,7 +38,7 @@ if (isset($_FILES['csvFile_maxplan'])) {
         }
 
         try {
-            $stmt = $conn->prepare("INSERT INTO m_max_plan (product_no, line_no, max_plan) VALUES (?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO m_max_plan (product_no, line_no, max_plan, created_by) VALUES (?, ?, ?, ?)");
 
             $conn->beginTransaction();
 
@@ -47,7 +48,7 @@ if (isset($_FILES['csvFile_maxplan'])) {
                 $max_plan = $row[2];
 
                 if (is_numeric($max_plan)) {
-                    $stmt->execute([$product_no, $line_no, $max_plan]);
+                    $stmt->execute([$product_no, $line_no, $max_plan, $userName]);
                 }
             }
 

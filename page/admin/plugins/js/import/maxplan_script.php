@@ -26,8 +26,11 @@
 
             formData.append('userName', user_name);
             formData.append('csvFile_maxplan', fileInput);
+            console.log(user_name);
 
+            $('#import_masters').modal('hide');
             $('#import_maxplan').modal('hide');
+            
             $.ajax({
                 url: '../../process/import/import_maxplan.php',
                 type: 'POST',
