@@ -7,12 +7,11 @@
             var formData = new FormData();
             var user_name = $('#user_name').val();
             var fileInput = $('#csvFileInput_minlot')[0].files[0];
-
             if (!fileInput) {
                 alert("Please select a CSV file to upload.");
                 return;
             }
-
+            
             Swal.fire({
                 icon: 'info',
                 title: 'Processing...',
@@ -23,9 +22,10 @@
                     Swal.showLoading();
                 }
             });
-
+            
             formData.append('userName', user_name);
             formData.append('csvFile_minlot', fileInput);
+            console.log(user_name);
 
             $('#import_minlot').modal('hide');
             $.ajax({

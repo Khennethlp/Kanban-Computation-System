@@ -27,6 +27,7 @@ function readCsvData($filename)
 }
 
 if (isset($_FILES['csvFile_minlot'])) {
+    $userName = $_POST['userName'];
     $minlot = $_FILES['csvFile_minlot'];
 
     if ($minlot['error'] === UPLOAD_ERR_OK) {
@@ -37,7 +38,7 @@ if (isset($_FILES['csvFile_minlot'])) {
         }
 
         try {
-            $stmt = $conn->prepare("INSERT INTO m_min_lot (partcode, partname, min_lot, parts_group) VALUES (?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO m_min_lot (partcode, partname, min_lot, parts_group, created_by) VALUES (?, ?, ?, ?, ?)");
 
             $conn->beginTransaction();
 
@@ -48,7 +49,7 @@ if (isset($_FILES['csvFile_minlot'])) {
                 $min_lot_qty = $row[3];
 
                 if (!empty($partname) && !empty($partcode) && !empty($min_lot_qty)) {
-                    $stmt->execute([$partname, $partcode, $min_lot_qty, $parts_group]);
+                    $stmt->execute([$partname, $partcode, $min_lot_qty, $parts_group, $userName]);
                 }
             }
 
