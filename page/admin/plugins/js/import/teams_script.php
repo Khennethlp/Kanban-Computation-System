@@ -26,7 +26,8 @@
 
             formData.append('userName', user_name);
             formData.append('csvFile_teams', fileInput);
-
+            console.log(user_name);
+            
             $('#import_teams').modal('hide');
             $.ajax({
                 url: '../../process/import/import_teams.php',

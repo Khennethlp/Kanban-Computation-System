@@ -27,6 +27,7 @@ function readCsvData($filename)
 }
 
 if (isset($_FILES['csvFile_teams'])) {
+    $userName = $_POST['userName'];
     $teams = $_FILES['csvFile_teams'];
 
     if ($teams['error'] === UPLOAD_ERR_OK) {
@@ -37,7 +38,7 @@ if (isset($_FILES['csvFile_teams'])) {
         }
 
         try {
-            $stmt = $conn->prepare("INSERT INTO m_no_teams (line_no, no_teams) VALUES (?, ?)");
+            $stmt = $conn->prepare("INSERT INTO m_no_teams (line_no, no_teams, created_by) VALUES (?, ?, ?)");
 
             $conn->beginTransaction();
 
@@ -50,7 +51,7 @@ if (isset($_FILES['csvFile_teams'])) {
                 }
 
                 if (!empty($line_no) && is_numeric($no_teams)) {
-                    $stmt->execute([$line_no, $no_teams]);
+                    $stmt->execute([$line_no, $no_teams, $userName]);
                 }
             }
 
