@@ -12,6 +12,16 @@
         });
     });
 
+    const countDisplayedRows = () => {
+        // Count the rows in the table body (or entire table depending on your structure)
+        const rowCount = document.querySelectorAll('#import_table tbody tr').length;
+        console.log(`Rows currently in the table: ${rowCount}`);
+        // const formattedResponse = parseInt(rowCount).toLocaleString();
+        return rowCount;
+        console.log(rowCount);
+    };
+    document.getElementById('count_masters').innerHTML = countDisplayedRows();
+
     const rowsPerPage = 100;
     let page = 1;
     let debounceTimeout = null;

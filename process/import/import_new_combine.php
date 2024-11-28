@@ -57,40 +57,45 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
                 product_no NVARCHAR(255),
                 partcode NVARCHAR(255),
                 partname NVARCHAR(255),
-                need_qty NVARCHAR(255),
+                need_qty DECIMAL(10,3),
                 tube_len DECIMAL(10,3),
                 wire_size NVARCHAR(255),
+                wire_base_color NVARCHAR(255),
+                wire_stripe_color NVARCHAR(255),
                 shield_wire_code NVARCHAR(255),
                 created_by NVARCHAR(255)
             )");
 
             // Bulk insert BOM data
-            $stmt = $conn->prepare("INSERT INTO #temp_combined (maker_code, product_no, partcode, partname, need_qty, tube_len, wire_size, shield_wire_code, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO #temp_combined (maker_code, product_no, partcode, partname, need_qty, tube_len, wire_size, wire_base_color, wire_stripe_color, shield_wire_code, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             foreach ($bomData as $row) {
-                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[8], $userName]);
+                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[6], $row[7], $row[8], $userName]);
             }
 
             // Bulk insert BOM Aid data
-            $stmt = $conn->prepare("INSERT INTO #temp_combined (maker_code, product_no, partcode, partname, need_qty, tube_len, wire_size, shield_wire_code, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             foreach ($bomAidData as $row) {
-                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[8], $userName]);
+                $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[6], $row[7], $row[8], $userName]);
             }
 
-            // Filter and insert into m_combine table
+            // Filter and aggregate data, and insert into m_combine table
             $sql = "
                 INSERT INTO m_combine (maker_code, product_no, partcode, partname, need_qty, created_by)
-                SELECT
+                SELECT 
                     maker_code,
                     product_no,
                     partcode,
                     partname,
-                    need_qty,
+                    MAX(need_qty) AS max_need_qty,
                     created_by
                 FROM #temp_combined
                 WHERE 
                     (tube_len = 0 OR tube_len = 0.00) 
                     AND (wire_size IS NULL OR wire_size = '') 
-                    AND (shield_wire_code IS NULL OR shield_wire_code = '');
+                    AND (wire_base_color IS NULL OR wire_base_color = '') 
+                    AND (wire_stripe_color IS NULL OR wire_stripe_color = '') 
+                    AND (shield_wire_code IS NULL OR shield_wire_code = '')
+                GROUP BY 
+                    maker_code, product_no, partcode, partname, created_by;
             ";
             $conn->exec($sql);
 

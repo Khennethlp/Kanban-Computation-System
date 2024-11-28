@@ -57,6 +57,7 @@
                   <div class="col-md-12">
                     <div class="row">
                       <div class="col-md-12">
+                        <p class="mt-3" id="count_masters"></p>
                         <p class="mt-3" id="count_master"></p>
                       </div>
                       <div class="col-md-12">

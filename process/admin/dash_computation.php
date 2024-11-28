@@ -11,13 +11,27 @@ if ($method == 'load_dashboard') {
     $rowsPerPage = isset($_POST['rows_per_page']) ? (int)$_POST['rows_per_page'] : 10;
     $offset = ($page - 1) * $rowsPerPage;
 
-    $sql = "SELECT a.*, b.partcode AS partcode, b.partname AS partname, b.min_lot AS min_lot, c.product_no AS product_no, c.max_plan AS max_plan, c.line_no AS line_no, d.no_teams AS no_teams
-            FROM m_combine a
-            LEFT JOIN m_min_lot b ON a.partcode = b.partcode AND a.partname = b.partname
-            LEFT JOIN m_max_plan c ON a.product_no = c.product_no
-            LEFT JOIN m_no_teams d ON c.line_no = d.line_no
-         
-            ";
+    // $sql = "SELECT a.id, a.maker_code, a.partcode, a.partname, a.need_qty, a.created_by, b.partcode AS partcode, b.partname AS partname, b.min_lot AS min_lot, c.product_no AS product_no, c.max_plan AS max_plan, c.line_no AS line_no, d.no_teams AS no_teams
+    //         FROM m_combine a
+    //         LEFT JOIN m_min_lot b ON a.partcode = b.partcode AND a.partname = b.partname
+    //         LEFT JOIN m_max_plan c ON a.product_no = c.product_no
+    //         LEFT JOIN m_no_teams d ON c.line_no = d.line_no
+
+    //         ";
+
+
+    $sql = " SELECT a.*, b.partcode, b.partname, b.min_lot, b.parts_group, c.product_no, c.max_plan,c.maxPlan_total as maxplan_total, c.line_no, d.no_teams
+    FROM m_combine a
+    LEFT JOIN m_min_lot b ON a.partcode = b.partcode AND a.partname = b.partname
+    LEFT JOIN (
+    SELECT line_no, 
+        max_plan, 
+        SUM(max_plan) OVER (PARTITION BY line_no) AS maxPlan_total,  -- Total max_plan for each line_no
+        product_no 
+    FROM m_max_plan
+) c ON a.product_no = c.product_no
+    LEFT JOIN m_no_teams d ON c.line_no = d.line_no
+";
 
     $conditions = [];
     if (!empty($line_no)) {
@@ -32,6 +46,9 @@ if ($method == 'load_dashboard') {
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
+
+    $sql .= " GROUP BY a.id, a.created_at, a.created_by, a.partcode, a.partname, a.product_no, a.maker_code, a.need_qty, 
+    b.partcode, b.partname, b.parts_group, b.min_lot, c.product_no, c.max_plan, c.maxPlan_total, c.line_no, d.no_teams, d.line_no";
 
     $sql .= " ORDER BY id DESC OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
 
@@ -70,8 +87,8 @@ if ($method == 'load_dashboard') {
         $partcode = $row['partcode'];
         $partname = $row['partname'];
         $min_lot = $row['min_lot'];
-        // $max_usage = $row['max_usage'];
-        $max_usage = 1;
+        $max_usage = $row['need_qty'];
+        // $max_usage = 1;
         $max_plan = $row['max_plan'];
         $no_teams = $row['no_teams'];
         // $issued_to_pd = $row['issued_to_pd'];
@@ -144,10 +161,15 @@ if ($method == 'count_dash') {
 
     $sql = "SELECT count(*) as total 
      FROM m_combine a
-            LEFT JOIN m_min_lot b ON a.partcode = b.partcode AND a.partname = b.partname
-            LEFT JOIN m_max_plan c ON a.product_no = c.product_no
-            LEFT JOIN m_no_teams d ON c.line_no = d.line_no
-            
+             LEFT JOIN m_min_lot b ON a.partcode = b.partcode AND a.partname = b.partname
+    LEFT JOIN (
+    SELECT line_no, 
+        max_plan, 
+        SUM(max_plan) OVER (PARTITION BY line_no) AS maxPlan_total,  -- Total max_plan for each line_no
+        product_no 
+    FROM m_max_plan
+) c ON a.product_no = c.product_no
+    LEFT JOIN m_no_teams d ON c.line_no = d.line_no
             ";
 
     $conditions = [];
@@ -155,7 +177,7 @@ if ($method == 'count_dash') {
         $conditions[] = "c.line_no = :line_no";
     }
     if (!empty($search_date)) {
-        $conditions[] = "CAST(created_at AS DATE) = :search_date";
+        $conditions[] = "CAST(a.created_at AS DATE) = :search_date";
     }
 
     $conditions[] = "c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
@@ -163,7 +185,7 @@ if ($method == 'count_dash') {
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
-
+    
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
     if (!empty($line_no)) {
