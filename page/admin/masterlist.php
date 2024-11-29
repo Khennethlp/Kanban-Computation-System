@@ -48,6 +48,7 @@
                         <th>Max Plan / Day (pcs)</th>
                         <th>No. of Teams</th>
                         <th>Issued to PD</th>
+                        <th>Parts Group</th>
                         <th>Action</th>
                         </tr>
                       </thead>

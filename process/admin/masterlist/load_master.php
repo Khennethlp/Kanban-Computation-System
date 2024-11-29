@@ -120,8 +120,8 @@ if ($method == 'load_master') {
         $data .= '<td>' . $row['need_qty'] . '</td>';
         $data .= '<td>' . $row['maxplan_total'] . '</td>';
         $data .= '<td>' . $row['no_teams'] . '</td>';
-        $data .= '<td>' . $row['parts_group'] . '</td>';
         $data .= '<td></td>'; // issued to PD
+        $data .= '<td>' . $row['parts_group'] . '</td>';
         $data .= '<td></td>';
         $data .= '</tr>';
         $c++;
