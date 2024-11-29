@@ -5,9 +5,9 @@
 
     let page = 1;
     const rowsPerPage = 100;
-    let isLoading = false; // Flag to track if data is being loaded
-    let hasMoreData = true; // Flag to track if there's more data to load
-    let debounceTimeout = null; // Timeout for debounce
+    let isLoading = false;
+    let hasMoreData = true;
+    let debounceTimeout = null;
 
     const load_dashboard = (isPagination = false) => {
         if (!isPagination) {
@@ -30,7 +30,9 @@
         });
 
         var line_no = document.getElementById('line_no').value;
+        var search_key = document.getElementById('search_key').value;
         var getDate = document.getElementById('getDate').value;
+        var search_by_month = document.getElementById('search_by_month').value;
 
         $.ajax({
             type: "POST",
@@ -39,16 +41,22 @@
                 method: 'load_dashboard',
                 line_no: line_no,
                 search_date: getDate,
+                search_key: search_key,
+                search_by_month: search_by_month,
                 page: page,
                 rows_per_page: rowsPerPage
             },
             success: function(response) {
                 const responseData = JSON.parse(response);
-                count_dash();
+                const new_count = parseInt(responseData.total).toLocaleString();
+                
+                document.getElementById('dash_count').innerHTML = 'Results: ' + new_count;
                 Swal.close();
+                
                 if (isPagination) {
                     if (responseData.html.trim() !== '') {
                         document.getElementById('table_dashboard').innerHTML += responseData.html;
+
                         page++;
                         if (responseData.has_more) {
                             document.getElementById('load_more').style.display = 'block';
@@ -89,23 +97,23 @@
     });
 
 
-    const count_dash = () => {
-        var line_no = document.getElementById('line_no').value;
-        var getDate = document.getElementById('getDate').value;
+    // const count_dash = () => {
+    //     var line_no = document.getElementById('line_no').value;
+    //     var getDate = document.getElementById('getDate').value;
 
-        $.ajax({
-            type: "POST",
-            url: "../../process/admin/dash_computation.php",
-            data: {
-                method: 'count_dash',
-                line_no: line_no,
-                search_date: getDate
-            },
-            success: function(response) {
-                $('#dash_count').html(response);
-            }
-        });
-    }
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "../../process/admin/dash_computation.php",
+    //         data: {
+    //             method: 'count_dash',
+    //             line_no: line_no,
+    //             search_date: getDate
+    //         },
+    //         success: function(response) {
+    //             $('#dash_count').html(response);
+    //         }
+    //     });
+    // }
 
     const export_dashboard = () => {
         var line_no = document.getElementById('line_no').value;

@@ -20,7 +20,7 @@
         return rowCount;
         console.log(rowCount);
     };
-    document.getElementById('count_masters').innerHTML = countDisplayedRows();
+    // document.getElementById('count_masters').innerHTML = countDisplayedRows();
 
     const rowsPerPage = 100;
     let page = 1;
@@ -67,7 +67,9 @@
             },
             success: function(response) {
                 const responseData = JSON.parse(response);
-                count_master();
+                const new_count = parseInt(responseData.total).toLocaleString();
+                
+                document.getElementById('count_master').innerHTML = 'Results: ' + new_count;
                 Swal.close();
                 if (isPagination) {
                     if (responseData.html.trim() !== '') {
@@ -112,23 +114,23 @@
     });
 
 
-    const count_master = () => {
-        var search_key = document.getElementById('search_key').value;
-        var getDate = document.getElementById('search_date').value;
+    // const count_master = () => {
+    //     var search_key = document.getElementById('search_key').value;
+    //     var getDate = document.getElementById('search_date').value;
 
-        $.ajax({
-            type: "POST",
-            url: "../../process/admin/masterlist/load_master.php",
-            data: {
-                method: 'count_master',
-                search_key: search_key,
-                search_date: getDate
-            },
-            success: function(response) {
-                $('#count_master').html(response);
-            }
-        });
-    }
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "../../process/admin/masterlist/load_master.php",
+    //         data: {
+    //             method: 'count_master',
+    //             search_key: search_key,
+    //             search_date: getDate
+    //         },
+    //         success: function(response) {
+    //             $('#count_master').html(response);
+    //         }
+    //     });
+    // }
 
     const getMaster = (param) => {
         $data = param.split('~!~');
