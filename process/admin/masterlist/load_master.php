@@ -14,41 +14,54 @@ if ($method == 'load_master') {
 
     // Main query with count as a subquery
     $sql = "
+   SELECT 
+    a.id, 
+    a.partcode, 
+    a.partname, 
+    a.need_qty, 
+    a.created_by, 
+    b.partcode AS b_partcode, 
+    b.partname AS b_partname, 
+    b.min_lot, 
+    b.parts_group, 
+    c.product_no, 
+    c.max_plan, 
+    c.maxPlan_total AS maxplan_total, 
+    c.line_no, 
+    d.no_teams, 
+    COUNT(*) OVER() AS total_count,
+    e.masterlist_count
+FROM 
+    m_combine a
+LEFT JOIN 
+    m_min_lot b 
+    ON a.partcode = b.partcode AND a.partname = b.partname
+LEFT JOIN (
     SELECT 
-        a.id, 
-        a.partcode, 
-        a.partname, 
-        a.need_qty, 
-        a.created_by, 
-        b.partcode AS b_partcode, 
-        b.partname AS b_partname, 
-        b.min_lot, 
-        b.parts_group, 
-        c.product_no, 
-        c.max_plan, 
-        c.maxPlan_total AS maxplan_total, 
-        c.line_no, 
-        d.no_teams, 
-        COUNT(*) OVER() AS total_count
+        line_no, 
+        max_plan, 
+        SUM(max_plan) OVER (PARTITION BY line_no) AS maxPlan_total, 
+        product_no 
     FROM 
-        m_combine a
-    LEFT JOIN 
-        m_min_lot b 
-        ON a.partcode = b.partcode AND a.partname = b.partname
-    LEFT JOIN (
-        SELECT 
-            line_no, 
-            max_plan, 
-            SUM(max_plan) OVER (PARTITION BY line_no) AS maxPlan_total, 
-            product_no 
-        FROM 
-            m_max_plan
-    ) c 
-        ON a.product_no = c.product_no
-    LEFT JOIN 
-        m_no_teams d 
-        ON c.line_no = d.line_no
-    ";
+        m_max_plan
+) c 
+    ON a.product_no = c.product_no
+LEFT JOIN 
+    m_no_teams d 
+    ON c.line_no = d.line_no
+LEFT JOIN (
+    SELECT 
+        partscode, 
+        partsname, 
+        LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1) AS numeric_line_number,
+        COUNT(*) AS masterlist_count
+    FROM [new_ekanban].[dbo].[mm_masterlist]
+    GROUP BY partscode, partsname, LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1)
+) e 
+    ON a.partcode = e.partscode 
+    AND a.partname = e.partsname 
+    AND e.numeric_line_number = CAST(c.line_no AS VARCHAR)
+        ";
 
     $conditions = [];
 
@@ -73,7 +86,7 @@ if ($method == 'load_master') {
                 a.id, a.partcode, a.partname, a.need_qty, a.created_by,
                 b.partcode, b.partname, b.parts_group, b.min_lot, 
                 c.product_no, c.max_plan, c.maxPlan_total, 
-                c.line_no, d.no_teams
+                c.line_no, d.no_teams,e.masterlist_count
              ORDER BY 
                 c.product_no, a.id DESC
              OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
@@ -121,8 +134,8 @@ if ($method == 'load_master') {
         $max_usage = $row['need_qty'];
         $max_plan = $row['maxplan_total'];
         $no_teams = $row['no_teams'];
-        // $issued_to_pd = $row['issued_to_pd'];
-        $issued_to_pd = 2;
+        $issued_to_pd = $row['masterlist_count'];
+        // $issued_to_pd = 2;
 
         $data .= '<tr>';
         $data .= '<td>' . $c . '</td>';
@@ -134,7 +147,8 @@ if ($method == 'load_master') {
         $data .= '<td>' . $row['need_qty'] . '</td>';
         $data .= '<td>' . $row['maxplan_total'] . '</td>';
         $data .= '<td>' . $row['no_teams'] . '</td>';
-        $data .= '<td></td>'; // issued to PD
+        $data .= '<td>' . $row['masterlist_count'] . '</td>';
+        // $data .= '<td></td>'; // issued to PD
         $data .= '<td>' . $row['parts_group'] . '</td>';
         // $data .= '<td></td>';
         $data .= '<td>
