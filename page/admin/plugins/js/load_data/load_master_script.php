@@ -144,7 +144,8 @@
         $max_plan = $data[6];
         $no_teams = $data[7];
         $issued_to_pd = $data[8];
-        $added_by = $data[9];
+        $product_no = $data[9];
+        $added_by = $data[10];
 
         console.log("id: " + $id);
         console.log("line_no: " + $line_no);
@@ -155,6 +156,7 @@
         console.log("max_plan: " + $max_plan);
         console.log("no_teams: " + $no_teams);
         console.log("issued_to_pd: " + $issued_to_pd);
+        console.log("product_no: " + $product_no);
         console.log("added_by: " + $added_by);
 
         $('#id_master').val($id);
@@ -166,16 +168,20 @@
         $('#edit_maxPlan').val($max_plan);
         $('#edit_issued').val($issued_to_pd);
         $('#edit_noTeams').val($no_teams);
+        $('#product_no').val($product_no);
 
     }
 
     const update_master = () => {
         var id = $('#id_master').val();
+        var line_no = $('#edit_lineNo').val();
         var partname = $('#edit_partname').val();
         var partcode = $('#edit_partcode').val();
         var minLot = $('#edit_minLot').val();
         var maxPlan = $('#edit_maxPlan').val();
+        var maxUsage = $('#edit_maxUsage').val();
         var noTeams = $('#edit_noTeams').val();
+        var product_no = $('#product_no').val();
 
         $.ajax({
             type: "POST",
@@ -183,11 +189,14 @@
             data: {
                 method: 'update_master',
                 id: id,
+                line_no: line_no,
                 partname: partname,
                 partcode: partcode,
                 minLot: minLot,
                 maxPlan: maxPlan,
-                noTeams: noTeams
+                maxUsage: maxUsage,
+                noTeams: noTeams,
+                product_no: product_no
 
             },
             success: function(response) {
