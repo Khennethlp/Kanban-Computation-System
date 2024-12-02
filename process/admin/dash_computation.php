@@ -140,25 +140,17 @@ if ($method == 'load_dashboard') {
         $min_lot = $row['min_lot'];
         $max_usage = $row['max_usage'];
         $max_plan = $row['max_plan'];
-        $no_teams = $row['no_teams'] ? $row['no_teams'] : 0;
+        $no_teams = $row['no_teams'];
         $issued_pd = $row['issued_pd'];
 
         // Perform your calculations
-        if ($no_teams <= 0 || $max_plan <= 0) {
-            echo "Error: Invalid data for calculations. Check 'no_teams' or 'max_plan'.";
-            $takt_time = 0;
-            $conveyor_speed = 0;
-            $usage_hour = 0;
-        } else {
-            // Perform your calculations
-            $takt_time = floor(510 / ($max_plan / $no_teams) * 60);
-            $conveyor_speed = $takt_time * 0.96;
-            $decimal_conveyor = $conveyor_speed - floor($conveyor_speed);
-            $conveyor_speed = $decimal_conveyor <= 0.5 ? floor($conveyor_speed) : ceil($conveyor_speed);
-            $usage_hour = (3600 / $conveyor_speed) * $max_usage;
-            $decimal_usage = $usage_hour - floor($usage_hour);
-            $usage_hour = $decimal_usage <= .51 ? floor($usage_hour) : ceil($usage_hour);
-        }
+        $takt_time = floor(510 / ($max_plan / $no_teams) * 60);
+        $conveyor_speed = $takt_time * 0.96;
+        $decimal_conveyor = $conveyor_speed - floor($conveyor_speed);
+        $conveyor_speed = $decimal_conveyor <= 0.5 ? floor($conveyor_speed) : ceil($conveyor_speed);
+        $usage_hour = (3600 / $conveyor_speed) * $max_usage;
+        $decimal_usage = $usage_hour - floor($usage_hour);
+        $usage_hour = $decimal_usage <= .51 ? floor($usage_hour) : ceil($usage_hour);
 
         $lead_time = $usage_hour * 5;
         $safety_inv = $usage_hour * 1;
