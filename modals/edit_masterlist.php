@@ -15,7 +15,7 @@
                         <!-- <span><b>user ID:</b></span> -->
                         <input type="hidden" id="user_name" class="form-control mb-2" value="<?= $_SESSION['name']; ?>" autocomplete="off">
                         <input type="hidden" id="id_master" class="form-control mb-2" autocomplete="off">
-                        <input type="text" id="product_no" class="form-control mb-2" autocomplete="off">
+                        <input type="text" id="product_no" class="form-control mb-2" autocomplete="off" readonly>
                     </div>
                     <div class="col-sm-6">
                         <span><b>Line No:</b></span>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-sm-6 ">
                         <span><b>Max Plan / Day (pcs):</b></span>
-                        <input type="text" name="" id="edit_maxPlan" class="form-control mb-2" readonly>
+                        <input type="text" name="" id="edit_maxPlan" class="form-control mb-2">
                     </div>
                     <div class="col-sm-6">
                         <span><b>Min. Lot:</b></span>

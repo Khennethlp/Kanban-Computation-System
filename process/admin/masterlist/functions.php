@@ -13,40 +13,29 @@ if ($method === 'update_master') {
     $max_usage = $_POST['maxUsage'];    // need_qty m_combine
     $no_teams = $_POST['noTeams'];      // m_no_teams
     $product_no = $_POST['product_no']; // m_combine & m_max_plan
+    $issued_pd = $_POST['issued_pd']; // m_combine & m_max_plan
 
     try {
         $conn->beginTransaction();
 
-        // Update `m_combine`
-        $sql_bom = "UPDATE m_combine SET need_qty = :max_usage WHERE id = :id AND product_no = :product_no";
-        $stmt_bom = $conn->prepare($sql_bom);
-        $stmt_bom->bindParam(':max_usage', $max_usage, PDO::PARAM_INT);
-        $stmt_bom->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt_bom->bindParam(':product_no', $product_no);
-        $stmt_bom->execute();
+        $update_master = "UPDATE m_master SET min_lot = :min_lot, max_usage = :max_usage, no_teams = :no_teams, issued_pd = :issued_pd WHERE id = :id AND partcode = :partcode AND partname = :partname AND line_no = :line_no";
+        $stmt_master = $conn->prepare($update_master);
+        $stmt_master->bindParam(':id', $id);
+        $stmt_master->bindParam(':line_no', $line_no);
+        $stmt_master->bindParam(':partcode', $partcode);
+        $stmt_master->bindParam(':partname', $partname);
+        $stmt_master->bindParam(':min_lot', $min_lot);
+        $stmt_master->bindParam(':max_usage', $max_usage);
+        $stmt_master->bindParam(':no_teams', $no_teams);
+        $stmt_master->bindParam(':issued_pd', $issued_pd);
+        $stmt_master->execute();
 
-        // Update `m_min_lot`
-        $sql_min = "UPDATE m_min_lot SET min_lot = :min_lot WHERE partcode = :partcode AND partname = :partname";
-        $stmt_min = $conn->prepare($sql_min);
-        $stmt_min->bindParam(':min_lot', $min_lot, PDO::PARAM_INT);
-        $stmt_min->bindParam(':partcode', $partcode);
-        $stmt_min->bindParam(':partname', $partname);
-        $stmt_min->execute();
-
-        // Update `m_max_plan`
-        $sql_max = "UPDATE m_max_plan SET max_plan = :max_plan WHERE product_no = :product_no AND line_no = :line_no";
-        $stmt_max = $conn->prepare($sql_max);
-        $stmt_max->bindParam(':max_plan', $max_plan, PDO::PARAM_INT);
-        $stmt_max->bindParam(':product_no', $product_no);
-        $stmt_max->bindParam(':line_no', $line_no);
-        $stmt_max->execute();
-
-        // Update `m_no_teams`
-        $sql_teams = "UPDATE m_no_teams SET no_teams = :no_teams WHERE line_no = :line_no";
-        $stmt_teams = $conn->prepare($sql_teams);
-        $stmt_teams->bindParam(':no_teams', $no_teams, PDO::PARAM_INT);
-        $stmt_teams->bindParam(':line_no', $line_no);
-        $stmt_teams->execute();
+        $update_maxPlan = "UPDATE m_master SET max_plan = :max_plan WHERE product_no = :product_no AND line_no = :line_no";
+        $stmt_maxPlan = $conn->prepare($update_maxPlan);
+        $stmt_maxPlan->bindParam(':product_no', $product_no);
+        $stmt_maxPlan->bindParam(':line_no', $line_no);
+        $stmt_maxPlan->bindParam(':max_plan', $max_plan);
+        $stmt_maxPlan->execute();
 
         $conn->commit();
         echo 'success';

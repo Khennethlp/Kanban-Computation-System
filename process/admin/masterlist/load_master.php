@@ -145,12 +145,10 @@ if ($method == 'load_master') {
         $data .= '<td>' . $row['max_plan'] . '</td>';
         $data .= '<td>' . $row['no_teams'] . '</td>';
         $data .= '<td>' . $row['issued_pd'] . '</td>';
-        // $data .= '<td></td>'; // issued to PD
         $data .= '<td>' . $row['parts_group'] . '</td>';
-        // $data .= '<td></td>';
-        // $data .= '<td>
-        //     <button class="btn actionBtn" data-toggle="modal" data-target="#edit_masterlist" onclick="getMaster(\'' . htmlspecialchars($id) . '~!~' . htmlspecialchars($line_no) . '~!~' . htmlspecialchars($partcode) . '~!~' . htmlspecialchars($partname) . '~!~' . htmlspecialchars($min_lot) . '~!~' . htmlspecialchars($max_usage) . '~!~' . htmlspecialchars($max_plan) . '~!~' . htmlspecialchars($no_teams) . '~!~' . htmlspecialchars($issued_to_pd) . '~!~' . htmlspecialchars($product_no) . '~!~' . htmlspecialchars($user) . '\');">Edit</button>
-        //     </td>';
+        $data .= '<td>
+            <button class="btn actionBtn" data-toggle="modal" data-target="#edit_masterlist" onclick="getMaster(\'' . htmlspecialchars($id) . '~!~' . htmlspecialchars($line_no) . '~!~' . htmlspecialchars($partcode) . '~!~' . htmlspecialchars($partname) . '~!~' . htmlspecialchars($min_lot) . '~!~' . htmlspecialchars($max_usage) . '~!~' . htmlspecialchars($max_plan) . '~!~' . htmlspecialchars($no_teams) . '~!~' . htmlspecialchars($issued_to_pd) . '~!~' . htmlspecialchars($product_no) . '~!~' . htmlspecialchars($user) . '\');">Edit</button>
+            </td>';
         $data .= '</tr>';
         $c++;
     }

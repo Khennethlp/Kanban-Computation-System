@@ -182,6 +182,7 @@
         var maxUsage = $('#edit_maxUsage').val();
         var noTeams = $('#edit_noTeams').val();
         var product_no = $('#product_no').val();
+        var issued_pd = $('#edit_issued').val();
 
         $.ajax({
             type: "POST",
@@ -196,6 +197,7 @@
                 maxPlan: maxPlan,
                 maxUsage: maxUsage,
                 noTeams: noTeams,
+                issued_pd: issued_pd,
                 product_no: product_no
 
             },
