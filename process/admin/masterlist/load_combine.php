@@ -84,6 +84,8 @@ if ($method == 'load_combine') {
             $data .= '<td> Suzuki </td>';
         } else if ($maker_code == 'F') {
             $data .= '<td> Subaru </td>';
+        } else if ($maker_code == 'W') {
+            $data .= '<td> Nissan </td>';
         }
         $data .= '<td>' . $row['product_no'] . '</td>';
         $data .= '<td>' . $row['partcode'] . '</td>';
