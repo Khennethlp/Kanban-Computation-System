@@ -13,68 +13,69 @@ if ($method == 'load_master') {
     $offset = ($page - 1) * $rowsPerPage;
 
     // Main query with count as a subquery
-    $sql = "
-   SELECT 
-    a.id, 
-    a.partcode, 
-    a.partname, 
-    a.need_qty, 
-    a.created_by, 
-    b.partcode AS b_partcode, 
-    b.partname AS b_partname, 
-    b.min_lot, 
-    b.parts_group, 
-    c.product_no, 
-    c.max_plan, 
-    c.maxPlan_total AS maxplan_total, 
-    c.line_no, 
-    d.no_teams, 
-    COUNT(*) OVER() AS total_count,
-    e.masterlist_count
-FROM 
-    m_combine a
-LEFT JOIN 
-    m_min_lot b 
-    ON a.partcode = b.partcode AND a.partname = b.partname
-LEFT JOIN (
-    SELECT 
-        line_no, 
-        max_plan, 
-        SUM(max_plan) OVER (PARTITION BY line_no) AS maxPlan_total, 
-        product_no 
-    FROM 
-        m_max_plan
-) c 
-    ON a.product_no = c.product_no
-LEFT JOIN 
-    m_no_teams d 
-    ON c.line_no = d.line_no
-LEFT JOIN (
-    SELECT 
-        partscode, 
-        partsname, 
-        LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1) AS numeric_line_number,
-        COUNT(*) AS masterlist_count
-    FROM [new_ekanban].[dbo].[mm_masterlist]
-    GROUP BY partscode, partsname, LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1)
-) e 
-    ON a.partcode = e.partscode 
-    AND a.partname = e.partsname 
-    AND e.numeric_line_number = CAST(c.line_no AS VARCHAR)
-        ";
+    //     $sql = "
+    //    SELECT 
+    //     a.id, 
+    //     a.partcode, 
+    //     a.partname, 
+    //     a.need_qty, 
+    //     a.created_by, 
+    //     b.partcode AS b_partcode, 
+    //     b.partname AS b_partname, 
+    //     b.min_lot, 
+    //     b.parts_group, 
+    //     c.product_no, 
+    //     c.max_plan, 
+    //     c.maxPlan_total AS maxplan_total, 
+    //     c.line_no, 
+    //     d.no_teams, 
+    //     COUNT(*) OVER() AS total_count,
+    //     e.masterlist_count
+    // FROM 
+    //     m_combine a
+    // LEFT JOIN 
+    //     m_min_lot b 
+    //     ON a.partcode = b.partcode AND a.partname = b.partname
+    // LEFT JOIN (
+    //     SELECT 
+    //         line_no, 
+    //         max_plan, 
+    //         SUM(max_plan) OVER (PARTITION BY line_no) AS maxPlan_total, 
+    //         product_no 
+    //     FROM 
+    //         m_max_plan
+    // ) c 
+    //     ON a.product_no = c.product_no
+    // LEFT JOIN 
+    //     m_no_teams d 
+    //     ON c.line_no = d.line_no
+    // LEFT JOIN (
+    //     SELECT 
+    //         partscode, 
+    //         partsname, 
+    //         LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1) AS numeric_line_number,
+    //         COUNT(*) AS masterlist_count
+    //     FROM [new_ekanban].[dbo].[mm_masterlist]
+    //     GROUP BY partscode, partsname, LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1)
+    // ) e 
+    //     ON a.partcode = e.partscode 
+    //     AND a.partname = e.partsname 
+    //     AND e.numeric_line_number = CAST(c.line_no AS VARCHAR)
+    //         ";
 
+    $sql = "SELECT *, COUNT(*) OVER() AS total_count FROM m_master";
     $conditions = [];
 
     if (!empty($search_key)) {
-        $conditions[] = "(c.line_no = :line_no OR a.partcode = :partcode OR a.partname = :partname)";
+        $conditions[] = "(line_no = :line_no OR partcode = :partcode OR partname = :partname)";
     }
 
     if (!empty($search_date)) {
-        $conditions[] = "CAST(a.created_at AS DATE) = :search_date";
+        $conditions[] = "CAST(created_at AS DATE) = :search_date";
     }
 
-    $conditions[] = "MONTH(a.created_at) = :current_month";
-    $conditions[] = "b.parts_group NOT LIKE 'B%' AND b.parts_group NOT LIKE 'Q%' AND c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
+    $conditions[] = "MONTH(created_at) = :current_month";
+    // $conditions[] = "b.parts_group NOT LIKE 'B%' AND b.parts_group NOT LIKE 'Q%' AND c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
 
     // Applying WHERE conditions if any
     if (!empty($conditions)) {
@@ -82,13 +83,9 @@ LEFT JOIN (
     }
 
     // Apply DISTINCT on the product_no column
-    $sql .= " GROUP BY 
-                a.id, a.partcode, a.partname, a.need_qty, a.created_by,
-                b.partcode, b.partname, b.parts_group, b.min_lot, 
-                c.product_no, c.max_plan, c.maxPlan_total, 
-                c.line_no, d.no_teams,e.masterlist_count
+    $sql .= "
              ORDER BY 
-                c.product_no, a.id DESC
+                product_no, id DESC
              OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
 
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
@@ -119,7 +116,7 @@ LEFT JOIN (
     }
 
     $totalCount = $master[0]['total_count'] ?? 0;
-    // Prepare the table data
+
     $data = '';
     $c = ($page - 1) * $rowsPerPage + 1;
 
@@ -131,10 +128,10 @@ LEFT JOIN (
         $partcode = $row['partcode'];
         $partname = $row['partname'];
         $min_lot = $row['min_lot'];
-        $max_usage = $row['need_qty'];
-        $max_plan = $row['maxplan_total'];
+        $max_usage = $row['max_usage'];
+        $max_plan = $row['max_plan'];
         $no_teams = $row['no_teams'];
-        $issued_to_pd = $row['masterlist_count'];
+        $issued_to_pd = $row['issued_pd'];
         // $issued_to_pd = 2;
 
         $data .= '<tr>';
@@ -144,16 +141,16 @@ LEFT JOIN (
         $data .= '<td>' . $row['partcode'] . '</td>';
         $data .= '<td>' . $row['partname'] . '</td>';
         $data .= '<td>' . $row['min_lot'] . '</td>';
-        $data .= '<td>' . $row['need_qty'] . '</td>';
-        $data .= '<td>' . $row['maxplan_total'] . '</td>';
+        $data .= '<td>' . $row['max_usage'] . '</td>';
+        $data .= '<td>' . $row['max_plan'] . '</td>';
         $data .= '<td>' . $row['no_teams'] . '</td>';
-        $data .= '<td>' . $row['masterlist_count'] . '</td>';
+        $data .= '<td>' . $row['issued_pd'] . '</td>';
         // $data .= '<td></td>'; // issued to PD
         $data .= '<td>' . $row['parts_group'] . '</td>';
         // $data .= '<td></td>';
-        $data .= '<td>
-            <button class="btn actionBtn" data-toggle="modal" data-target="#edit_masterlist" onclick="getMaster(\'' . htmlspecialchars($id) . '~!~' . htmlspecialchars($line_no) . '~!~' . htmlspecialchars($partcode) . '~!~' . htmlspecialchars($partname) . '~!~' . htmlspecialchars($min_lot) . '~!~' . htmlspecialchars($max_usage) . '~!~' . htmlspecialchars($max_plan) . '~!~' . htmlspecialchars($no_teams) . '~!~' . htmlspecialchars($issued_to_pd) . '~!~' . htmlspecialchars($product_no) . '~!~' . htmlspecialchars($user) . '\');">Edit</button>
-            </td>';
+        // $data .= '<td>
+        //     <button class="btn actionBtn" data-toggle="modal" data-target="#edit_masterlist" onclick="getMaster(\'' . htmlspecialchars($id) . '~!~' . htmlspecialchars($line_no) . '~!~' . htmlspecialchars($partcode) . '~!~' . htmlspecialchars($partname) . '~!~' . htmlspecialchars($min_lot) . '~!~' . htmlspecialchars($max_usage) . '~!~' . htmlspecialchars($max_plan) . '~!~' . htmlspecialchars($no_teams) . '~!~' . htmlspecialchars($issued_to_pd) . '~!~' . htmlspecialchars($product_no) . '~!~' . htmlspecialchars($user) . '\');">Edit</button>
+        //     </td>';
         $data .= '</tr>';
         $c++;
     }

@@ -13,58 +13,94 @@ if ($method == 'load_dashboard') {
     $rowsPerPage = isset($_POST['rows_per_page']) ? (int)$_POST['rows_per_page'] : 10;
     $offset = ($page - 1) * $rowsPerPage;
 
-    $sql = "
-        SELECT a.id, a.partcode, a.partname, a.need_qty, b.partcode AS b_partcode, b.partname AS b_partname, 
-               b.min_lot, b.parts_group, c.product_no, c.max_plan, c.maxPlan_total AS maxplan_total, 
-               c.line_no, d.no_teams, COUNT(*) OVER() AS total_count
-        FROM m_combine a
-        LEFT JOIN m_min_lot b ON a.partcode = b.partcode AND a.partname = b.partname
-        LEFT JOIN (
-            SELECT line_no, 
-                   max_plan, 
-                   SUM(max_plan) OVER (PARTITION BY line_no) AS maxPlan_total, 
-                   product_no 
-            FROM m_max_plan
-        ) c ON a.product_no = c.product_no
-        LEFT JOIN m_no_teams d ON c.line_no = d.line_no
-    ";
-
+    //     $sql = "
+    //            SELECT 
+    //     a.id, 
+    //     a.partcode, 
+    //     a.partname, 
+    //     a.need_qty, 
+    //     a.created_by, 
+    //     b.partcode AS b_partcode, 
+    //     b.partname AS b_partname, 
+    //     b.min_lot, 
+    //     b.parts_group, 
+    //     c.product_no, 
+    //     c.max_plan, 
+    //     c.maxPlan_total AS maxplan_total, 
+    //     c.line_no, 
+    //     d.no_teams, 
+    //     COUNT(*) OVER() AS total_count,
+    //     e.masterlist_count
+    // FROM 
+    //     m_combine a
+    // LEFT JOIN 
+    //     m_min_lot b 
+    //     ON a.partcode = b.partcode AND a.partname = b.partname
+    // LEFT JOIN (
+    //     SELECT 
+    //         line_no, 
+    //         max_plan, 
+    //         SUM(max_plan) OVER (PARTITION BY line_no) AS maxPlan_total, 
+    //         product_no 
+    //     FROM 
+    //         m_max_plan
+    // ) c 
+    //     ON a.product_no = c.product_no
+    // LEFT JOIN 
+    //     m_no_teams d 
+    //     ON c.line_no = d.line_no
+    // LEFT JOIN (
+    //     SELECT 
+    //         partscode, 
+    //         partsname, 
+    //         LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1) AS numeric_line_number,
+    //         COUNT(*) AS masterlist_count
+    //     FROM [new_ekanban].[dbo].[mm_masterlist]
+    //     GROUP BY partscode, partsname, LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1)
+    // ) e 
+    //     ON a.partcode = e.partscode 
+    //     AND a.partname = e.partsname 
+    //     AND e.numeric_line_number = CAST(c.line_no AS VARCHAR)
+    //";
+    
+    
+    $sql = "SELECT *, COUNT(*) OVER() AS total_count FROM m_master";
     $conditions = [];
     $current_year = date('Y');
 
     if (!empty($month)) {
         $start_date = $current_year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-01';
         $end_date = date("Y-m-t", strtotime($start_date));
-        $conditions[] = "a.created_at BETWEEN :start_date AND :end_date";
+        $conditions[] = "created_at BETWEEN :start_date AND :end_date";
     } else {
         // Default to current month
         $current_month = date('n');
         $start_date = $current_year . '-' . str_pad($current_month, 2, '0', STR_PAD_LEFT) . '-01';
         $end_date = date("Y-m-t", strtotime($start_date));
-        $conditions[] = "a.created_at BETWEEN :start_date AND :end_date";
-    }
-    
-    if (!empty($line_no)) {
-        $conditions[] = "c.line_no = :line_no";
-    }
-    if (!empty($search_key)) {
-        $conditions[] = "(a.partcode = :partcode OR a.partname = :partname)";
-    }
-    if (!empty($search_date)) {
-        $conditions[] = "CAST(a.created_at AS DATE) = :search_date";
+        $conditions[] = "created_at BETWEEN :start_date AND :end_date";
     }
 
-    $conditions[] = "c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
+    if (!empty($line_no)) {
+        $conditions[] = "line_no = :line_no";
+    }
+    if (!empty($search_key)) {
+        $conditions[] = "(partcode = :partcode OR partname = :partname)";
+    }
+    if (!empty($search_date)) {
+        $conditions[] = "CAST(created_at AS DATE) = :search_date";
+    }
+
+    // $conditions[] = "b.parts_group NOT LIKE 'B%' AND b.parts_group NOT LIKE 'Q%' AND c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
 
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
 
-    $sql .= " GROUP BY a.id, a.partcode, a.partname, a.need_qty, 
-          b.partcode, b.partname, b.parts_group, b.min_lot, c.product_no, c.max_plan, 
-          c.maxPlan_total, c.line_no, d.no_teams ";
+    // $sql .= " GROUP BY a.id, a.created_by, a.partcode, a.partname, a.need_qty, 
+    //       b.partcode, b.partname, b.parts_group, b.min_lot, c.product_no, c.max_plan, 
+    //       c.maxPlan_total, c.line_no, d.no_teams, e.masterlist_count ";
 
-    $sql .= " ORDER BY c.product_no, a.id DESC OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
+    $sql .= " ORDER BY product_no, id DESC OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
 
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
@@ -102,24 +138,32 @@ if ($method == 'load_dashboard') {
         $partcode = $row['partcode'];
         $partname = $row['partname'];
         $min_lot = $row['min_lot'];
-        $max_usage = $row['need_qty'];
+        $max_usage = $row['max_usage'];
         $max_plan = $row['max_plan'];
-        $no_teams = $row['no_teams'];
-        $issued_to_pd = 2; // Dummy value
+        $no_teams = $row['no_teams'] ? $row['no_teams'] : 0;
+        $issued_pd = $row['issued_pd'];
 
         // Perform your calculations
-        $takt_time = floor(510 / ($max_plan / $no_teams) * 60);
-        $conveyor_speed = $takt_time * 0.96;
-        $decimal_conveyor = $conveyor_speed - floor($conveyor_speed);
-        $conveyor_speed = $decimal_conveyor <= 0.5 ? floor($conveyor_speed) : ceil($conveyor_speed);
-        $usage_hour = (3600 / $conveyor_speed) * $max_usage;
-        $decimal_usage = $usage_hour - floor($usage_hour);
-        $usage_hour = $decimal_usage <= .51 ? floor($usage_hour) : ceil($usage_hour);
+        if ($no_teams <= 0 || $max_plan <= 0) {
+            echo "Error: Invalid data for calculations. Check 'no_teams' or 'max_plan'.";
+            $takt_time = 0;
+            $conveyor_speed = 0;
+            $usage_hour = 0;
+        } else {
+            // Perform your calculations
+            $takt_time = floor(510 / ($max_plan / $no_teams) * 60);
+            $conveyor_speed = $takt_time * 0.96;
+            $decimal_conveyor = $conveyor_speed - floor($conveyor_speed);
+            $conveyor_speed = $decimal_conveyor <= 0.5 ? floor($conveyor_speed) : ceil($conveyor_speed);
+            $usage_hour = (3600 / $conveyor_speed) * $max_usage;
+            $decimal_usage = $usage_hour - floor($usage_hour);
+            $usage_hour = $decimal_usage <= .51 ? floor($usage_hour) : ceil($usage_hour);
+        }
 
         $lead_time = $usage_hour * 5;
         $safety_inv = $usage_hour * 1;
         $kanban_qty = ceil(($lead_time + $safety_inv) / $min_lot);
-        $add_reduce_kanban = $kanban_qty -  $issued_to_pd;
+        $add_reduce_kanban = $kanban_qty -  $issued_pd;
         $fill_color = ($add_reduce_kanban < 0) ? ' red-highlight' : '';
 
         $data .= '<tr>';
@@ -137,7 +181,7 @@ if ($method == 'load_dashboard') {
         $data .= '<td>' . $lead_time . '</td>';
         $data .= '<td>' . $safety_inv . '</td>';
         $data .= '<td>' . $kanban_qty . '</td>';
-        $data .= '<td>' . $issued_to_pd . '</td>';
+        $data .= '<td>' . $issued_pd . '</td>';
         $data .= '<td class="' . $fill_color . '">' . $add_reduce_kanban . '</td>';
         $data .= '<td> </td>';
         $data .= '</tr>';
