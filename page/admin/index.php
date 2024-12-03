@@ -6,9 +6,13 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-12">
-          <div class="card mt-4" style="border-radius: 15px;">
+          <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-header">
               <h3 class="card-title text-uppercase text-bold"> computation dashboard</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
+                </button>
+              </div>
             </div>
             <div class="card-body">
               <div class="col-md-12">
@@ -17,31 +21,31 @@
                     <div class="row">
                       <div class="col-md-2">
                         <label for="">Line</label>
-                        <input type="search" class="line_no form-control" list="line_no" placeholder="">
-                            <datalist id="line_no">
-                              <?php
-                              require '../../process/conn.php';
-                              $sql = "SELECT DISTINCT line_no FROM m_master ";
-                              $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-                              $stmt->execute();
+                        <input type="search" class="line_no form-control" list="line_no" placeholder="e.g. 1123">
+                        <datalist id="line_no">
+                          <?php
+                          require '../../process/conn.php';
+                          $sql = "SELECT DISTINCT line_no FROM m_master ";
+                          $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+                          $stmt->execute();
 
-                              if ($stmt->rowCount() > 0) {
-                                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                          if ($stmt->rowCount() > 0) {
+                            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                                foreach ($rows as $row) {
+                            foreach ($rows as $row) {
 
-                                  echo '<option value="' . $row["line_no"] . '">' . $row["line_no"] . '</option>';
-                                }
-                              } else {
-                                echo '<option value="">No data available</option>';
-                              }
-                              ?>
-                            </datalist>
+                              echo '<option value="' . $row["line_no"] . '">' . $row["line_no"] . '</option>';
+                            }
+                          } else {
+                            echo '<option value="">No data available</option>';
+                          }
+                          ?>
+                        </datalist>
 
                       </div>
                       <div class="col-md-2">
                         <label for="">Search</label>
-                        <input type="search" class="form-control" id="search_key">
+                        <input type="search" class="form-control" id="search_key" placeholder="e.g. partname, partcode">
                       </div>
                       <!-- <div class="col-md-2">
                         <label for="">Date</label>
@@ -71,7 +75,7 @@
                       </div>
                       <div class="col-md-2 ml-auto">
                         <label for="">&nbsp;</label>
-                        <button class="form-control btn exportBtn" onclick="export_dashboard();"><i class="fas fa-file-export"></i> Export</button>
+                        <button class="form-control exportBtn" onclick="export_dashboard();"><i class="fas fa-file-export"></i> Export</button>
                       </div>
                     </div>
                   </div>

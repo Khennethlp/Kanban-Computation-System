@@ -35,6 +35,28 @@ if (!isset($_SESSION['username'])) {
 
 
   <style>
+    body {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      font-size: 48px;
+    }
+
+    h2 {
+      font-size: 36px;
+    }
+
+    h3 {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+
+
     .loader {
       border: 16px solid #f3f3f3;
       border-radius: 50%;
@@ -89,6 +111,7 @@ if (!isset($_SESSION['username'])) {
     table {
       width: 100%;
       table-layout: auto;
+      font-size: 14px;
     }
 
     td {
@@ -150,10 +173,11 @@ if (!isset($_SESSION['username'])) {
     }
 
     .active {
-      background-color: #275DAD !important;
       /*#000EA4*/
-      border-bottom: 2px solid #ffffff !important;
-      color: #fff;
+      background-color: #E3ECF3 !important;
+      /* border-bottom: 2px solid #ffffff !important; */
+      color: #275DAD !important;
+      font-weight: 600;
 
     }
 
@@ -204,6 +228,7 @@ if (!isset($_SESSION['username'])) {
 
       }
     }
+
     .signOutBtn {
       background-color: #f3f3f3 !important;
       /*#000EA4*/
@@ -226,9 +251,9 @@ if (!isset($_SESSION['username'])) {
       }
     }
 
-    
+
     .thead-bg {
-      background-color: #3e7cb1 !important;
+      background-color: #275DAD !important;
       color: #fff !important;
     }
 
@@ -244,7 +269,7 @@ if (!isset($_SESSION['username'])) {
 
       }
     }
-    
+
     .red-highlight {
       /* background-color: #D27484; */
       color: #D27484;
@@ -259,10 +284,10 @@ if (!isset($_SESSION['username'])) {
 
 <body class="hold-transition sidebar-mini layout-fixed ">
   <div class="wrapper">
-    <nav class="main-header navbar navbar-expand navbar-light sticky-top" style="background-color: #306BAC;">
+    <!-- <nav class="main-header navbar navbar-expand navbar-light sticky-top" style="background-color: #f3f3f3; color: #111; outline:none;">
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link text-white" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
       </ul>
-    </nav>
+    </nav> -->

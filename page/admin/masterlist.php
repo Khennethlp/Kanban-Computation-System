@@ -9,6 +9,9 @@
           <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-header">
               <h3 class="card-title text-uppercase text-bold">Masterlist</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+              </div>
             </div>
 
             <div class="card-body">
