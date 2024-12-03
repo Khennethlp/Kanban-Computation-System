@@ -17,55 +17,54 @@
                     <div class="row">
                       <div class="col-md-2">
                         <label for="">Line</label>
-                        <!-- <input type="text" name="" id="" class="form-control"> -->
-                        <select name="line_no" id="line_no" class="form-control" style="border-radius: 15px;" onchange="load_dashboard();">
-                          <option value="">All Line</option>
-                          <?php
-                          require '../../process/conn.php';
+                        <input type="search" class="line_no form-control" list="line_no" placeholder="">
+                            <datalist id="line_no">
+                              <?php
+                              require '../../process/conn.php';
+                              $sql = "SELECT DISTINCT line_no FROM m_master ";
+                              $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+                              $stmt->execute();
 
-                          $getLine = "SELECT DISTINCT line_no FROM m_max_plan";
-                          $stmt = $conn->prepare($getLine, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-                          $stmt->execute();
+                              if ($stmt->rowCount() > 0) {
+                                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                          if ($stmt->rowCount() > 0) {
-                            // Output data of each row
-                            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($rows as $row) {
 
-                            // Output data of each row
-                            foreach ($rows as $row) {
+                                  echo '<option value="' . $row["line_no"] . '">' . $row["line_no"] . '</option>';
+                                }
+                              } else {
+                                echo '<option value="">No data available</option>';
+                              }
+                              ?>
+                            </datalist>
 
-                              echo '<option value="' . $row["line_no"] . '">' . $row["line_no"] . '</option>';
-                            }
-                          }
-                          ?>
-                        </select>
                       </div>
                       <div class="col-md-2">
                         <label for="">Search</label>
-                        <input type="text" class="form-control" id="search_key">
+                        <input type="search" class="form-control" id="search_key">
                       </div>
-                      <div class="col-md-2">
+                      <!-- <div class="col-md-2">
                         <label for="">Date</label>
                         <input type="date" name="" id="getDate" class="form-control" onchange="load_dashboard();">
-                      </div>
+                      </div> -->
                       <div class="col-md-2 ">
-                            <label for="">Month:</label>
-                            <select name="search_by_month" id="search_by_month" class="form-control" style="border-radius: 15px;">
-                              <option value=""></option>
-                              <option value="1">JANUARY</option>
-                              <option value="2">FEBRUARY</option>
-                              <option value="3">MARCH</option>
-                              <option value="4">APRIL</option>
-                              <option value="5">MAY</option>
-                              <option value="6">JUNE</option>
-                              <option value="7">JULY</option>
-                              <option value="8">AUGUST</option>
-                              <option value="9">SEPTEMBER</option>
-                              <option value="10">OCTOBER</option>
-                              <option value="11">NOVEMBER</option>
-                              <option value="12">DECEMBER</option>
-                            </select>
-                          </div>
+                        <label for="">Month</label>
+                        <select name="search_by_month" id="search_by_month" class="form-control" style="border-radius: 15px;">
+                          <option value=""></option>
+                          <option value="1">JANUARY</option>
+                          <option value="2">FEBRUARY</option>
+                          <option value="3">MARCH</option>
+                          <option value="4">APRIL</option>
+                          <option value="5">MAY</option>
+                          <option value="6">JUNE</option>
+                          <option value="7">JULY</option>
+                          <option value="8">AUGUST</option>
+                          <option value="9">SEPTEMBER</option>
+                          <option value="10">OCTOBER</option>
+                          <option value="11">NOVEMBER</option>
+                          <option value="12">DECEMBER</option>
+                        </select>
+                      </div>
                       <div class="col-md-2">
                         <label for="">&nbsp;</label>
                         <button class="form-control btn activeBtn" onclick="load_dashboard();"><i class="fas fa-search"></i> Search</button>

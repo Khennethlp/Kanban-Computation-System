@@ -5,7 +5,7 @@ $method = $_POST['method'];
 
 if ($method == 'load_dashboard') {
     $line_no = $_POST['line_no'];
-    $search_date = $_POST['search_date'];
+    // $search_date = $_POST['search_date'];
     $search_key = $_POST['search_key'];
     $month = $_POST['search_by_month'];
 
@@ -86,9 +86,9 @@ if ($method == 'load_dashboard') {
     if (!empty($search_key)) {
         $conditions[] = "(partcode = :partcode OR partname = :partname)";
     }
-    if (!empty($search_date)) {
-        $conditions[] = "CAST(created_at AS DATE) = :search_date";
-    }
+    // if (!empty($search_date)) {
+    //     $conditions[] = "CAST(created_at AS DATE) = :search_date";
+    // }
 
     // $conditions[] = "b.parts_group NOT LIKE 'B%' AND b.parts_group NOT LIKE 'Q%' AND c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
 
@@ -113,9 +113,9 @@ if ($method == 'load_dashboard') {
     if (!empty($line_no)) {
         $stmt->bindParam(':line_no', $line_no);
     }
-    if (!empty($search_date)) {
-        $stmt->bindParam(':search_date', $search_date);
-    }
+    // if (!empty($search_date)) {
+    //     $stmt->bindParam(':search_date', $search_date);
+    // }
     if (!empty($search_key)) {
         $stmt->bindParam(':partcode', $search_key);
         $stmt->bindParam(':partname', $search_key);
@@ -143,7 +143,7 @@ if ($method == 'load_dashboard') {
         $no_teams = $row['no_teams'];
         $issued_pd = $row['issued_pd'];
 
-        // Perform your calculations
+        // Perform calculations
         $takt_time = floor(510 / ($max_plan / $no_teams) * 60);
         $conveyor_speed = $takt_time * 0.96;
         $decimal_conveyor = $conveyor_speed - floor($conveyor_speed);

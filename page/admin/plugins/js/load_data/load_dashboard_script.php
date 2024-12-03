@@ -29,9 +29,9 @@
             }
         });
 
-        var line_no = document.getElementById('line_no').value;
+        var line_no = document.getElementsByClassName('line_no')[0].value;
         var search_key = document.getElementById('search_key').value;
-        var getDate = document.getElementById('getDate').value;
+        // var getDate = document.getElementById('getDate').value;
         var search_by_month = document.getElementById('search_by_month').value;
 
         $.ajax({
@@ -40,7 +40,7 @@
             data: {
                 method: 'load_dashboard',
                 line_no: line_no,
-                search_date: getDate,
+                // search_date: getDate,
                 search_key: search_key,
                 search_by_month: search_by_month,
                 page: page,
