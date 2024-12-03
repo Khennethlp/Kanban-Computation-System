@@ -116,9 +116,10 @@
     // }
 
     const export_dashboard = () => {
-        var line_no = document.getElementById('line_no').value;
-        var date = document.getElementById('getDate').value;
+        var line_no = document.getElementsByClassName('line_no')[0].value;
+        var search_key = document.getElementById('search_key').value;
+        var month = document.getElementById('search_by_month').value;
 
-        window.open('../../process/export/export_dash.php?line_no=' + line_no + '&date=' + date, '_blank');
+        window.open('../../process/export/export_dash.php?search_key='+search_key+'&line_no=' + line_no + '&month=' + month, '_blank');
     }
 </script>
