@@ -1,4 +1,4 @@
-<footer class="main-footer text-sm">
+<footer class="main-footer text-sm" style="background-color: #f4f6f8;">
     Developed by: <em>Khennethlp</em> 
     <div class="float-right d-none d-sm-inline-block">
       <strong>Copyright &copy;
