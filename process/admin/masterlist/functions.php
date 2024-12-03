@@ -45,3 +45,18 @@ if ($method === 'update_master') {
         echo "Error: " . $e->getMessage();
     }
 }
+
+if($method === "add_car_maker_code") {
+    $maker_code = $_POST['maker_code'];
+    $car_maker = $_POST['car_maker'];
+
+    $sql = "INSERT INTO m_maker_code (maker_code, car_maker) VALUES ('$maker_code', '$car_maker')";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+    if($stmt){
+        echo 'success';
+    }else{
+        echo 'error';
+    }
+}
