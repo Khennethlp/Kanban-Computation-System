@@ -50,6 +50,10 @@
                       <label for="">&nbsp;</label>
                       <button class="form-control btn exportBtn" data-toggle="modal" data-target="#import_masters"><i class="fas fa-upload"></i> Import Master</button>
                     </div>
+                    <div class="col-md-2 ">
+                      <label for="">&nbsp;</label>
+                      <button class="form-control btn exportBtn" onclick="export_master();"><i class="fas fa-download"></i> Export Master</button>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-12 mt-2">

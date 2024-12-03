@@ -216,4 +216,11 @@
             }
         });
     }
+
+    const export_master = () => {
+        var search_key = $('#search_key').val();
+        var search_by_month = $('#search_by_month').val();
+
+        window.open('../../process/export/export_master.php?search_key=' + search_key + '&month=' + search_by_month, '_blank');
+    }
 </script>
