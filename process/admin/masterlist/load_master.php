@@ -67,9 +67,9 @@ if ($method == 'load_master') {
     $sql = "SELECT *, COUNT(*) OVER() AS total_count FROM m_master";
     $conditions = [];
     $current_year = date('Y');
-    
+
     if (!empty($search_key)) {
-        $conditions[] = "(line_no = :line_no OR partcode = :partcode OR partname = :partname)";
+        $conditions[] = "(line_no = :line_no OR partcode = :partcode OR partname = :partname OR product_no = :product_no)";
     }
 
     if (!empty($month)) {
@@ -114,6 +114,7 @@ if ($method == 'load_master') {
         $stmt->bindParam(':line_no', $search_key);
         $stmt->bindParam(':partcode', $search_key);
         $stmt->bindParam(':partname', $search_key);
+        $stmt->bindParam(':product_no', $search_key);
     }
 
     // if (!empty($search_date)) {
