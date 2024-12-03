@@ -46,17 +46,35 @@ if ($method === 'update_master') {
     }
 }
 
-if($method === "add_car_maker_code") {
-    $maker_code = $_POST['maker_code'];
+if ($method == "add_car_maker_code") {
+    $maker_code = strtoupper(trim($_POST['maker_code'] ?? ''));
     $car_maker = $_POST['car_maker'];
+    
+    $car_maker = ucfirst(strtolower($car_maker));
 
-    $sql = "INSERT INTO m_maker_code (maker_code, car_maker) VALUES ('$maker_code', '$car_maker')";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    try {
+        $code_exist = "SELECT car_maker, maker_code FROM m_maker_code WHERE maker_code = :maker_code OR car_maker = :car_maker";
+        $stmt_exist = $conn->prepare($code_exist, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+        $stmt_exist->bindParam(':maker_code', $maker_code);
+        $stmt_exist->bindParam(':car_maker', $car_maker);
+        $stmt_exist->execute();
 
-    if($stmt){
-        echo 'success';
-    }else{
+        if ($stmt_exist->rowCount() > 0) {
+            echo 'exist';
+        } else {
+            $sql = "INSERT INTO m_maker_code (maker_code, car_maker) VALUES (:maker_code, :car_maker)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':maker_code', $maker_code);
+            $stmt->bindParam(':car_maker', $car_maker);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                echo 'success';
+            } else {
+                echo 'error';
+            }
+        }
+    } catch (PDOException $e) {
         echo 'error';
     }
 }
