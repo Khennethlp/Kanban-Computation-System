@@ -6,7 +6,8 @@ $method = $_POST['method'];
 if ($method == 'load_master') {
     $user = $_POST['user_name'];
     $search_key = $_POST['search_key'];
-    $search_date = $_POST['search_date'];
+    // $search_date = $_POST['search_date'];
+    $month = $_POST['search_by_month'];
 
     $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
     $rowsPerPage = isset($_POST['rows_per_page']) ? (int)$_POST['rows_per_page'] : 10;
@@ -65,16 +66,29 @@ if ($method == 'load_master') {
 
     $sql = "SELECT *, COUNT(*) OVER() AS total_count FROM m_master";
     $conditions = [];
-
+    $current_year = date('Y');
+    
     if (!empty($search_key)) {
         $conditions[] = "(line_no = :line_no OR partcode = :partcode OR partname = :partname)";
     }
 
-    if (!empty($search_date)) {
-        $conditions[] = "CAST(created_at AS DATE) = :search_date";
+    if (!empty($month)) {
+        $start_date = $current_year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-01';
+        $end_date = date("Y-m-t", strtotime($start_date));
+        $conditions[] = "created_at BETWEEN :start_date AND :end_date";
+    } else {
+        // Default to current month
+        $current_month = date('n');
+        $start_date = $current_year . '-' . str_pad($current_month, 2, '0', STR_PAD_LEFT) . '-01';
+        $end_date = date("Y-m-t", strtotime($start_date));
+        $conditions[] = "created_at BETWEEN :start_date AND :end_date";
     }
 
-    $conditions[] = "MONTH(created_at) = :current_month";
+    // if (!empty($search_date)) {
+    //     $conditions[] = "CAST(created_at AS DATE) = :search_date";
+    // }
+
+    // $conditions[] = "MONTH(created_at) = :current_month";
     // $conditions[] = "b.parts_group NOT LIKE 'B%' AND b.parts_group NOT LIKE 'Q%' AND c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
 
     // Applying WHERE conditions if any
@@ -93,6 +107,8 @@ if ($method == 'load_master') {
     $limit_plus_one = $rowsPerPage + 1;
     $stmt->bindParam(':limit_plus_one', $limit_plus_one, PDO::PARAM_INT);
     $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->bindParam(':start_date', $start_date);
+    $stmt->bindParam(':end_date', $end_date);
 
     if (!empty($search_key)) {
         $stmt->bindParam(':line_no', $search_key);
@@ -100,12 +116,12 @@ if ($method == 'load_master') {
         $stmt->bindParam(':partname', $search_key);
     }
 
-    if (!empty($search_date)) {
-        $stmt->bindParam(':search_date', $search_date);
-    }
+    // if (!empty($search_date)) {
+    //     $stmt->bindParam(':search_date', $search_date);
+    // }
 
-    $current_month = date('n');
-    $stmt->bindParam(':current_month', $current_month, PDO::PARAM_INT);
+    // $current_month = date('n');
+    // $stmt->bindParam(':current_month', $current_month, PDO::PARAM_INT);
 
     $stmt->execute();
 

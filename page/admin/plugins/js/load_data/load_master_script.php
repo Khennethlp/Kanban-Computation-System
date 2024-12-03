@@ -51,7 +51,8 @@
 
         var user_name = $('#user_name').val();
         var search_key = $('#search_key').val();
-        var search_date = $('#search_date').val();
+        // var search_date = $('#search_date').val();
+        var search_by_month = $('#search_by_month').val();
 
         $.ajax({
             type: "POST",
@@ -61,7 +62,8 @@
                 method: 'load_master',
                 user_name: user_name,
                 search_key: search_key,
-                search_date: search_date,
+                // search_date: search_date,
+                search_by_month: search_by_month,
                 page: page,
                 rows_per_page: rowsPerPage
             },
