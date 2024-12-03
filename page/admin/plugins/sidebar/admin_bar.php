@@ -73,7 +73,7 @@
               </p>
               </a>
         </li> -->
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/max_plan.php") { ?>
             <a href="max_plan.php" class="nav-link active">
             <?php } else { ?>
@@ -84,8 +84,8 @@
                 Max Plan
               </p>
               </a>
-        </li>
-        <li class="nav-item">
+        </li> -->
+        <!-- <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/min_lot.php") { ?>
             <a href="min_lot.php" class="nav-link active">
             <?php } else { ?>
@@ -96,8 +96,8 @@
                 Min Lot
               </p>
               </a>
-        </li>
-        <li class="nav-item">
+        </li> -->
+        <!-- <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/teams.php") { ?>
             <a href="teams.php" class="nav-link active">
             <?php } else { ?>
@@ -108,7 +108,7 @@
                No. of Teams
               </p>
               </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <?php if ($_SERVER['REQUEST_URI'] == "/kcs/page/admin/accounts.php") { ?>
             <a href="accounts.php" class="nav-link active">
