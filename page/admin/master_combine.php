@@ -5,8 +5,14 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
+        <div class="col-md-12 mt-3">
+          <ol class="breadcrumb float-sm-right" style="background-color: #f4f6f8;">
+            <li class="breadcrumb-item"><a href="index.php" class="text-dark">Home</a></li>
+            <li class="breadcrumb-item" style="font-weight: 600; color: #275DAD;">Bom Combine</li>
+          </ol>
+        </div>
         <div class="col-md-12">
-          <div class="row mt-3">
+          <div class="row mt-2">
             <div class="col-lg-3 col-6">
               <div class="small-box" style="background-color: #275DAD; color:#ffffff; border-radius: 15px;">
                 <div class="inner">
@@ -37,10 +43,11 @@
             </div>
           </div>
         </div>
+
         <div class="col-md-12">
           <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-header">
-              <h3 class="card-title text-uppercase text-bold">Master Record</h3>
+              <h3 class="card-title text-uppercase text-bold">Combined Bom Records</h3>
             </div>
 
             <div class="card-body">
@@ -93,7 +100,7 @@
                     </table>
                   </div>
                   <div class="col-md-12">
-                    <p class="mt-3" >Results: <span id="count_per_load"></span><span id="counts"></span></p>
+                    <p class="mt-3">Results: <span id="count_per_load"></span><span id="counts"></span></p>
                     <div id="load_more" class="text-center" style="display: none;">
                       <p class="badge badge-dark border border-outline px-3 py-2 mt-3 " style="cursor: pointer; font-size: 15px; padding: 20px 0;">Load More...</p>
                     </div>

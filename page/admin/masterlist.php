@@ -5,10 +5,16 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
+        <div class="col-md-12 mt-3">
+          <ol class="breadcrumb float-sm-right" style="background-color: #f4f6f8;">
+            <li class="breadcrumb-item"><a href="index.php" class="text-dark">Home</a></li>
+            <li class="breadcrumb-item" style="font-weight: 600; color: #275DAD;">Masterlist Overview</li>
+          </ol>
+        </div>
         <div class="col-md-12">
           <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-header">
-              <h3 class="card-title text-uppercase text-bold">Masterlist</h3>
+              <h3 class="card-title text-uppercase text-bold">Masterlist Overview</h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
               </div>
@@ -24,23 +30,23 @@
                       <input type="search" name="" id="search_key" class="form-control" placeholder="Keyword...">
                     </div>
                     <div class="col-md-2 ">
-                        <label for="">Month</label>
-                        <select name="search_by_month" id="search_by_month" class="form-control" style="border-radius: 15px;">
-                          <option value=""></option>
-                          <option value="1">JANUARY</option>
-                          <option value="2">FEBRUARY</option>
-                          <option value="3">MARCH</option>
-                          <option value="4">APRIL</option>
-                          <option value="5">MAY</option>
-                          <option value="6">JUNE</option>
-                          <option value="7">JULY</option>
-                          <option value="8">AUGUST</option>
-                          <option value="9">SEPTEMBER</option>
-                          <option value="10">OCTOBER</option>
-                          <option value="11">NOVEMBER</option>
-                          <option value="12">DECEMBER</option>
-                        </select>
-                      </div>
+                      <label for="">Month</label>
+                      <select name="search_by_month" id="search_by_month" class="form-control" style="border-radius: 15px;">
+                        <option value=""></option>
+                        <option value="1">JANUARY</option>
+                        <option value="2">FEBRUARY</option>
+                        <option value="3">MARCH</option>
+                        <option value="4">APRIL</option>
+                        <option value="5">MAY</option>
+                        <option value="6">JUNE</option>
+                        <option value="7">JULY</option>
+                        <option value="8">AUGUST</option>
+                        <option value="9">SEPTEMBER</option>
+                        <option value="10">OCTOBER</option>
+                        <option value="11">NOVEMBER</option>
+                        <option value="12">DECEMBER</option>
+                      </select>
+                    </div>
                     <!-- <div class="col-md-3">
                       <label for="">Date</label>
                       <input type="date" name="" id="search_date" class="form-control" placeholder="">

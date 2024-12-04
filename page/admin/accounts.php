@@ -5,8 +5,14 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
+        <div class="col-md-12 mt-3">
+          <ol class="breadcrumb float-sm-right" style="background-color: #f4f6f8;">
+            <li class="breadcrumb-item"><a href="index.php" class="text-dark">Home</a></li>
+            <li class="breadcrumb-item" style="font-weight: 600; color: #275DAD;">Accounts Management</li>
+          </ol>
+        </div>
         <div class="col-md-12">
-          <div class="col-lg-3 col-6 mt-3" >
+          <div class="col-lg-3 col-6 mt-2">
             <div class="small-box bg-danger" style="border-radius: 15px;">
               <div class="inner">
                 <h4>Add Account</h4>

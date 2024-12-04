@@ -5,8 +5,14 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
+      <div class="col-md-12 mt-3">
+          <ol class="breadcrumb float-sm-right" style="background-color: #f4f6f8;">
+            <li class="breadcrumb-item"><a href="index.php" class="text-dark">Home</a></li>
+            <li class="breadcrumb-item" style="font-weight: 600; color: #275DAD;">Others</li>
+          </ol>
+        </div>
         <div class="col-sm-12">
-          <div class="card mt-4" style="border-radius: 15px;">
+          <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-body">
               <h4>Add Car Maker</h4>
               <div class="row mt-3">
@@ -29,7 +35,7 @@
                     </div>
                     <div class="col-md-6">
                       <label for="">Preview List</label>
-                      <textarea name="" id="" class="form-control" rows="6" cols="0" readonly><?php
+                      <textarea name="" id="" class="form-control" rows="7" cols="0" readonly><?php
                         require '../../process/conn.php';
                         $sql = "SELECT DISTINCT car_maker, maker_code FROM m_maker_code ORDER BY maker_code";
                         $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
