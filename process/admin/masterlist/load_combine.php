@@ -13,7 +13,7 @@ if ($method == 'load_combine') {
     $rowsPerPage = isset($_POST['rows_per_page']) ? (int)$_POST['rows_per_page'] : 100;
     $offset = ($page - 1) * $rowsPerPage;
 
-    $sql = "SELECT * FROM m_combine ";
+    $sql = "SELECT * FROM m_combine";
 
     $conditions = [];
     if (!empty($search_key)) {
@@ -52,11 +52,21 @@ if ($method == 'load_combine') {
     if (!empty($search_date)) {
         $stmt->bindParam(':search_date', $search_date);
     }
-    // $current_month = '11';
+    
     $current_month = date('n');
     $stmt->bindParam(':current_month', $current_month, PDO::PARAM_INT);
 
     $stmt->execute();
+
+    $sql_maker_code = "SELECT car_maker, maker_code FROM m_maker_code";
+    $stmt_maker_code = $conn->prepare($sql_maker_code, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+    $stmt_maker_code->execute();
+    $car_codes = $stmt_maker_code->fetchAll(PDO::FETCH_ASSOC);
+
+    $car_code_map = [];
+    foreach ($car_codes as $code) {
+        $car_code_map[$code['maker_code']] = $code['car_maker'];
+    }
 
     $kanban = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -70,23 +80,11 @@ if ($method == 'load_combine') {
 
     foreach ($kanban as $row) {
         $maker_code = $row['maker_code'];
+        $car_maker = $car_code_map[$maker_code] ?? 'Unknown';
+        
         $data .= '<tr>';
         $data .= '<td> ' . $c . ' </td>';
-        if ($maker_code == 'A') {
-            $data .= '<td> Mazda </td>';
-        } else if ($maker_code == 'B') {
-            $data .= '<td> Daihatsu </td>';
-        } else if ($maker_code == 'C') {
-            $data .= '<td> Honda </td>';
-        } else if ($maker_code == 'D') {
-            $data .= '<td> Toyota </td>';
-        } else if ($maker_code == 'E') {
-            $data .= '<td> Suzuki </td>';
-        } else if ($maker_code == 'F') {
-            $data .= '<td> Subaru </td>';
-        } else if ($maker_code == 'W') {
-            $data .= '<td> Nissan </td>';
-        }
+        $data .= '<td> ' . $car_maker . ' </td>';
         $data .= '<td>' . $row['product_no'] . '</td>';
         $data .= '<td>' . $row['partcode'] . '</td>';
         $data .= '<td>' . $row['partname'] . '</td>';

@@ -59,12 +59,22 @@
                       <label for="">Search By Car Model</label>
                       <select name="search_by_carModel" id="search_by_carModel" class="form-control" style="border-radius: 15px;" onchange="load_combined();">
                         <option value="">All</option>
-                        <option value="A">Mazda</option>
-                        <option value="B">Daihatsu</option>
-                        <option value="C">Honda</option>
-                        <option value="D">Toyota</option>
-                        <option value="E">Suzuki</option>
-                        <option value="F">Subaru</option>
+                        <?php
+                          require '../../process/conn.php';
+                          $sql = "SELECT DISTINCT car_maker, maker_code FROM m_maker_code ORDER BY maker_code";
+                          $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+                          $stmt->execute();
+
+                          if ($stmt->rowCount() > 0) {
+                            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            foreach ($rows as $row) {
+                              echo '<option value="' . $row["maker_code"] . '">' . $row["car_maker"] . '</option>';
+                            }
+                          } else {
+                            echo '<option value="">No data available</option>';
+                          }
+                          ?>
                       </select>
                     </div>
                     <div class="col-md-3">
