@@ -3,6 +3,17 @@
         load_dashboard();
     });
 
+    document.querySelectorAll('#search_key, #search_by_month, .line_no').forEach(input => {
+        input.addEventListener("keyup", e => {
+            if (e.which === 13) {
+                load_dashboard();
+            }
+        });
+        // input.addEventListener("input", () => {
+        //     load_dashboard();
+        // });
+    });
+
     let page = 1;
     const rowsPerPage = 100;
     let isLoading = false;
@@ -49,10 +60,10 @@
             success: function(response) {
                 const responseData = JSON.parse(response);
                 const new_count = parseInt(responseData.total).toLocaleString();
-                
+
                 document.getElementById('dash_count').innerHTML = 'Results: ' + new_count;
                 Swal.close();
-                
+
                 if (isPagination) {
                     if (responseData.html.trim() !== '') {
                         document.getElementById('table_dashboard').innerHTML += responseData.html;
@@ -120,6 +131,6 @@
         var search_key = document.getElementById('search_key').value;
         var month = document.getElementById('search_by_month').value;
 
-        window.open('../../process/export/export_dash.php?search_key='+search_key+'&line_no=' + line_no + '&month=' + month, '_blank');
+        window.open('../../process/export/export_dash.php?search_key=' + search_key + '&line_no=' + line_no + '&month=' + month, '_blank');
     }
 </script>

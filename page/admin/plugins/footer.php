@@ -1,18 +1,19 @@
-<footer class="main-footer text-sm" style="background-color: #f4f6f8;">
-    Developed by: <em>Khennethlp</em> 
-    <div class="float-right d-none d-sm-inline-block">
-      <strong>Copyright &copy;
-        <script>   
+<footer class="main-footer text-sm border-0" style="background-color: #f4f6f8;">
+  Developed by: <em>Khennethlp</em>
+  <div class="float-right d-none d-sm-inline-block">
+    <strong>Copyright &copy;
+      <script>
         var currentYear = new Date().getFullYear();
         if (currentYear !== 2024) {
           document.write("2024 - " + currentYear);
         } else {
           document.write(currentYear);
-        };</script>. 
-        </strong>
-      All rights reserved.
-    </div>
-  </footer>
+        };
+      </script>.
+    </strong>
+    All rights reserved.
+  </div>
+</footer>
 <?php
 //MODALS
 include '../../modals/add_account.php';
@@ -32,6 +33,16 @@ include '../../modals/logout_modal.php';
 include '../../modals/timeout.php';
 
 ?>
+
+<script>
+  const toggleSidebar = () => {
+    const sidebarIcon = document.getElementById('sidebar-toggle').querySelector('i');
+    const isOpen = sidebarIcon.classList.contains('fa-caret-square-left');
+    sidebarIcon.classList.toggle('fa-caret-square-left', !isOpen);
+    sidebarIcon.classList.toggle('fa-caret-square-right', isOpen);
+  };
+</script>
+
 <!-- jquery -->
 <script src="../../plugins/jquery/dist/jquery.min.js"></script>
 <script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -52,4 +63,5 @@ include '../../modals/timeout.php';
 <script src="../../dist/js/popup_center.js"></script>
 <!-- <script src="../../dist/js/session.js"></script> -->
 </body>
+
 </html>

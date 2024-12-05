@@ -1,24 +1,24 @@
 <aside class="main-sidebar sidebar-light-primary  elevation-0" id="sidebar" style="background-color: #f4f6f8;">
   <!-- Brand Logo -->
-  <a href="index.php" class="brand-link" style="background-color: #f3f3f3; color: #111;">
+  <a href="index.php" class="brand-link" style="background-color: #f4f6f8; color: #1D2935; border:none;">
     <img src="../../dist/img/kcs-bg.webp" alt="Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
-    <span class="brand-text font-weight-bold text-uppercase" style="font-size: 16px;">KANBAN COMPUTATION </span>
+    <span class="brand-text font-weight-bold text-uppercase" style="font-size: 18px;">KANBAN COMPUTATION </span>
   </a>
 
   <!-- Sidebar -->
   <div class="sidebar">
     <!-- Sidebar user panel (optional) -->
-    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
         <img src="../../dist/img/user.png" class=" elevation-0" alt="User Image">
       </div>
       <div class="info">
         <a href="index.php" class="d-block"><?= htmlspecialchars($_SESSION['name']); ?></a>
       </div>
-    </div>
-
+    </div> -->
+  
     <!-- Sidebar Menu -->
-    <nav class="mt-2">
+    <nav class="mt-5">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->

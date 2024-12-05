@@ -5,16 +5,21 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12 mt-3">
+        <!-- <div class="col-md-12 mt-3 ">
+          <div class="alert text-right text-uppercase" style="background-color: #f4f6f8;">
+            <h3 style="font-weight: 600;">Hello, <?= htmlspecialchars($_SESSION['name']); ?>👋🏽</h3>
+          </div>
+        </div> -->
+        <!-- <div class="col-md-6 mt-3">
           <ol class="breadcrumb float-sm-right" style="background-color: #f4f6f8;">
             <li class="breadcrumb-item"><a href="index.php" class="text-dark">Home</a></li>
             <li class="breadcrumb-item" style="font-weight: 600; color: #275DAD;">Overview Dashboard</li>
           </ol>
-        </div>
+        </div> -->
         <div class="col-md-12">
-          <div class="card mt-2" style="border-radius: 15px;">
-            <div class="card-header">
-              <h3 class="card-title text-uppercase text-bold"> overview dashboard</h3>
+          <div class="card mt-5" style="border-radius: 14px;">
+            <div class="card-header border-0">
+              <h3 class="card-title text-uppercase text-bold">overview dashboard</h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
                 </button>
@@ -26,67 +31,81 @@
                   <div class="col-md-12">
                     <div class="row">
                       <div class="col-md-2">
-                        <label for="">Line</label>
-                        <input type="search" class="line_no form-control" list="line_no" placeholder="e.g. 1123">
-                        <datalist id="line_no">
-                          <?php
-                          require '../../process/conn.php';
-                          $sql = "SELECT DISTINCT line_no FROM m_master ";
-                          $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-                          $stmt->execute();
+                        <!-- <label for="line_no">&nbsp;</label> -->
+                        <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px; overflow: hidden;">
+                          <span class="input-group-text" style="background-color: #fff; border: none;">
+                            <i class="fas fa-list text-secondary"></i>
+                          </span>
+                          <input
+                            type="search"
+                            class="line_no form-control"
+                            list="line_no"
+                            placeholder="Line no."
+                            onchange="load_dashboard();"
+                            style="border: none; box-shadow: none;">
+                          <datalist id="line_no">
+                            <?php
+                            require '../../process/conn.php';
+                            $sql = "SELECT DISTINCT line_no FROM m_master";
+                            $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+                            $stmt->execute();
 
-                          if ($stmt->rowCount() > 0) {
-                            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            if ($stmt->rowCount() > 0) {
+                              $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                            foreach ($rows as $row) {
-
-                              echo '<option value="' . $row["line_no"] . '">' . $row["line_no"] . '</option>';
+                              foreach ($rows as $row) {
+                                echo '<option value="' . htmlspecialchars($row["line_no"]) . '">' . htmlspecialchars($row["line_no"]) . '</option>';
+                              }
+                            } else {
+                              echo '<option value="">No data available</option>';
                             }
-                          } else {
-                            echo '<option value="">No data available</option>';
-                          }
-                          ?>
-                        </datalist>
-
+                            ?>
+                          </datalist>
+                        </div>
                       </div>
                       <div class="col-md-2">
-                        <label for="">Search</label>
-                        <input type="search" class="form-control" id="search_key" placeholder="e.g. partname, partcode">
+                        <!-- <label for="">&nbsp;</label> -->
+                        <div class="d-flex align-items-center" style="border:1px solid #ccc;border-radius: 10px; padding: 0 10px;">
+                          <span class="fas fa-calendar-alt mx-2 text-secondary"></span>
+                          <select name="search_by_month" id="search_by_month" class="form-control ms-2" onchange="load_dashboard();" style="border:none; background-color:transparent; padding: 10px;">
+                            <option value="" selected>This Month</option>
+                            <option value="1">JANUARY</option>
+                            <option value="2">FEBRUARY</option>
+                            <option value="3">MARCH</option>
+                            <option value="4">APRIL</option>
+                            <option value="5">MAY</option>
+                            <option value="6">JUNE</option>
+                            <option value="7">JULY</option>
+                            <option value="8">AUGUST</option>
+                            <option value="9">SEPTEMBER</option>
+                            <option value="10">OCTOBER</option>
+                            <option value="11">NOVEMBER</option>
+                            <option value="12">DECEMBER</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <!-- <label for="search_key">&nbsp;</label> -->
+                        <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
+                          <span class="input-group-text" style="background-color: #fff; border: none;">
+                            <i class="fas fa-search text-secondary"></i>
+                          </span>
+                          <input type="search" class="form-control" id="search_key" placeholder="Search" style="border: none;" />
+                        </div>
                       </div>
                       <!-- <div class="col-md-2">
-                        <label for="">Date</label>
-                        <input type="date" name="" id="getDate" class="form-control" onchange="load_dashboard();">
-                      </div> -->
-                      <div class="col-md-2 ">
-                        <label for="">Months</label>
-                        <select name="search_by_month" id="search_by_month" class="form-control" style="border-radius: 15px;">
-                          <option value=""></option>
-                          <option value="1">JANUARY</option>
-                          <option value="2">FEBRUARY</option>
-                          <option value="3">MARCH</option>
-                          <option value="4">APRIL</option>
-                          <option value="5">MAY</option>
-                          <option value="6">JUNE</option>
-                          <option value="7">JULY</option>
-                          <option value="8">AUGUST</option>
-                          <option value="9">SEPTEMBER</option>
-                          <option value="10">OCTOBER</option>
-                          <option value="11">NOVEMBER</option>
-                          <option value="12">DECEMBER</option>
-                        </select>
-                      </div>
-                      <div class="col-md-2">
                         <label for="">&nbsp;</label>
                         <button class="form-control btn activeBtn" onclick="load_dashboard();"><i class="fas fa-search"></i> Search</button>
-                      </div>
+                      </div> -->
                       <div class="col-md-2 ml-auto">
-                        <label for="">&nbsp;</label>
-                        <button class="form-control exportBtn" onclick="export_dashboard();"><i class="fas fa-file-export"></i> Export</button>
+                        <!-- <label for="">&nbsp;</label> -->
+                        <button class="form-control exportBtn" onclick="export_dashboard();"><i class="fas fa-cloud-download-alt"></i> Export Data</button>
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-md-12 mt-5" id="tbl_container" style="width:100%; height:650px; overflow:auto;">
+                  <div class="col-md-12 mt-4" id="tbl_container" style="width:100%; height:650px; overflow:auto;">
                     <table class="table table-condensed table-hover text-center">
                       <thead class="thead-bg sticky-top">
                         <tr>

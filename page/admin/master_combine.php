@@ -1,6 +1,23 @@
 <?php include 'plugins/navbar.php'; ?>
 <?php include 'plugins/sidebar/admin_bar.php'; ?>
+<?php
+require '../../process/conn.php';
+try {
+  // Query to get the latest created_at date
+  $sql = "SELECT created_at FROM m_combine ORDER BY created_at DESC";
+  $stmt = $conn->prepare($sql);
+  $stmt->execute();
 
+  // Fetch the result as an associative array
+  $latest_date = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  $latest_date_display = date('Y/m/d', strtotime($latest_date['created_at'])) ?? "No date available";
+} catch (PDOException $e) {
+  // Handle errors
+  $latest_date_display = "Error: " . $e->getMessage();
+}
+
+?>
 <div class="content-wrapper">
   <section class="content">
     <div class="container-fluid">
@@ -12,9 +29,9 @@
           </ol>
         </div>
         <div class="col-md-12">
-          <div class="row mt-2">
+          <div class="row mt-0">
             <div class="col-lg-3 col-6">
-              <div class="small-box" style="background-color: #275DAD; color:#ffffff; border-radius: 15px;">
+              <div class="small-box" style="background-color: #275DAD; color:#ffffff; border-radius: 14px;">
                 <div class="inner">
                   <h3>Auto Combine</h3>
                   <p>BOM & BOM AID</p>
@@ -22,13 +39,13 @@
                 <div class="icon">
                   <i class="fas fa-object-group"></i>
                 </div>
-                <a href="#" data-toggle="modal" data-target="#import_master_combine" class="small-box-footer" style="border-radius: 15px;">
+                <a href="#" data-toggle="modal" data-target="#import_master_combine" class="small-box-footer" style="border-radius: 14px;">
                   Click to Upload Files
                 </a>
               </div>
             </div>
             <div class="col-lg-3 col-6">
-              <div class="small-box bg-success" style=" border-radius: 15px;">
+              <div class="small-box bg-success" style=" border-radius: 14px;">
                 <div class="inner">
                   <h3>Import</h3>
                   <p>Combined Master</p>
@@ -36,7 +53,7 @@
                 <div class="icon">
                   <i class="fas fa-file-excel"></i>
                 </div>
-                <a href="#" data-toggle="modal" data-target="#bom_aid" class="small-box-footer" style="border-radius: 15px;">
+                <a href="#" data-toggle="modal" data-target="#bom_aid" class="small-box-footer" style="border-radius: 14px;">
                   Click to Import
                 </a>
               </div>
@@ -45,21 +62,31 @@
         </div>
 
         <div class="col-md-12">
-          <div class="card mt-2" style="border-radius: 15px;">
-            <div class="card-header">
-              <h3 class="card-title text-uppercase text-bold">Combined Bom Records</h3>
+          <div class="col-md-12">
+            <div class="row">
+              <p class="mr-2" style="margin-left:auto; font-size: 14px; color:#858585;">Last combined: <span><?php echo $latest_date_display; ?></span></p>
             </div>
-
+          </div>
+          <div class="card mt-1" style="border-radius: 14px;">
+            <div class="card-header border-0">
+              <h3 class="card-title text-uppercase text-bold">Combined Bom Records</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+              </div>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-12">
                   <div class="row">
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
                     <div class="col-md-3">
-                      <label for="">Search By Car Model</label>
-                      <select name="search_by_carModel" id="search_by_carModel" class="form-control" style="border-radius: 15px;" onchange="load_combined();">
-                        <option value="">All</option>
-                        <?php
+                      <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px; overflow: hidden;">
+                        <span class="input-group-text" style="background-color: #fff; border: none;">
+                          <i class="fas fa-list text-secondary"></i>
+                        </span>
+                        <select name="search_by_carModel" id="search_by_carModel" class="form-control" style="border-radius: 10px; border: none; box-shadow: none;" onchange="load_combined();">
+                          <option value="">All</option>
+                          <?php
                           require '../../process/conn.php';
                           $sql = "SELECT DISTINCT car_maker, maker_code FROM m_maker_code ORDER BY maker_code";
                           $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
@@ -75,20 +102,29 @@
                             echo '<option value="">No data available</option>';
                           }
                           ?>
-                      </select>
+                        </select>
+                      </div>
                     </div>
                     <div class="col-md-3">
-                      <label for="">Search</label>
-                      <input type="search" name="" id="search_key" class="form-control" placeholder="Keyword...">
+                      <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
+                        <span class="input-group-text" style="background-color: #fff; border: none;">
+                          <i class="fas fa-search text-secondary"></i>
+                        </span>
+                        <input type="search" class="form-control" id="search_key" placeholder="Search" style="border: none;">
+                      </div>
                     </div>
                     <div class="col-md-3">
-                      <label for="">Date</label>
-                      <input type="date" name="" id="search_date" class="form-control" placeholder="" onchange="load_combined();">
+                      <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
+                        <span class="input-group-text" style="background-color: #fff; border: none;">
+                          <i class="fas fa-calendar text-secondary"></i>
+                        </span>
+                        <input type="date" name="" id="search_date" class="form-control text-secondary" placeholder="" style="border: none;" onchange="load_combined();">
+                      </div>
                     </div>
-                    <div class="col-md-2">
+                    <!-- <div class="col-md-2">
                       <label for="">&nbsp;</label>
                       <button class="form-control btn activeBtn" onclick="load_combined();"><i class="fas fa-search"></i> Search</button>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <!-- <button id="view_all_btn" class="ml-auto mt-2 btn exportBtn" onclick="load_all_master()">Show All</button>

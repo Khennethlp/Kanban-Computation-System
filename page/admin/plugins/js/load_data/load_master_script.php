@@ -4,16 +4,18 @@
 
     });
 
-    document.querySelectorAll('#search_key', '#search_date').forEach(input => {
+    document.querySelectorAll('#search_key, #search_by_month').forEach(input => {
         input.addEventListener("keyup", e => {
             if (e.which === 13) {
                 load_master();
             }
         });
+        // input.addEventListener("input", () => {
+        //     load_dashboard();
+        // });
     });
 
     const countDisplayedRows = () => {
-        // Count the rows in the table body (or entire table depending on your structure)
         const rowCount = document.querySelectorAll('#import_table tbody tr').length;
         console.log(`Rows currently in the table: ${rowCount}`);
         // const formattedResponse = parseInt(rowCount).toLocaleString();

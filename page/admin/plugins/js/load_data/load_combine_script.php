@@ -3,6 +3,17 @@
         load_combined();
     });
 
+    document.querySelectorAll('#search_key, #search_date, #search_by_carModel').forEach(input => {
+        input.addEventListener("keyup", e => {
+            if (e.which === 13) {
+                load_combined();
+            }
+        });
+        // input.addEventListener("input", () => {
+        //     load_combined();
+        // });
+    });
+
     const countDisplayedRows = () => {
         // Count the rows in the table body (or entire table depending on your structure)
         const rowCount = document.querySelectorAll('#combine_table tr').length;

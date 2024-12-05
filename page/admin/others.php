@@ -13,9 +13,14 @@
         </div>
         <div class="col-sm-12">
           <div class="card mt-2" style="border-radius: 15px;">
+          <div class="card-header border-0">
+              <h3 class="card-title text-uppercase text-bold">Add Car Maker</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+              </div>
+            </div>
             <div class="card-body">
-              <h4>Add Car Maker</h4>
-              <div class="row mt-3">
+              <div class="row mt-1">
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-6">

@@ -12,7 +12,7 @@
           </ol>
         </div>
         <div class="col-md-12">
-          <div class="col-lg-3 col-6 mt-2">
+          <div class="col-lg-3 col-6 mt-1">
             <div class="small-box bg-danger" style="border-radius: 15px;">
               <div class="inner">
                 <h4>Add Account</h4>
@@ -27,8 +27,11 @@
             </div>
           </div>
           <div class="card mt-2" style="border-radius: 15px;">
-            <div class="card-header">
+            <div class="card-header border-0">
               <h3 class="card-title text-uppercase text-bold"> Accounts Management</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+              </div>
             </div>
 
             <div class="card-body">

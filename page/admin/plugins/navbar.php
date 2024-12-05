@@ -49,7 +49,7 @@ if (!isset($_SESSION['username'])) {
     }
 
     h3 {
-      font-size: 24px;
+      font-size: 28px;
     }
 
     p {
@@ -153,7 +153,7 @@ if (!isset($_SESSION['username'])) {
     input[type='number'],
     input[type='search'],
     input[type='date'] {
-      border-radius: 15px;
+      border-radius: 10px;
     }
 
     .add-btn {
@@ -172,7 +172,7 @@ if (!isset($_SESSION['username'])) {
       border-radius: 50px;
     }
 
-    .active {
+    .active  {
       /*#000EA4*/
       background-color: #E3ECF3 !important;
       /* border-bottom: 2px solid #ffffff !important; */
@@ -184,8 +184,7 @@ if (!isset($_SESSION['username'])) {
     .activeBtn {
       background-color: #275DAD !important;
       color: #fff !important;
-      border-radius: 16px;
-
+      border-radius: 10px;
       &:hover {
         background-color: #2D5C8B !important;
         color: #fff !important;
@@ -253,19 +252,20 @@ if (!isset($_SESSION['username'])) {
 
 
     .thead-bg {
-      background-color: #275DAD !important;
-      color: #fff !important;
+      background-color: #ffffff !important;
+      color: var(--secondary) !important;
+      font-weight: 600;
     }
 
     .exportBtn {
-      background-color: #ffff !important;
-      color: #111 !important;
-      border-radius: 16px;
+      background-color: #275DAD !important;
+      color: #ffffff !important;
+      border-radius: 10px;
       border: 2px solid #ccc;
-
+      font-weight: 500;
       &:hover {
         background-color: #f3f3f3 !important;
-        color: #111 !important;
+        color: #7A7A7A !important;
 
       }
     }
@@ -284,10 +284,11 @@ if (!isset($_SESSION['username'])) {
 
 <body class="hold-transition sidebar-mini layout-fixed ">
   <div class="wrapper">
-    <!-- <nav class="main-header navbar navbar-expand navbar-light sticky-top" style="background-color: #f3f3f3; color: #111; outline:none;">
+    <nav class="main-header navbar navbar-expand navbar-light" style="background-color: #f4f6f8; color: #111; border:none; outline:none;">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link text-white" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <li class="nav-item" id="sidebar-toggle" onclick="toggleSidebar()">
+          <a class="nav-link text-secondary" data-widget="pushmenu" href="#" role="button"><i class="far fa-caret-square-left text-md text-secondary"></i></a>
         </li>
       </ul>
-    </nav> -->
+      <h4 style="font-weight: 600; margin-left:auto; text-transform:uppercase; color: #1D2935; font-family: ;"> Hello, <?= htmlspecialchars($_SESSION['name']); ?>&nbsp;&nbsp;</h4>
+    </nav>
