@@ -2,7 +2,7 @@
   <!-- Brand Logo -->
   <a href="index.php" class="brand-link" style="background-color: #f4f6f8; color: #1D2935; border:none;">
     <img src="../../dist/img/kcs-bg.webp" alt="Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
-    <span class="brand-text font-weight-bold text-uppercase" style="font-size: 18px;">KANBAN COMPUTATION </span>
+    <span class="brand-text font-weight-bold text-uppercase" style="font-size: 15px;">KANBAN COMPUTATION </span>
   </a>
 
   <!-- Sidebar -->

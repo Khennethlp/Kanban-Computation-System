@@ -20,6 +20,11 @@ if (!isset($_SESSION['username'])) {
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="../../dist/css/font.min.css">
 
+  <!-- Google Font Nunito Sans / Poppins / Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+ 
   <link rel="stylesheet" href="../../plugins/DataTables/datatables.min.css">
   <link rel="stylesheet" href="../../dist/css/datatable/dataTables.dataTables.min.css">
   <!-- Font Awesome -->
@@ -38,6 +43,7 @@ if (!isset($_SESSION['username'])) {
     body {
       font-size: 16px;
       line-height: 1.5;
+      font-family: 'poppins',nunito sans, montserrat;
     }
 
     h1 {
@@ -172,7 +178,7 @@ if (!isset($_SESSION['username'])) {
       border-radius: 50px;
     }
 
-    .active  {
+    .active {
       /*#000EA4*/
       background-color: #E3ECF3 !important;
       /* border-bottom: 2px solid #ffffff !important; */
@@ -185,6 +191,7 @@ if (!isset($_SESSION['username'])) {
       background-color: #275DAD !important;
       color: #fff !important;
       border-radius: 10px;
+
       &:hover {
         background-color: #2D5C8B !important;
         color: #fff !important;
@@ -263,6 +270,7 @@ if (!isset($_SESSION['username'])) {
       border-radius: 10px;
       border: 2px solid #ccc;
       font-weight: 500;
+
       &:hover {
         background-color: #f3f3f3 !important;
         color: #7A7A7A !important;
@@ -290,5 +298,7 @@ if (!isset($_SESSION['username'])) {
           <a class="nav-link text-secondary" data-widget="pushmenu" href="#" role="button"><i class="far fa-caret-square-left text-md text-secondary"></i></a>
         </li>
       </ul>
-      <h4 style="font-weight: 600; margin-left:auto; text-transform:uppercase; color: #1D2935; font-family: ;"> Hello, <?= htmlspecialchars($_SESSION['name']); ?>&nbsp;&nbsp;</h4>
+      <div class="col-md-12">
+        <h4 class="text-center" style="font-weight: 800; color: #1D2935; font-family: 'nunito sans', Poppins, montserrat;"> Hello, <?= htmlspecialchars($_SESSION['name']); ?></h4>
+      </div>
     </nav>
