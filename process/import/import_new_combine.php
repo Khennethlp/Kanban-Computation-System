@@ -51,6 +51,8 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
         try {
             $conn->beginTransaction();
 
+            $conn->exec("TRUNCATE TABLE m_combine");
+
             // Create a single temporary table for combined data
             $conn->exec("CREATE TABLE #temp_combined (
                 maker_code NVARCHAR(255),
