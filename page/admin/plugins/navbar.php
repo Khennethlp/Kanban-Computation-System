@@ -265,17 +265,24 @@ if (!isset($_SESSION['username'])) {
     }
 
     .exportBtn {
-      background-color: #275DAD !important;
-      color: #ffffff !important;
+      background-color: #fff !important;
+      color: #1D2935 !important;
       border-radius: 10px;
       border: 2px solid #ccc;
       font-weight: 500;
 
       &:hover {
         background-color: #f3f3f3 !important;
-        color: #7A7A7A !important;
+        color: #275DAD !important;
 
       }
+    }
+    .generateBtn{
+      background-color: #275DAD !important;
+      color: #ffffff !important;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      font-weight: 500;
     }
 
     .red-highlight {
@@ -298,7 +305,7 @@ if (!isset($_SESSION['username'])) {
           <a class="nav-link text-secondary" data-widget="pushmenu" href="#" role="button"><i class="far fa-caret-square-left text-md text-secondary"></i></a>
         </li>
       </ul>
-      <div class="col-md-12">
+      <!-- <div class="col-md-12">
         <h4 class="text-center" style="font-weight: 800; color: #1D2935; font-family: 'nunito sans', Poppins, montserrat;"> Hello, <?= htmlspecialchars($_SESSION['name']); ?></h4>
-      </div>
+      </div> -->
     </nav>

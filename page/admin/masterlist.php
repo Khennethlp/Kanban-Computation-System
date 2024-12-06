@@ -25,8 +25,17 @@
                 <div class="col-md-12">
                   <div class="row">
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
-                    <div class="col-md-2">
-                      <!-- <label for="">&nbsp;</label> -->
+                    <div class="col-md-12">
+                      <div class="row mb-3">
+                        <div class="col-md-2 ml-auto">
+                          <button class="form-control btn exportBtn" data-toggle="modal" data-target="#import_masters"><i class="fas fa-cloud-upload-alt"></i> Import Master</button>
+                        </div>
+                        <div class="col-md-2 ">
+                          <button class="form-control btn exportBtn" onclick="export_master();"><i class="fas fa-cloud-download-alt"></i>&nbsp;Export Master</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2 mb-2">
                       <div class="d-flex align-items-center" style="border:1px solid #ccc;border-radius: 10px; padding: 0 10px;">
                         <span class="fas fa-calendar-alt mx-2 text-secondary"></span>
                         <select name="search_by_month" id="search_by_month" class="form-control ms-2" style="border:none; background-color:transparent; padding: 10px;" onchange="load_master();">
@@ -46,8 +55,7 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                      <!-- <label for="search_key">&nbsp;</label> -->
+                    <div class="col-md-3 mb-2">
                       <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
                         <span class="input-group-text" style="background-color: #fff; border: none;">
                           <i class="fas fa-search text-secondary"></i>
@@ -55,7 +63,9 @@
                         <input type="search" class="form-control" id="search_key" placeholder="Search" style="border: none;" onchange="load_master();" />
                       </div>
                     </div>
-
+                    <div class="col-md-2">
+                      <button class="form-control btn generateBtn"><i class="fas fa-sync-alt"></i> Generate record</button>
+                    </div>
                     <!-- <div class="col-md-3">
                       <label for="">Date</label>
                       <input type="date" name="" id="search_date" class="form-control" placeholder="">
@@ -64,15 +74,6 @@
                       <label for="">&nbsp;</label>
                       <button class="form-control btn activeBtn" onclick="load_master();"><i class="fas fa-search"></i> Search</button>
                     </div> -->
-
-                    <div class="col-md-2 ml-auto">
-                      <!-- <label for="">&nbsp;</label> -->
-                      <button class="form-control btn exportBtn" data-toggle="modal" data-target="#import_masters"><i class="fas fa-cloud-upload-alt"></i> Import Master</button>
-                    </div>
-                    <div class="col-md-2 ">
-                      <!-- <label for="">&nbsp;</label> -->
-                      <button class="form-control btn exportBtn" onclick="export_master();"><i class="fas fa-cloud-download-alt"></i>&nbsp;Export Master</button>
-                    </div>
                   </div>
                 </div>
 

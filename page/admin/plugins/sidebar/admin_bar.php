@@ -1,6 +1,6 @@
-<aside class="main-sidebar sidebar-light-primary  elevation-0" id="sidebar" style="background-color: #f4f6f8;">
+<aside class="main-sidebar sidebar-light-primary  elevation-0" id="sidebar" style="background-color: #fff;">
   <!-- Brand Logo -->
-  <a href="index.php" class="brand-link" style="background-color: #f4f6f8; color: #1D2935; border:none;">
+  <a href="index.php" class="brand-link" style="background-color: #fff; color: #1D2935; border:none;">
     <img src="../../dist/img/kcs-bg.webp" alt="Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
     <span class="brand-text font-weight-bold text-uppercase" style="font-size: 15px;">KANBAN COMPUTATION </span>
   </a>
