@@ -13,7 +13,7 @@ if ($method == 'load_combine') {
     $rowsPerPage = isset($_POST['rows_per_page']) ? (int)$_POST['rows_per_page'] : 100;
     $offset = ($page - 1) * $rowsPerPage;
 
-    $sql = "SELECT * FROM m_combine";
+    $sql = "SELECT *, COUNT(*) OVER() AS total_count FROM m_combine";
 
     $conditions = [];
     if (!empty($search_key)) {
@@ -75,6 +75,7 @@ if ($method == 'load_combine') {
         array_pop($kanban); // Remove the extra row used for the check
     }
 
+    $totalCount = $kanban[0]['total_count'] ?? 0;
     $data = '';
     $c = ($page - 1) * $rowsPerPage + 1;
 
@@ -97,62 +98,62 @@ if ($method == 'load_combine') {
         $data = '<tr><td colspan="10" style="text-align:center;">No results found.</td></tr>';
     }
 
-    echo json_encode(['html' => $data, 'has_more' => $has_more]);
+    echo json_encode(['html' => $data, 'has_more' => $has_more, 'total' => $totalCount]);
 }
 
-if ($method == 'count_combine') {
-    $search_key = $_POST['search_key'];
-    $search_date = $_POST['search_date'];
-    $car_model = $_POST['car_model'];
+// if ($method == 'count_combine') {
+//     $search_key = $_POST['search_key'];
+//     $search_date = $_POST['search_date'];
+//     $car_model = $_POST['car_model'];
 
-    $sqls = "SELECT count(*) as TOTAL FROM m_combine";
+//     $sqls = "SELECT count(*) as TOTAL FROM m_combine";
 
-    $conditions = [];
+//     $conditions = [];
 
-    // if (!empty($search_key)) {
-    //     $conditions[] = "(product_no LIKE :search_key OR partcode LIKE :search_key OR partname LIKE :search_key)";
-    // }
-    if (!empty($search_key)) {
-        $conditions[] = "(product_no LIKE :search_key_productNo OR partcode LIKE :search_key_partcode OR partname LIKE :search_key_partname)";
-    }
+//     // if (!empty($search_key)) {
+//     //     $conditions[] = "(product_no LIKE :search_key OR partcode LIKE :search_key OR partname LIKE :search_key)";
+//     // }
+//     if (!empty($search_key)) {
+//         $conditions[] = "(product_no LIKE :search_key_productNo OR partcode LIKE :search_key_partcode OR partname LIKE :search_key_partname)";
+//     }
 
-    if (!empty($car_model)) {
-        $conditions[] = "maker_code LIKE :search_key_model";
-    }
+//     if (!empty($car_model)) {
+//         $conditions[] = "maker_code LIKE :search_key_model";
+//     }
 
-    if (!empty($search_date)) {
-        $conditions[] = "CAST(created_at AS DATE) = :search_date";
-    }
+//     if (!empty($search_date)) {
+//         $conditions[] = "CAST(created_at AS DATE) = :search_date";
+//     }
 
-    if (!empty($conditions)) {
-        $sqls .= " WHERE " . implode(" AND ", $conditions);
-    }
+//     if (!empty($conditions)) {
+//         $sqls .= " WHERE " . implode(" AND ", $conditions);
+//     }
 
-    $stmt = $conn->prepare($sqls, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+//     $stmt = $conn->prepare($sqls, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
-    // if (!empty($search_key)) {
-    //     $search_keys = "%$search_key%";
-    //     $stmt->bindParam(':search_key', $search_keys);
-    // }
-    if (!empty($search_key)) {
-        $search_keys = "%$search_key%";
-        $stmt->bindParam(':search_key_productNo', $search_keys);
-        $stmt->bindParam(':search_key_partcode', $search_keys);
-        $stmt->bindParam(':search_key_partname', $search_keys);
-    }
-    if (!empty($car_model)) {
-        $stmt->bindParam(':search_key_model', $car_model);
-    }
-    if (!empty($search_date)) {
-        $stmt->bindParam(':search_date', $search_date);
-    }
+//     // if (!empty($search_key)) {
+//     //     $search_keys = "%$search_key%";
+//     //     $stmt->bindParam(':search_key', $search_keys);
+//     // }
+//     if (!empty($search_key)) {
+//         $search_keys = "%$search_key%";
+//         $stmt->bindParam(':search_key_productNo', $search_keys);
+//         $stmt->bindParam(':search_key_partcode', $search_keys);
+//         $stmt->bindParam(':search_key_partname', $search_keys);
+//     }
+//     if (!empty($car_model)) {
+//         $stmt->bindParam(':search_key_model', $car_model);
+//     }
+//     if (!empty($search_date)) {
+//         $stmt->bindParam(':search_date', $search_date);
+//     }
 
-    $stmt->execute();
+//     $stmt->execute();
 
-    if ($stmt->rowCount() > 0) {
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo $row['TOTAL'];
-    } else {
-        echo '0';
-    }
-}
+//     if ($stmt->rowCount() > 0) {
+//         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+//         echo $row['TOTAL'];
+//     } else {
+//         echo '0';
+//     }
+// }

@@ -69,9 +69,10 @@
             success: function(response) {
                 // $('#combine_table').html(response);
                 const responseData = JSON.parse(response);
-                counter();
+                const new_count = parseInt(responseData.total).toLocaleString();
+                // counter();
                 Swal.close();
-
+                document.getElementById('counts').innerHTML =  new_count;
                 if (isPagination) {
                     if (responseData.html.trim() !== '') {
                         document.getElementById('combine_table').innerHTML += responseData.html;
@@ -116,25 +117,25 @@
         }, 100);
     });
 
-    const counter = () => {
-        var search_key = $('#search_key').val();
-        var search_date = $('#search_date').val();
-        var car_model = $('#search_by_carModel').val();
+    // const counter = () => {
+    //     var search_key = $('#search_key').val();
+    //     var search_date = $('#search_date').val();
+    //     var car_model = $('#search_by_carModel').val();
 
-        $.ajax({
-            type: "POST",
-            url: "../../process/admin/masterlist/load_combine.php",
-            data: {
-                method: 'count_combine',
-                search_key: search_key,
-                search_date: search_date,
-                car_model: car_model,
-            },
-            success: function(response) {
-                const formattedResponse = parseInt(response).toLocaleString();
-                $('#counts').html(formattedResponse);
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "../../process/admin/masterlist/load_combine.php",
+    //         data: {
+    //             method: 'count_combine',
+    //             search_key: search_key,
+    //             search_date: search_date,
+    //             car_model: car_model,
+    //         },
+    //         success: function(response) {
+    //             const formattedResponse = parseInt(response).toLocaleString();
+    //             $('#counts').html(formattedResponse);
 
-            }
-        });
-    }
+    //         }
+    //     });
+    // }
 </script>
