@@ -61,4 +61,61 @@
             });
         });
     });
+
+    const generateRecords = () => {
+        var user_name = document.getElementById('user_name').value;
+
+        Swal.fire({
+            icon: 'info',
+            title: 'Generating records...',
+            html: 'Please wait while we process your file.',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '../../process/import/generate_record.php',
+            data: {
+                method: "generate_records",
+                userName: user_name
+            },
+            success: function(response) {
+                if (response == 'success') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Generated Successfully!",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    $('#import_table').html(response);
+                    // Swal.close();
+                } else if (response == 'failed') {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Failed to Generate Records.",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                } else if (response == 'No matching records found.') {
+                    Swal.fire({
+                        icon: "info",
+                        title: "No matching records found.",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Something went wrong.",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            }
+        });
+    }
 </script>

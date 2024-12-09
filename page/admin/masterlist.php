@@ -64,7 +64,7 @@
                       </div>
                     </div>
                     <div class="col-md-2">
-                      <button class="form-control btn generateBtn"><i class="fas fa-sync-alt"></i> Generate record</button>
+                      <button class="form-control btn generateBtn" id="generateRecords" onclick="generateRecords();"><i class="fas fa-sync-alt"></i> Generate record</button>
                     </div>
                     <!-- <div class="col-md-3">
                       <label for="">Date</label>
