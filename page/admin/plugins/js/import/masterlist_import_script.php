@@ -68,7 +68,7 @@
         Swal.fire({
             icon: 'info',
             title: 'Generating records...',
-            html: 'Please wait while we process your file.',
+            html: 'Please wait while we process your data.',
             allowOutsideClick: false,
             showConfirmButton: false,
             willOpen: () => {
@@ -104,8 +104,8 @@
                     Swal.fire({
                         icon: "info",
                         title: "No matching records found.",
-                        showConfirmButton: false,
-                        timer: 2000
+                        showConfirmButton: true,
+                        // timer: 2000
                     });
                 } else {
                     Swal.fire({
