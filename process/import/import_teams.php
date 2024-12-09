@@ -38,9 +38,11 @@ if (isset($_FILES['csvFile_teams'])) {
         }
 
         try {
+            $conn->beginTransaction();
+            $conn->exec("TRUNCATE TABLE m_no_teams");
+            
             $stmt = $conn->prepare("INSERT INTO m_no_teams (line_no, no_teams, created_by) VALUES (?, ?, ?)");
 
-            $conn->beginTransaction();
 
             foreach ($teams_data as $row) {
                 $line_no = $row[0];

@@ -38,9 +38,10 @@ if (isset($_FILES['csvFile_minlot'])) {
         }
 
         try {
-            $stmt = $conn->prepare("INSERT INTO m_min_lot (partcode, partname, min_lot, parts_group, created_by) VALUES (?, ?, ?, ?, ?)");
-
             $conn->beginTransaction();
+            $conn->exec("TRUNCATE TABLE m_min_lot");
+
+            $stmt = $conn->prepare("INSERT INTO m_min_lot (partcode, partname, min_lot, parts_group, created_by) VALUES (?, ?, ?, ?, ?)");
 
             foreach ($minlot_data as $row) {
                 $parts_group = $row[0];

@@ -32,15 +32,17 @@ if (isset($_FILES['csvFile_maxplan'])) {
 
     if ($maxplan['error'] === UPLOAD_ERR_OK) {
         $maxplan_data = readCsvData($maxplan['tmp_name']);
+        
         if (!$maxplan_data) {
             echo "Error: Could not read Max Plan file.";
             exit;
         }
 
         try {
-            $stmt = $conn->prepare("INSERT INTO m_max_plan (product_no, line_no, max_plan, created_by) VALUES (?, ?, ?, ?)");
-
             $conn->beginTransaction();
+            $conn->exec("TRUNCATE TABLE m_max_plan");
+
+            $stmt = $conn->prepare("INSERT INTO m_max_plan (product_no, line_no, max_plan, created_by) VALUES (?, ?, ?, ?)");
 
             foreach ($maxplan_data as $row) {
                 $product_no = $row[0];
