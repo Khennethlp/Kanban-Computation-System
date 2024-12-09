@@ -285,6 +285,14 @@ if (!isset($_SESSION['username'])) {
       font-weight: 500;
     }
 
+    .importModalBtn{
+      background-color: #E3ECF3 !important;
+      color: #1D2935 !important;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      font-weight: 500;
+    }
+
     .red-highlight {
       /* background-color: #D27484; */
       color: #D27484;

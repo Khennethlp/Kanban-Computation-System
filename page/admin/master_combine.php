@@ -79,7 +79,7 @@ try {
                 <div class="col-md-12">
                   <div class="row">
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-2">
                       <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px; overflow: hidden;">
                         <span class="input-group-text" style="background-color: #fff; border: none;">
                           <i class="fas fa-list text-secondary"></i>
@@ -105,7 +105,7 @@ try {
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-2">
                       <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
                         <span class="input-group-text" style="background-color: #fff; border: none;">
                           <i class="fas fa-search text-secondary"></i>
@@ -113,7 +113,7 @@ try {
                         <input type="search" class="form-control" id="search_key" placeholder="Search" style="border: none;">
                       </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-2">
                       <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
                         <span class="input-group-text" style="background-color: #fff; border: none;">
                           <i class="fas fa-calendar text-secondary"></i>

@@ -30,7 +30,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="row">
-                      <div class="col-md-2">
+                      <div class="col-md-2 mb-2">
                         <!-- <label for="line_no">&nbsp;</label> -->
                         <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px; overflow: hidden;">
                           <span class="input-group-text" style="background-color: #fff; border: none;">
@@ -63,7 +63,7 @@
                           </datalist>
                         </div>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-2 mb-2">
                         <!-- <label for="">&nbsp;</label> -->
                         <div class="d-flex align-items-center" style="border:1px solid #ccc;border-radius: 10px; padding: 0 10px;">
                           <span class="fas fa-calendar-alt mx-2 text-secondary"></span>
@@ -85,7 +85,7 @@
                         </div>
                       </div>
 
-                      <div class="col-md-3">
+                      <div class="col-md-3 mb-2">
                         <!-- <label for="search_key">&nbsp;</label> -->
                         <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
                           <span class="input-group-text" style="background-color: #fff; border: none;">
@@ -98,7 +98,7 @@
                         <label for="">&nbsp;</label>
                         <button class="form-control btn activeBtn" onclick="load_dashboard();"><i class="fas fa-search"></i> Search</button>
                       </div> -->
-                      <div class="col-md-2 ml-auto">
+                      <div class="col-md-2 ml-auto mb-2">
                         <!-- <label for="">&nbsp;</label> -->
                         <button class="form-control exportBtn" onclick="export_dashboard();"><i class="fas fa-cloud-download-alt"></i> Export Data</button>
                       </div>

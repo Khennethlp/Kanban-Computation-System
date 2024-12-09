@@ -27,12 +27,7 @@
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
                     <div class="col-md-12">
                       <div class="row mb-3">
-                        <div class="col-md-2 ml-auto">
-                          <button class="form-control btn exportBtn" data-toggle="modal" data-target="#import_masters"><i class="fas fa-cloud-upload-alt"></i> Import Master</button>
-                        </div>
-                        <div class="col-md-2 ">
-                          <button class="form-control btn exportBtn" onclick="export_master();"><i class="fas fa-cloud-download-alt"></i>&nbsp;Export Master</button>
-                        </div>
+                       
                       </div>
                     </div>
                     <div class="col-md-2 mb-2">
@@ -63,9 +58,15 @@
                         <input type="search" class="form-control" id="search_key" placeholder="Search" style="border: none;" onchange="load_master();" />
                       </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 mb-2">
                       <button class="form-control btn generateBtn" id="generateRecords" onclick="generateRecords();"><i class="fas fa-sync-alt"></i> Generate record</button>
                     </div>
+                    <div class="col-md-2 ml-auto">
+                          <button class="form-control btn exportBtn mb-2" data-toggle="modal" data-target="#import_masters"><i class="fas fa-cloud-upload-alt"></i> Import Master</button>
+                        </div>
+                        <div class="col-md-2 ">
+                          <button class="form-control btn exportBtn mb-2" onclick="export_master();"><i class="fas fa-cloud-download-alt"></i>&nbsp;Export Master</button>
+                        </div>
                     <!-- <div class="col-md-3">
                       <label for="">Date</label>
                       <input type="date" name="" id="search_date" class="form-control" placeholder="">
