@@ -96,6 +96,7 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
                     AND (wire_base_color IS NULL OR wire_base_color = '') 
                     AND (wire_stripe_color IS NULL OR wire_stripe_color = '') 
                     AND (shield_wire_code IS NULL OR shield_wire_code = '')
+                    AND partname != 'NAME'
                 GROUP BY 
                     maker_code, product_no, partcode, partname, created_by;
             ";
