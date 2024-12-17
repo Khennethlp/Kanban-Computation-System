@@ -45,12 +45,12 @@ try {
   // ";
 
   $query = "SELECT a.product_no, a.partcode, a.partname, a.need_qty, b.product_no as maxplan_productNo, b.line_no as maxplan_lineNo,
-  c.min_lot AS minLot, c.parts_group AS partsGroup, e.line_no AS teams_lineNo, d.line_number AS kanban_lineNo
+  c.min_lot AS minLot, c.parts_group AS partsGroup, e.line_no AS teams_lineNo
   FROM m_combine a
   LEFT JOIN m_max_plan b ON a.product_no = b.product_no
 	LEFT JOIN m_min_lot c ON c.partcode = a.partcode AND c.partname = a.partname
 	--LEFT JOIN [new_ekanban].[dbo].[mm_masterlist] d ON a.partcode = d.partscode AND a.partname = d.partsname
-	LEFT JOIN m_no_teams e ON d.line_number = e.line_no
+	LEFT JOIN m_no_teams e ON b.line_no = e.line_no
 	WHERE b.product_no is not null AND b.line_no != '0'
 	AND c.parts_group not like 'b%' and c.parts_group not like 'q%' ";
   
