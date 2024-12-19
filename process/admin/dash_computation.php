@@ -62,8 +62,8 @@ if ($method == 'load_dashboard') {
     //     AND a.partname = e.partsname 
     //     AND e.numeric_line_number = CAST(c.line_no AS VARCHAR)
     //";
-    
-    
+
+
     $sql = "SELECT *, COUNT(*) OVER() AS total_count FROM m_master";
     $conditions = [];
     $current_year = date('Y');
@@ -91,7 +91,7 @@ if ($method == 'load_dashboard') {
     // }
 
     // $conditions[] = "b.parts_group NOT LIKE 'B%' AND b.parts_group NOT LIKE 'Q%' AND c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
-
+    $conditions[] = "max_plan != '0'";
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
@@ -140,7 +140,8 @@ if ($method == 'load_dashboard') {
         $min_lot = $row['min_lot'];
         $max_usage = $row['max_usage'];
         $max_plan = $row['max_plan'];
-        $no_teams = $row['no_teams'];
+        // $no_teams = $row['no_teams'];
+        $no_teams = 3;
         $issued_pd = $row['issued_pd'];
 
         // Perform calculations

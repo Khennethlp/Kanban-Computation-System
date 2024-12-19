@@ -91,6 +91,7 @@ if ($method == 'load_master') {
     // $conditions[] = "MONTH(created_at) = :current_month";
     // $conditions[] = "b.parts_group NOT LIKE 'B%' AND b.parts_group NOT LIKE 'Q%' AND c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
 
+    $conditions[] = "max_plan != '0'";
     // Applying WHERE conditions if any
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
