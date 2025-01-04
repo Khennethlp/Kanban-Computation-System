@@ -5,9 +5,9 @@ $method = $_POST['method'];
 
 if ($method == 'load_dashboard') {
     $line_no = $_POST['line_no'];
-    // $search_date = $_POST['search_date'];
     $search_key = $_POST['search_key'];
     $month = $_POST['search_by_month'];
+    $current_year = isset($_POST['search_by_year']) && !empty(trim($_POST['search_by_year'])) ? trim($_POST['search_by_year']) : date('Y');
 
     $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
     $rowsPerPage = isset($_POST['rows_per_page']) ? (int)$_POST['rows_per_page'] : 10;
@@ -66,7 +66,6 @@ if ($method == 'load_dashboard') {
 
     $sql = "SELECT *, COUNT(*) OVER() AS total_count FROM m_master";
     $conditions = [];
-    $current_year = date('Y');
 
     if (!empty($month)) {
         $start_date = $current_year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-01';
@@ -86,9 +85,6 @@ if ($method == 'load_dashboard') {
     if (!empty($search_key)) {
         $conditions[] = "(partcode = :partcode OR partname = :partname)";
     }
-    // if (!empty($search_date)) {
-    //     $conditions[] = "CAST(created_at AS DATE) = :search_date";
-    // }
 
     // $conditions[] = "b.parts_group NOT LIKE 'B%' AND b.parts_group NOT LIKE 'Q%' AND c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
     $conditions[] = "max_plan != '0'";

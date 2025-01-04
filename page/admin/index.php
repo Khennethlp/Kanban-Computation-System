@@ -84,7 +84,20 @@
                           </select>
                         </div>
                       </div>
-
+                      <div class="col-md-2 mb-2">
+                        <div class="d-flex align-items-center" style="border:1px solid #ccc;border-radius: 10px; padding: 0 10px;">
+                          <span class="fas fa-calendar-alt mx-2 text-secondary"></span>
+                          <select name="search_by_year" id="search_by_year" class="form-control ms-2" onchange="load_dashboard();" style="border:none; background-color:transparent; padding: 10px;">
+                            <option value="" selected>This Year</option>
+                            <?php
+                            $current_year = date('Y');
+                            for ($year = $current_year; $year >= 2024; $year--) {
+                              echo '<option value="' . $year . '" >' . $year . '</option>';
+                            }
+                            ?>
+                          </select>
+                        </div>
+                      </div>
                       <div class="col-md-3 mb-2">
                         <!-- <label for="search_key">&nbsp;</label> -->
                         <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">

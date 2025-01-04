@@ -8,6 +8,7 @@ if ($method == 'load_master') {
     $search_key = $_POST['search_key'];
     // $search_date = $_POST['search_date'];
     $month = $_POST['search_by_month'];
+    $current_year = isset($_POST['search_by_year']) && !empty(trim($_POST['search_by_year'])) ? trim($_POST['search_by_year']) : date('Y');
 
     $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
     $rowsPerPage = isset($_POST['rows_per_page']) ? (int)$_POST['rows_per_page'] : 10;
@@ -66,7 +67,6 @@ if ($method == 'load_master') {
 
     $sql = "SELECT *, COUNT(*) OVER() AS total_count FROM m_master";
     $conditions = [];
-    $current_year = date('Y');
 
     if (!empty($search_key)) {
         $conditions[] = "(line_no = :line_no OR partcode = :partcode OR partname = :partname OR product_no = :product_no)";

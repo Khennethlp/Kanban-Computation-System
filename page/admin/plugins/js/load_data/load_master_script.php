@@ -55,6 +55,7 @@
         var search_key = $('#search_key').val();
         // var search_date = $('#search_date').val();
         var search_by_month = $('#search_by_month').val();
+        var search_by_year = $('#search_by_year').val();
 
         $.ajax({
             type: "POST",
@@ -66,6 +67,7 @@
                 search_key: search_key,
                 // search_date: search_date,
                 search_by_month: search_by_month,
+                search_by_year: search_by_year,
                 page: page,
                 rows_per_page: rowsPerPage
             },

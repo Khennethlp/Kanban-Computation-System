@@ -44,6 +44,7 @@
         var search_key = document.getElementById('search_key').value;
         // var getDate = document.getElementById('getDate').value;
         var search_by_month = document.getElementById('search_by_month').value;
+        var search_by_year = document.getElementById('search_by_year').value;
 
         $.ajax({
             type: "POST",
@@ -54,6 +55,7 @@
                 // search_date: getDate,
                 search_key: search_key,
                 search_by_month: search_by_month,
+                search_by_year: search_by_year,
                 page: page,
                 rows_per_page: rowsPerPage
             },
