@@ -26,8 +26,13 @@
                   <div class="row">
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
                     <div class="col-md-12">
-                      <div class="row mb-3">
-                       
+                      <div class="row mb-4">
+                        <div class="col-md-2 ml-auto">
+                          <button class="form-control btn exportBtn mb-2" data-toggle="modal" data-target="#import_masters"><i class="fas fa-cloud-upload-alt"></i> Import Master</button>
+                        </div>
+                        <div class="col-md-2 ">
+                          <button class="form-control btn exportBtn mb-2" onclick="export_master();"><i class="fas fa-cloud-download-alt"></i>&nbsp;Export Master</button>
+                        </div>
                       </div>
                     </div>
                     <div class="col-md-2 mb-2">
@@ -51,19 +56,19 @@
                       </div>
                     </div>
                     <div class="col-md-2 mb-2">
-                        <div class="d-flex align-items-center" style="border:1px solid #ccc;border-radius: 10px; padding: 0 10px;">
-                          <span class="fas fa-calendar-alt mx-2 text-secondary"></span>
-                          <select name="search_by_year" id="search_by_year" class="form-control ms-2" onchange="load_master();" style="border:none; background-color:transparent; padding: 10px;">
-                            <option value="" selected>This Year</option>
-                            <?php
-                            $current_year = date('Y');
-                            for ($year = $current_year; $year >= 2024; $year--) {
-                              echo '<option value="' . $year . '" >' . $year . '</option>';
-                            }
-                            ?>
-                          </select>
-                        </div>
+                      <div class="d-flex align-items-center" style="border:1px solid #ccc;border-radius: 10px; padding: 0 10px;">
+                        <span class="fas fa-calendar-alt mx-2 text-secondary"></span>
+                        <select name="search_by_year" id="search_by_year" class="form-control ms-2" onchange="load_master();" style="border:none; background-color:transparent; padding: 10px;">
+                          <option value="" selected>This Year</option>
+                          <?php
+                          $current_year = date('Y');
+                          for ($year = $current_year; $year >= 2024; $year--) {
+                            echo '<option value="' . $year . '" >' . $year . '</option>';
+                          }
+                          ?>
+                        </select>
                       </div>
+                    </div>
                     <div class="col-md-2 mb-2">
                       <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
                         <span class="input-group-text" style="background-color: #fff; border: none;">
@@ -75,12 +80,7 @@
                     <div class="col-md-2 mb-2">
                       <button class="form-control btn generateBtn" id="generateRecords" onclick="generateRecords();"><i class="fas fa-sync-alt"></i> Generate record</button>
                     </div>
-                    <div class="col-md-2 ml-auto">
-                          <button class="form-control btn exportBtn mb-2" data-toggle="modal" data-target="#import_masters"><i class="fas fa-cloud-upload-alt"></i> Import Master</button>
-                        </div>
-                        <div class="col-md-2 ">
-                          <button class="form-control btn exportBtn mb-2" onclick="export_master();"><i class="fas fa-cloud-download-alt"></i>&nbsp;Export Master</button>
-                        </div>
+
                     <!-- <div class="col-md-3">
                       <label for="">Date</label>
                       <input type="date" name="" id="search_date" class="form-control" placeholder="">
