@@ -38,31 +38,54 @@ try {
         exit;
     }
 
-    // Prepare for batch inserts
-    $placeholdersPerRow = 12; // Number of placeholders per row
-    $maxParamsPerBatch = 2000; // Stay well under the 2100 limit
-    $maxRowsPerBatch = floor($maxParamsPerBatch / $placeholdersPerRow); // Calculate max rows per batch
+    // Check for existing records
+    $existingCheckQuery = "SELECT COUNT(*) FROM m_master WHERE product_no = ? AND line_no = ? AND partcode = ? AND partname = ?";
+    $existingCheckStmt = $conn->prepare($existingCheckQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
-    $values = [];
-    $placeholders = [];
-    $currentBatch = 0;
+    // Prepare for batch inserts
+    $placeholdersPerRow = 12;
+    $maxParamsPerBatch = 2000;
+    $maxRowsPerBatch = floor($maxParamsPerBatch / $placeholdersPerRow);
 
     $insertSql = "INSERT INTO m_master 
                   (product_no, line_no, partcode, partname, min_lot, max_usage, max_plan, no_teams, issued_pd, parts_group, created_by, maker_code) 
                   VALUES ";
 
+    $values = [];
+    $placeholders = [];
+    $currentBatch = 0;
+
+    $newRecordsInserted = false;
+
     foreach ($rows as $index => $row) {
-        $values[] = $row['product_no'];   
-        $values[] = $row['line_no'];      
-        $values[] = $row['partcode'];     
-        $values[] = $row['partname'];     
-        $values[] = $row['min_lot'];      
-        $values[] = $row['max_usage'];    
+
+        // Check if the record already exists
+        $existingCheckStmt->execute([
+            $row['product_no'],
+            $row['line_no'],
+            $row['partcode'],
+            $row['partname']
+        ]);
+
+        $existingCount = $existingCheckStmt->fetchColumn();
+
+        if ($existingCount > 0) {
+            // Skip insertion if the record already exists
+            continue;
+        }
+
+        $newRecordsInserted = true;
+        $values[] = $row['product_no'];
+        $values[] = $row['line_no'];
+        $values[] = $row['partcode'];
+        $values[] = $row['partname'];
+        $values[] = $row['min_lot'];
+        $values[] = $row['max_usage'];
         $values[] = $row['maxplan_total'];
-        $values[] = $row['no_teams'];     
+        $values[] = $row['no_teams'];
         $values[] = null;               // issued to PD    
         $values[] = $row['parts_group'];
-        $values[] = $userName;   
+        $values[] = $userName;
         $values[] = $row['maker_code'];
 
         $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -71,12 +94,7 @@ try {
         if ((count($placeholders) >= $maxRowsPerBatch) || ($index === count($rows) - 1)) {
             $batchQuery = $insertSql . implode(", ", $placeholders);
             $insertStmt = $conn->prepare($batchQuery);
-
-            if ($insertStmt->execute($values)) {
-                 echo "Batch {$currentBatch} inserted successfully.\n";
-            } else {
-                echo "Failed to insert batch {$currentBatch}.\n";
-            }
+            $insertStmt->execute($values);
 
             // Reset placeholders and values for the next batch
             $placeholders = [];
@@ -86,7 +104,11 @@ try {
     }
 
     // echo "All data inserted successfully.";
-    echo 'success';
+    if ($newRecordsInserted) {
+        echo 'success'; // Some new records were inserted
+    } else {
+        echo 'Records already generated.'; // No new records were inserted
+    }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }

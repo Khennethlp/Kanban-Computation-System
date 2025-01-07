@@ -66,55 +66,70 @@
         var user_name = document.getElementById('user_name').value;
 
         Swal.fire({
-            icon: 'info',
-            title: 'Generating records...',
-            html: 'Please wait while we process your data.',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            willOpen: () => {
-                Swal.showLoading();
-            }
-        });
+            title: "Continue to generate records?",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Proceed",
+        }).then((result) => {
+            if (result.isConfirmed) {
 
-        $.ajax({
-            type: "POST",
-            url: '../../process/import/generate_record.php',
-            data: {
-                method: "generate_records",
-                userName: user_name
-            },
-            success: function(response) {
-                if (response == 'success') {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Generated Successfully!",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    $('#import_table').html(response);
-                    // Swal.close();
-                } else if (response == 'failed') {
-                    Swal.fire({
-                        icon: "info",
-                        title: "Failed to Generate Records.",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                } else if (response == 'No matching records found.') {
-                    Swal.fire({
-                        icon: "info",
-                        title: "No matching records found.",
-                        showConfirmButton: true,
-                        // timer: 2000
-                    });
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Something went wrong.",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                }
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Generating records...',
+                    html: 'Please wait while we process your data.',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: '../../process/import/generate_record.php',
+                    data: {
+                        method: "generate_records",
+                        userName: user_name
+                    },
+                    success: function(response) {
+                        if (response == 'success') {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Generated Successfully!",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        } else if (response == 'failed') {
+                            Swal.fire({
+                                icon: "info",
+                                title: "Failed to Generate Records.",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        } else if (response == 'No matching records found.') {
+                            Swal.fire({
+                                icon: "info",
+                                title: "No matching records found.",
+                                showConfirmButton: false,
+                                // timer: 2000
+                            });
+                        } else if (response == 'Records already generated.') {
+                            Swal.fire({
+                                icon: "info",
+                                title: "Records already generated.",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Something went wrong.",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }
+                    }
+                });
             }
         });
     }
