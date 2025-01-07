@@ -100,7 +100,7 @@
                       </div>
                       <div class="col-md-3 mb-2">
                         <!-- <label for="search_key">&nbsp;</label> -->
-                        <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
+                        <div class="input-group search_key" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden; transition: width 0.3s ease;">
                           <span class="input-group-text" style="background-color: #fff; border: none;">
                             <i class="fas fa-search text-secondary"></i>
                           </span>

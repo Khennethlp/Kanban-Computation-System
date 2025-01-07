@@ -69,15 +69,15 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-2 mb-2">
-                      <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
+                    <div class="col-md-3 mb-2">
+                      <div class="input-group search_key" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden; transition: width 0.3s ease;">
                         <span class="input-group-text" style="background-color: #fff; border: none;">
                           <i class="fas fa-search text-secondary"></i>
                         </span>
                         <input type="search" class="form-control" id="search_key" placeholder="Search" style="border: none;" onchange="load_master();" />
                       </div>
                     </div>
-                    <div class="col-md-2 mb-2">
+                    <div class="col-md-2 mb-2 ml-auto">
                       <button class="form-control btn generateBtn" id="generateRecords" onclick="generateRecords();"><i class="fas fa-sync-alt"></i> Generate record</button>
                     </div>
 
