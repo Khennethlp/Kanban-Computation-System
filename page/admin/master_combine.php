@@ -44,6 +44,7 @@ try {
                 </a>
               </div>
             </div>
+
             <!-- <div class="col-lg-3 col-6">
               <div class="small-box bg-success" style=" border-radius: 14px;">
                 <div class="inner">
@@ -58,15 +59,16 @@ try {
                 </a>
               </div>
             </div> -->
+
+            <div class="col-md-12">
+              <div class="row">
+                <p class="mr-2" style="margin-left:auto; font-size: 14px; color:#858585;">Last combined: <span><?php echo $latest_date_display; ?></span></p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="col-md-12">
-          <div class="col-md-12">
-            <div class="row">
-              <p class="mr-2" style="margin-left:auto; font-size: 14px; color:#858585;">Last combined: <span><?php echo $latest_date_display; ?></span></p>
-            </div>
-          </div>
           <div class="card mt-1" style="border-radius: 14px;">
             <div class="card-header border-0">
               <h3 class="card-title text-uppercase text-bold">Combined Bom Records</h3>
@@ -79,7 +81,7 @@ try {
                 <div class="col-md-12">
                   <div class="row">
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
-                    <div class="col-md-3 mb-2">
+                    <div class="col-md-2 mb-2">
                       <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px; overflow: hidden;">
                         <span class="input-group-text" style="background-color: #fff; border: none;">
                           <i class="fas fa-list text-secondary"></i>
@@ -105,6 +107,40 @@ try {
                         </select>
                       </div>
                     </div>
+                    <div class="col-md-2 mb-2">
+                      <div class="d-flex align-items-center" style="border:1px solid #ccc;border-radius: 10px; padding: 0 10px;">
+                        <span class="fas fa-calendar-alt mx-2 text-secondary"></span>
+                        <select name="search_by_month" id="search_by_month" class="form-control ms-2" style="border:none; background-color:transparent; padding: 10px;" onchange="load_combined();">
+                          <option value="" selected>This Month</option>
+                          <option value="1">JANUARY</option>
+                          <option value="2">FEBRUARY</option>
+                          <option value="3">MARCH</option>
+                          <option value="4">APRIL</option>
+                          <option value="5">MAY</option>
+                          <option value="6">JUNE</option>
+                          <option value="7">JULY</option>
+                          <option value="8">AUGUST</option>
+                          <option value="9">SEPTEMBER</option>
+                          <option value="10">OCTOBER</option>
+                          <option value="11">NOVEMBER</option>
+                          <option value="12">DECEMBER</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2 mb-2">
+                      <div class="d-flex align-items-center" style="border:1px solid #ccc;border-radius: 10px; padding: 0 10px;">
+                        <span class="fas fa-calendar-alt mx-2 text-secondary"></span>
+                        <select name="search_by_year" id="search_by_year" class="form-control ms-2" onchange="load_combined();" style="border:none; background-color:transparent; padding: 10px;">
+                          <option value="" selected>This Year</option>
+                          <?php
+                          $current_year = date('Y');
+                          for ($year = $current_year; $year >= 2024; $year--) {
+                            echo '<option value="' . $year . '" >' . $year . '</option>';
+                          }
+                          ?>
+                        </select>
+                      </div>
+                    </div>
                     <div class="col-md-3 mb-2">
                       <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
                         <span class="input-group-text" style="background-color: #fff; border: none;">
@@ -113,22 +149,23 @@ try {
                         <input type="search" class="form-control" id="search_key" placeholder="Search" style="border: none;">
                       </div>
                     </div>
-                    <div class="col-md-3 mb-2">
+
+                    <!-- <div class="col-md-3 mb-2">
                       <div class="input-group" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden;">
                         <span class="input-group-text" style="background-color: #fff; border: none;">
                           <i class="fas fa-calendar text-secondary"></i>
                         </span>
                         <input type="date" name="" id="search_date" class="form-control text-secondary" placeholder="" style="border: none;" onchange="load_combined();">
                       </div>
-                    </div>
+                    </div> -->
+
                     <!-- <div class="col-md-2">
                       <label for="">&nbsp;</label>
                       <button class="form-control btn activeBtn" onclick="load_combined();"><i class="fas fa-search"></i> Search</button>
                     </div> -->
+
                   </div>
                 </div>
-                <!-- <button id="view_all_btn" class="ml-auto mt-2 btn exportBtn" onclick="load_all_master()">Show All</button>
-                <button id="hide_btn" class="ml-auto mt-2 btn exportBtn" style="display:none;" onclick="load_master()">Show Less</button> -->
                 <div class="col-md-12 mt-2">
                   <div class="mt-3" id="combine_container" style="height: 650px; overflow:auto;">
                     <table class="table table-hover ">

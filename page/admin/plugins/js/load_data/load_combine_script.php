@@ -51,8 +51,9 @@
 
         var user_name = $('#user_name').val();
         var search_key = $('#search_key').val();
-        var search_date = $('#search_date').val();
         var car_model = $('#search_by_carModel').val();
+        var search_by_month = $('#search_by_month').val();
+        var search_by_year = $('#search_by_year').val();
 
         $.ajax({
             type: "POST",
@@ -61,7 +62,8 @@
                 method: 'load_combine',
                 user_name: user_name,
                 search_key: search_key,
-                search_date: search_date,
+                search_by_month: search_by_month,
+                search_by_year: search_by_year,
                 car_model: car_model,
                 page: page,
                 rows_per_page: rowsPerPage
@@ -117,25 +119,4 @@
         }, 100);
     });
 
-    // const counter = () => {
-    //     var search_key = $('#search_key').val();
-    //     var search_date = $('#search_date').val();
-    //     var car_model = $('#search_by_carModel').val();
-
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "../../process/admin/masterlist/load_combine.php",
-    //         data: {
-    //             method: 'count_combine',
-    //             search_key: search_key,
-    //             search_date: search_date,
-    //             car_model: car_model,
-    //         },
-    //         success: function(response) {
-    //             const formattedResponse = parseInt(response).toLocaleString();
-    //             $('#counts').html(formattedResponse);
-
-    //         }
-    //     });
-    // }
 </script>
