@@ -44,7 +44,7 @@ try {
                 </a>
               </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <!-- <div class="col-lg-3 col-6">
               <div class="small-box bg-success" style=" border-radius: 14px;">
                 <div class="inner">
                   <h3>Import</h3>
@@ -57,7 +57,7 @@ try {
                   Click to Import
                 </a>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
