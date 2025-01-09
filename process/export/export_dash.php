@@ -6,6 +6,8 @@ ini_set('max_execution_time', 300); // 5 minutes
 $search_key = $_GET['search_key'] ?? '';
 $getLine = $_GET['line_no'] ?? '';
 $month = $_GET['month'] ?? '';
+$current_year = $_GET['year'] ?? date('Y');
+// $current_year =  ;
 
 $delimiter = ",";
 $datenow = date('Y-m-d');
@@ -61,7 +63,7 @@ if (!empty($getLine)) {
 }
 
 if (!empty($month)) {
-    $current_year = date('Y');
+    
     $start_date = $current_year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-01';
     $end_date = date("Y-m-t", strtotime($start_date));
     $conditions[] = "created_at BETWEEN :start_date AND :end_date";
