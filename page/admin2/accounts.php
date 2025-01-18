@@ -15,20 +15,6 @@ include('plugins/navbar/index_navbar.php');
           </ol>
         </div>
         <div class="col-md-12">
-          <div class="col-lg-3 col-6 mt-1">
-            <div class="small-box bg-danger" style="border-radius: 15px;">
-              <div class="inner">
-                <h4>Add Account</h4>
-                <p>&nbsp;</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-user"></i>
-              </div>
-              <a href="#" data-toggle="modal" data-target="#add_account" class="small-box-footer" style="border-radius: 15px;">
-                Click to add account
-              </a>
-            </div>
-          </div>
           <div class="card mt-2" style="border-radius: 15px;">
             <div class="card-header border-0">
               <h3 class="card-title text-uppercase text-bold"> Accounts Management</h3>
@@ -42,21 +28,21 @@ include('plugins/navbar/index_navbar.php');
                 <div class="col-12">
                   <div class="col-md-12">
                     <div class="row">
-                      <div class="col-md-3">
-                        <label for="">Search</label>
-                        <input type="search" name="" id="search_acc" class="form-control" placeholder="Keywords...">
+                      <div class="col-md-3 mt-3">
+                        <!-- <input type="search" name="" id="search_acc" class="form-control" placeholder="Keywords..."> -->
+                        <div class="input-group search_key" style="border: 1px solid #ccc; border-radius: 10px;overflow: hidden; transition: width 0.3s ease;">
+                          <span class="input-group-text" style="background-color: #fff; border: none;">
+                            <i class="fas fa-search text-secondary" onclick="load_accounts();"></i>
+                          </span>
+                          <input type="search" class="form-control" id="search_acc" placeholder="Search account" style="border: none;" />
+                        </div>
                       </div>
-
-                      <div class="col-md-2">
+                      <div class="col-md-0 ml-auto">
                         <label for="">&nbsp;</label>
-                        <button class="form-control btn activeBtn" onclick="load_accounts();"><i class="fas fa-search"></i> Search</button>
+                        <button class="form-control btn btn-danger btn-sm" data-toggle="modal" data-target="#add_account" title="Add New User" style="border-radius:10px;"><i class="fas fa-plus mx-2"></i> Add Account</button>
                       </div>
-                      <!-- <div class="col-md-0 ml-auto">
-                        <label for="">&nbsp;</label>
-                        <button class="form-control btn addBtn" data-toggle="modal" data-target="#add_account" title="Add New User"><i class="fas fa-plus mx-2"></i></button>
-                      </div> -->
                     </div>
-                    <div class="col-md-12 mt-5" style="max-height: 600px; overflow: auto;">
+                    <div class="col-md-12 mt-3" style="max-height: 600px; overflow: auto;">
                       <table class="table table-condensed table-hover">
                         <thead class="thead-bg">
                           <tr>
