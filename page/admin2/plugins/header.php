@@ -175,10 +175,11 @@ if (!isset($_SESSION['username'])) {
     }
 
     .active {
-      /*#000EA4*/
-      background-color: #E3ECF3 !important;
-      border-radius: 8px;
-      color: #275DAD !important;
+      /*#E3ECF3*/
+      /* background-color: #275DAD !important; */
+      border-bottom: 3px solid #275DAD !important;
+      /* border-radius: 8px; */
+      color: #111 !important;
       font-weight: 600;
 
     }
