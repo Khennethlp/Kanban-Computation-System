@@ -2,7 +2,7 @@
 include('plugins/header.php');
 include('plugins/preloader.php');
 include('plugins/navbar/index_navbar.php');
- ?>
+?>
 
 
 <div class="content-wrapper">
@@ -126,12 +126,9 @@ include('plugins/navbar/index_navbar.php');
                       <div id="load_more" class="text-center" style="display: none;">
                         <p class="badge badge-dark border border-outline px-3 py-2 mt-3 " style="cursor: pointer; font-size: 15px; padding: 20px 0;">Load More...</p>
                       </div>
-
                     </div>
                   </div>
                 </div>
-                <!-- <p class="mt-3" id="count_master">Total: 100</p> -->
-
               </div>
             </div>
           </div>
@@ -146,7 +143,5 @@ include('plugins/navbar/index_navbar.php');
 include 'plugins/footer.php';
 include 'plugins/js/load_data/load_master_script.php';
 include 'plugins/js/import/masterlist_import_script.php';
-include 'plugins/js/import/maxplan_script.php';
-include 'plugins/js/import/minlot_script.php';
-include 'plugins/js/import/teams_script.php';
+include 'plugins/js/import/master_data_script.php';
 ?>
