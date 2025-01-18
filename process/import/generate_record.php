@@ -13,7 +13,8 @@ try {
                   c.min_lot AS min_lot, 
                   a.need_qty AS max_usage, 
                   b.max_plan AS maxplan_total, 
-                  e.line_no AS no_teams, 
+                  e.line_no AS no_teams_line,
+				  e.no_teams AS no_teams, 
                   c.parts_group AS parts_group,
                   a.maker_code
               FROM 
