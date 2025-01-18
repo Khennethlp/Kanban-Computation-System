@@ -177,7 +177,7 @@ if (!isset($_SESSION['username'])) {
     .active {
       /*#000EA4*/
       background-color: #E3ECF3 !important;
-      /* border-bottom: 2px solid #ffffff !important; */
+      border-radius: 8px;
       color: #275DAD !important;
       font-weight: 600;
 
@@ -198,7 +198,7 @@ if (!isset($_SESSION['username'])) {
     .submitBtn {
       background-color: #275DAD !important;
       color: #fff !important;
-      border-radius: 16px;
+      border-radius: 10px;
 
       &:hover {
         background-color: #1F6C98 !important;
@@ -210,7 +210,7 @@ if (!isset($_SESSION['username'])) {
     .actionBtn {
       background-color: #55A6F1 !important;
       color: #fff !important;
-      border-radius: 16px;
+      border-radius: 10px;
 
       &:hover {
         background-color: #275DAD !important;
@@ -222,7 +222,7 @@ if (!isset($_SESSION['username'])) {
     .delBtn {
       background-color: #D27484 !important;
       color: #fff !important;
-      border-radius: 16px;
+      border-radius: 10px;
 
       &:hover {
         background-color: #DD5755 !important;
