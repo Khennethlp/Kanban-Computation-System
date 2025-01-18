@@ -1,11 +1,11 @@
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand-md navbar-light text-dark border-bottom-0 elevation-2">
+<nav class="main-header navbar navbar-expand-md navbar-light bg-white text-dark border-bottom-0 elevation-1 pt-3 pb-3">
   <div class="col-md-12">
     <div class="row">
       <div class="col-md-3">
         <a href="" class="navbar-brand ml-2">
-          <img src="../../dist/img/kcs-bg.webp" alt="Web Template Logo" class="brand-image elevation-3 bg-light p-1 rounded" style="opacity: .8">
-          <span class="brand-text font-weight-bold text-dark">KCS</span>
+          <img src="../../dist/img/kcs-bg.webp" alt="Web Template Logo" class="brand-image elevation-1 bg-light p-1 rounded" style="opacity: .8">
+          <span class="brand-text font-weight-bold text-dark text-lg">Kanban Computation</span>
         </a>
       </div>
     
