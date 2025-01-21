@@ -4,6 +4,7 @@ require '../conn.php';
 
 $search_key = $_GET['search_key'] ?? '';
 $getMonth = $_GET['month'] ?? '';
+$current_year = $_GET['year'] ?? date('Y');
 
 $delimiter = ",";
 $datenow = date('Y-m-d');
@@ -35,7 +36,6 @@ if (!empty($search_key)) {
 }
 
 if (!empty($getMonth)) {
-    $current_year = date('Y');
     $start_date = $current_year . '-' . str_pad($getMonth, 2, '0', STR_PAD_LEFT) . '-01';
     $end_date = date("Y-m-t", strtotime($start_date));
     $conditions[] = "created_at BETWEEN :start_date AND :end_date";
