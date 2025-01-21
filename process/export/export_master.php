@@ -9,6 +9,11 @@ $delimiter = ",";
 $datenow = date('Y-m-d');
 $filename = "Kanban-Computation_Masterlist " . $datenow . ".csv";
 
+header('Content-Type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename="' . $filename . '";');
+header('Pragma: no-cache');
+header('Expires: 0');
+
 // Create a file pointer
 $f = fopen('php://memory', 'w');
 
@@ -38,11 +43,12 @@ if (!empty($getMonth)) {
     $params[':end_date'] = $end_date;
 }
 
+$conditions[] = "max_plan != '0'";
 if (!empty($conditions)) {
     $sql .= " AND " . implode(" AND ", $conditions); // Apply conditions if present
 }
 
-$sql .= " ORDER BY id DESC";
+$sql .= " ORDER BY product_no, id DESC";
 
 // Prepare the statement
 $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
@@ -78,11 +84,6 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 }
 
 fseek($f, 0);
-
-header('Content-Type: text/csv; charset=UTF-8');
-header('Content-Disposition: attachment; filename="' . $filename . '";');
-header('Pragma: no-cache');
-header('Expires: 0');
 
 // Output the file contents
 fpassthru($f);

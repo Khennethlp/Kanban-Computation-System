@@ -7,7 +7,6 @@ $search_key = $_GET['search_key'] ?? '';
 $getLine = $_GET['line_no'] ?? '';
 $month = $_GET['month'] ?? '';
 $current_year = $_GET['year'] ?? date('Y');
-// $current_year =  ;
 
 $delimiter = ",";
 $datenow = date('Y-m-d');
@@ -45,8 +44,7 @@ $fields = [
 fputcsv($f, $fields, $delimiter);
 
 // SQL Query and Conditions
-$sql = "SELECT line_no, partcode, partname, min_lot, max_usage, max_plan, no_teams, issued_pd 
-        FROM m_master";
+$sql = "SELECT * FROM m_master";
 $conditions = [];
 $params = [];
 
@@ -63,7 +61,6 @@ if (!empty($getLine)) {
 }
 
 if (!empty($month)) {
-    
     $start_date = $current_year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-01';
     $end_date = date("Y-m-t", strtotime($start_date));
     $conditions[] = "created_at BETWEEN :start_date AND :end_date";
@@ -71,11 +68,12 @@ if (!empty($month)) {
     $params[':end_date'] = $end_date;
 }
 
+$conditions[] = "max_plan != '0'";
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
-$sql .= " ORDER BY id DESC";
+$sql .= " ORDER BY product_no, id DESC";
 
 $stmt = $conn->prepare($sql);
 
@@ -87,26 +85,26 @@ $stmt->execute();
 
 // Process and write rows to the CSV
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $issued_pd = is_numeric($row['issued_pd']) && $row['issued_pd'] !== null ? $row['issued_pd'] : 0;
+    $min_lot = $row['min_lot'];
     $max_usage = $row['max_usage'];
+    $max_plan = $row['max_plan'];
+    $no_teams = $row['no_teams'];
+    // $no_teams = 3;
+    $issued_pd = $row['issued_pd'];
 
-    $takt_time = floor(510 / ($row['max_plan'] / $row['no_teams']) * 60);
-
-    // $conveyor_speed = round($takt_time * 0.96);
+    // Perform calculations
+    $takt_time = floor(510 / ($max_plan / $no_teams) * 60);
     $conveyor_speed = $takt_time * 0.96;
     $decimal_conveyor = $conveyor_speed - floor($conveyor_speed);
     $conveyor_speed = $decimal_conveyor <= 0.5 ? floor($conveyor_speed) : ceil($conveyor_speed);
-
-    //usage hour
-    // $usage_hour = ceil((3600 / $conveyor_speed) * $row['max_usage']);
     $usage_hour = (3600 / $conveyor_speed) * $max_usage;
     $decimal_usage = $usage_hour - floor($usage_hour);
     $usage_hour = $decimal_usage <= .51 ? floor($usage_hour) : ceil($usage_hour);
 
     $lead_time = $usage_hour * 5;
     $safety_inv = $usage_hour * 1;
-    $kanban_qty = ceil(($lead_time + $safety_inv) / $row['min_lot']);
-    $add_reduce_kanban = $kanban_qty - $row['issued_pd'];
+    $kanban_qty = ceil(($lead_time + $safety_inv) / $min_lot);
+    $add_reduce_kanban = $kanban_qty -  $issued_pd;
 
     $lineData = [
         $row['line_no'],

@@ -92,10 +92,6 @@ if ($method == 'load_dashboard') {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
 
-    // $sql .= " GROUP BY a.id, a.created_by, a.partcode, a.partname, a.need_qty, 
-    //       b.partcode, b.partname, b.parts_group, b.min_lot, c.product_no, c.max_plan, 
-    //       c.maxPlan_total, c.line_no, d.no_teams, e.masterlist_count ";
-
     $sql .= " ORDER BY product_no, id DESC OFFSET :offset ROWS FETCH NEXT :limit_plus_one ROWS ONLY";
 
     $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
@@ -136,8 +132,7 @@ if ($method == 'load_dashboard') {
         $min_lot = $row['min_lot'];
         $max_usage = $row['max_usage'];
         $max_plan = $row['max_plan'];
-        // $no_teams = $row['no_teams'];
-        $no_teams = 3;
+        $no_teams = $row['no_teams'];
         $issued_pd = $row['issued_pd'];
 
         // Perform calculations
