@@ -4,7 +4,7 @@
     <!-- Brand -->
     <a href="" class="navbar-brand ml-2">
       <img src="../../dist/img/kcs-bg.webp" alt="Web Template Logo" class="brand-image elevation-1 bg-light p-0 rounded" style="opacity: .8">
-      <span class="brand-text font-weight-bold text-dark text-lg">Kanban Computation</span>
+      <span class="brand-text font-weight-bold text-dark nav-title">Kanban Computation System</span>
     </a>
     <!-- Logout Button -->
     <a href="#" class="text-white border rounded btn btn-md btn-dark" data-toggle="modal" data-target="#logout_modal">
@@ -13,7 +13,7 @@
   </div>
 </nav>
 
-<nav class="main-header navbar navbar-expand-md navbar-light bg-white text-dark border-bottom-1 elevation-0 pt-2 pb-2 sticky-top">
+<nav id="sticky-navbar" class="main-header navbar navbar-expand-md navbar-light border-bottom-1 elevation-0 pt-2 pb-2 sticky-top">
   <div class="container">
     <ul class="navbar-nav w-100 d-flex justify-content-around">
       <li class="nav-item">
@@ -38,7 +38,7 @@
       </li>
       <li class="nav-item">
         <a href="others.php" class="nav-link <?= ($_SERVER['REQUEST_URI'] == '/kcs/page/admin2/others.php') ? 'active' : '' ?>">
-          <i class="nav-icon fa fa-cog"></i> Others
+          <i class="nav-icon fa fa-cog"></i> Car Maker
         </a>
       </li>
     </ul>

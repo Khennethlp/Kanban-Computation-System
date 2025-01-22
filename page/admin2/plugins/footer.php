@@ -31,6 +31,20 @@ include '../../modals/bom_aid.php';
 include '../../modals/logout_modal.php';
 ?>
 
+<script>
+  // Select the sticky navbar
+  const stickyNavbar = document.getElementById('sticky-navbar');
+
+  // Add scroll event listener
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) {
+      stickyNavbar.classList.add('scrolled');
+    } else {
+      stickyNavbar.classList.remove('scrolled');
+    }
+  });
+</script>
+
 <script src="../../plugins/jquery/dist/jquery.min.js"></script>
 <script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
 

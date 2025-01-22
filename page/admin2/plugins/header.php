@@ -36,273 +36,303 @@ if (!isset($_SESSION['username'])) {
   <link rel="icon" type="image/x-icon" href="../../dist/img/kcs-bg.webp">
 </head>
 <style>
-    body {
-      font-size: 16px;
-      line-height: 1.5;
-      font-family: 'poppins', nunito sans, montserrat;
+  body {
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: 'POPPINS', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  h2 {
+    font-size: 36px;
+  }
+
+  h3 {
+    font-size: 28px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+
+  .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #536A6D;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
     }
 
-    h1 {
-      font-size: 48px;
+    100% {
+      transform: rotate(1080deg);
     }
+  }
 
-    h2 {
-      font-size: 36px;
-    }
+  table th {
+    /* padding: 10px; */
+    white-space: nowrap;
+    text-align: left;
+  }
 
-    h3 {
-      font-size: 28px;
-    }
+  th.part-code {
+    width: 150px;
+  }
 
-    p {
-      font-size: 16px;
-    }
+  th.part-name {
+    width: 200px;
+  }
 
+  th.min-lot,
+  th.max-usage,
+  th.max-plan,
+  th.teams,
+  th.takt-time,
+  th.conveyor-speed,
+  th.usage-hour,
+  th.lead-time,
+  th.safety-inv,
+  th.req-kanban,
+  th.issued-pd,
+  th.add-kanban,
+  th.delete-kanban,
+  th.th-width {
+    width: 120px;
+  }
 
-    .loader {
-      border: 16px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 16px solid #536A6D;
-      width: 50px;
-      height: 50px;
-      -webkit-animation: spin 2s linear infinite;
-      animation: spin 2s linear infinite;
-    }
+  table {
+    width: 100%;
+    table-layout: auto;
+    font-size: 14px;
+  }
 
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
+  td {
+    white-space: nowrap;
+  }
 
-      100% {
-        transform: rotate(1080deg);
-      }
-    }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
 
-    table th {
-      /* padding: 10px; */
-      white-space: nowrap;
-      text-align: left;
-    }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
 
-    th.part-code {
-      width: 150px;
-    }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
 
-    th.part-name {
-      width: 200px;
-    }
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #332D2D;
+  }
 
-    th.min-lot,
-    th.max-usage,
-    th.max-plan,
-    th.teams,
-    th.takt-time,
-    th.conveyor-speed,
-    th.usage-hour,
-    th.lead-time,
-    th.safety-inv,
-    th.req-kanban,
-    th.issued-pd,
-    th.add-kanban,
-    th.delete-kanban,
-    th.th-width {
-      width: 120px;
-    }
+  .active .icon-image {
+    filter: brightness(0) invert(1);
+  }
 
-    table {
-      width: 100%;
-      table-layout: auto;
-      font-size: 14px;
-    }
+  .icon-image {
+    filter: none;/
+  }
 
-    td {
-      white-space: nowrap;
-    }
+  input[type='text'],
+  input[type='password'],
+  input[type='number'],
+  input[type='search'],
+  input[type='date'] {
+    border-radius: 10px;
+  }
 
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
+  .add-btn {
+    display: block;
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #19323C;
+    color: white;
+    padding: 10px 17px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+  }
 
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
+  .active {
+    /*#E3ECF3*/
+    border-bottom: 4px solid #19323C !important;
+    color: #19323C !important;
+    font-weight: 600;
 
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 10px;
-    }
+  }
 
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #332D2D;
-    }
+  .nav-item:hover>.nav-link {
+    background-color: #244656 !important;
+    color: #ffffff !important;
+    border-radius: 3px;
+  }
 
-    .active .icon-image {
-      filter: brightness(0) invert(1);
-    }
+  .activeBtn {
+    background-color: #19323C !important;
+    color: #fff !important;
+    border-radius: 10px;
 
-    .icon-image {
-      filter: none;/
-    }
-
-    input[type='text'],
-    input[type='password'],
-    input[type='number'],
-    input[type='search'],
-    input[type='date'] {
-      border-radius: 10px;
-    }
-
-    .add-btn {
-      display: block;
-      position: fixed;
-      bottom: 50px;
-      right: 30px;
-      z-index: 99;
-      border: none;
-      outline: none;
-      background-color: #275DAD;
-      color: white;
-      padding: 10px 17px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 50px;
-    }
-
-    .active {
-      /*#E3ECF3*/
-      /* background-color: #275DAD !important; */
-      border-bottom: 3px solid #275DAD !important;
-      /* border-radius: 8px; */
-      color: #111 !important;
-      font-weight: 600;
-
-    }
-
-    .activeBtn {
-      background-color: #275DAD !important;
+    &:hover {
+      background-color: #2D5C8B !important;
       color: #fff !important;
-      border-radius: 10px;
 
-      &:hover {
-        background-color: #2D5C8B !important;
-        color: #fff !important;
-
-      }
     }
+  }
 
-    .submitBtn {
-      background-color: #275DAD !important;
+  .submitBtn {
+    background-color: #19323C !important;
+    color: #fff !important;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: #1F6C98 !important;
       color: #fff !important;
-      border-radius: 10px;
 
-      &:hover {
-        background-color: #1F6C98 !important;
-        color: #fff !important;
-
-      }
     }
+  }
 
-    .actionBtn {
-      background-color: #55A6F1 !important;
+  .actionBtn {
+    background-color: #55A6F1 !important;
+    color: #fff !important;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: #19323C !important;
       color: #fff !important;
-      border-radius: 10px;
 
-      &:hover {
-        background-color: #275DAD !important;
-        color: #fff !important;
-
-      }
     }
+  }
 
-    .delBtn {
-      background-color: #D27484 !important;
+  .delBtn {
+    background-color: #D27484 !important;
+    color: #fff !important;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: #DD5755 !important;
       color: #fff !important;
-      border-radius: 10px;
 
-      &:hover {
-        background-color: #DD5755 !important;
-        color: #fff !important;
-
-      }
     }
+  }
 
-    .signOutBtn {
-      background-color: #f3f3f3 !important;
-      /*#000EA4*/
-      border-bottom: 2px solid #275DAD !important;
-      color: #111 !important;
-    }
+  .signOutBtn {
+    background-color: #f3f3f3 !important;
+    /*#000EA4*/
+    border-bottom: 2px solid #19323C !important;
+    color: #111 !important;
+  }
 
-    .add-btn:hover {
+  .add-btn:hover {
+    background-color: #276DBD;
+  }
+
+  .addBtn {
+    background-color: #19323C !important;
+    color: #fff !important;
+    border-radius: 15px;
+    border: none;
+
+    &:hover {
       background-color: #276DBD;
     }
+  }
 
-    .addBtn {
-      background-color: #275DAD !important;
-      color: #fff !important;
-      border-radius: 15px;
-      border: none;
 
-      &:hover {
-        background-color: #276DBD;
-      }
+  .thead-bg {
+    background-color: #ffffff !important;
+    color: var(--secondary) !important;
+    font-weight: 600;
+  }
+
+  .exportBtn {
+    background-color: #fff !important;
+    color: #1D2935 !important;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #f3f3f3 !important;
+      color: #19323C !important;
+
     }
+  }
 
+  .generateBtn {
+    background-color: #19323C !important;
+    color: #ffffff !important;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    font-weight: 500;
+  }
 
-    .thead-bg {
-      background-color: #ffffff !important;
-      color: var(--secondary) !important;
-      font-weight: 600;
-    }
+  .importModalBtn {
+    background-color: #E3ECF3 !important;
+    color: #1D2935 !important;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    font-weight: 500;
+  }
 
-    .exportBtn {
-      background-color: #fff !important;
-      color: #1D2935 !important;
-      border-radius: 10px;
-      border: 2px solid #ccc;
-      font-weight: 500;
+  .red-highlight {
+    /* background-color: #D27484; */
+    color: #D27484;
+  }
 
-      &:hover {
-        background-color: #f3f3f3 !important;
-        color: #275DAD !important;
+  .search_key {
+    width: 50%;
+    transition: width 0.3s ease;
+  }
 
-      }
-    }
+  .search_key:focus-within {
+    width: 100%;
+  }
 
-    .generateBtn {
-      background-color: #275DAD !important;
-      color: #ffffff !important;
-      border-radius: 10px;
-      border: 2px solid #ccc;
-      font-weight: 500;
-    }
+  .nav-title {
+    font-size: 23px;
+    text-transform: uppercase;
+  }
 
-    .importModalBtn {
-      background-color: #E3ECF3 !important;
-      color: #1D2935 !important;
-      border-radius: 10px;
-      border: 2px solid #ccc;
-      font-weight: 500;
-    }
+  /* Default navbar background color */
+  #sticky-navbar {
+    background-color: #ffffff;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
 
-    .red-highlight {
-      /* background-color: #D27484; */
-      color: #D27484;
-    }
+  #sticky-navbar.scrolled {
+    background-color: #19323C;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #ffffff !important;
+  }
 
-    .search_key {
-      width: 50%;
-      transition: width 0.3s ease;
-    }
+  #sticky-navbar.scrolled .nav-link {
+    color: #f4f6f8 !important;
+    /* Ensure nav links also change color */
+  }
 
-    .search_key:focus-within {
-      width: 100%;
-    }
-
-  </style>
+  #sticky-navbar.scrolled .nav-link.active {
+    border-bottom: 4px solid #ffffff !important;
+    /* Add underline for active links */
+  }
+</style>
