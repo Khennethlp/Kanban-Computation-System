@@ -60,10 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $conn->beginTransaction();
 
-        if (!empty($maxplan_data) || !empty($minlot_data) || !empty($teams_data) || !empty($kanban_data)) {
+        if (!empty($maxplan_data)) {
             $conn->exec("TRUNCATE TABLE m_max_plan");
+        } else if (!empty($minlot_data)) {
             $conn->exec("TRUNCATE TABLE m_min_lot");
+        } else if (!empty($teams_data)) {
             $conn->exec("TRUNCATE TABLE m_no_teams");
+        } else if (!empty($kanban_data)) {
             $conn->exec("TRUNCATE TABLE kanban_master");
         } else {
             echo "error:No data found in uploaded files.";

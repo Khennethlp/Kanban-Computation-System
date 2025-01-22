@@ -10,7 +10,6 @@
             var teams = $('#csvFileInput_teams')[0].files[0];
             var kanban = $('#csvFileInput_kanban')[0].files[0];
 
-            // Check if all files are provided
             if (!maxplan || !minlot || !teams || !kanban) {
                 Swal.fire({
                     icon: 'error',
