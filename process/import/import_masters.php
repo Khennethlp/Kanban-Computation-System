@@ -6,6 +6,7 @@ ini_set('post_max_size', '2000M');
 ini_set('upload_max_filesize', '2000M');
 set_time_limit(0); // Unlimited time to process large files
 ini_set('display_errors', 0);
+
 header('Content-Type: text/plain'); // Output as plain text
 
 function readCsvData($filename)
@@ -33,12 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $maxplan = $_FILES['csvFile_maxplan'];
     $minlot = $_FILES['csvFile_minlot'];
     $teams = $_FILES['csvFile_teams'];
+    $kanban = $_FILES['csvFile_kanban'];
 
     $allowedMimeType = 'text/plain';
     if (
         mime_content_type($maxplan['tmp_name']) !== $allowedMimeType ||
         mime_content_type($minlot['tmp_name']) !== $allowedMimeType ||
-        mime_content_type($teams['tmp_name']) !== $allowedMimeType
+        mime_content_type($teams['tmp_name']) !== $allowedMimeType ||
+        mime_content_type($kanban['tmp_name']) !== $allowedMimeType
     ) {
         echo "error:Invalid file type. Only CSV files are allowed.";
         exit;
@@ -47,8 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $maxplan_data = readCsvData($maxplan['tmp_name']);
     $minlot_data = readCsvData($minlot['tmp_name']);
     $teams_data = readCsvData($teams['tmp_name']);
+    $kanban_data = readCsvData($kanban['tmp_name']);
 
-    if (!$maxplan_data || !$minlot_data || !$teams_data) {
+    if (!$maxplan_data || !$minlot_data || !$teams_data || !$kanban_data) {
         echo "error:Error reading uploaded files.";
         exit;
     }
@@ -56,9 +60,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $conn->beginTransaction();
 
-        $conn->exec("TRUNCATE TABLE m_max_plan");
-        $conn->exec("TRUNCATE TABLE m_min_lot");
-        $conn->exec("TRUNCATE TABLE m_no_teams");
+        if (!empty($maxplan_data) || !empty($minlot_data) || !empty($teams_data) || !empty($kanban_data)) {
+            $conn->exec("TRUNCATE TABLE m_max_plan");
+            $conn->exec("TRUNCATE TABLE m_min_lot");
+            $conn->exec("TRUNCATE TABLE m_no_teams");
+            $conn->exec("TRUNCATE TABLE kanban_master");
+        } else {
+            echo "error:No data found in uploaded files.";
+            exit;
+        }
 
         // Insert max plan
         $stmt_maxplan = $conn->prepare("INSERT INTO m_max_plan (product_no, line_no, max_plan, created_by) VALUES (?, ?, ?, ?)");
@@ -96,6 +106,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        // Insert kanban
+        $stmt_kanban = $conn->prepare("INSERT INTO kanban_master (line_no, partcode, partname, added_by) VALUES (?, ?, ?, ?)");
+        foreach ($kanban_data as $row) {
+            $line_no = substr($row[4], 0, 4);
+            $partcode = $row[5];
+            $partname = $row[6];
+
+            $stmt_kanban->execute([$line_no, $partcode, $partname, $userName]);
+        }
+
         $conn->commit();
         echo "success:File uploaded and data inserted successfully.";
     } catch (Exception $e) {
@@ -106,4 +126,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo "error:Invalid request method.";
 }
-?>

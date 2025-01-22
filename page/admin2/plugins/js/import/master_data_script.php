@@ -8,9 +8,10 @@
             var maxplan = $('#csvFileInput_maxplan')[0].files[0];
             var minlot = $('#csvFileInput_minlot')[0].files[0];
             var teams = $('#csvFileInput_teams')[0].files[0];
+            var kanban = $('#csvFileInput_kanban')[0].files[0];
 
             // Check if all files are provided
-            if (!maxplan || !minlot || !teams) {
+            if (!maxplan || !minlot || !teams || !kanban) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Missing File',
@@ -34,8 +35,7 @@
             formData.append('csvFile_maxplan', maxplan);
             formData.append('csvFile_minlot', minlot);
             formData.append('csvFile_teams', teams);
-
-            $('#import_minlot').modal('hide');
+            formData.append('csvFile_kanban', kanban);
 
             $.ajax({
                 url: '../../process/import/import_masters.php',

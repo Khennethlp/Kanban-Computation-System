@@ -5,7 +5,7 @@
             event.preventDefault();
 
             var formData = new FormData();
-            var user_name = $('#user_name').val();
+            var user_name = $('#uploader_name').val();
             var fileInput = $('#csvFileInput_kanban')[0].files[0];
 
             if (!fileInput) {

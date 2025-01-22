@@ -36,6 +36,10 @@
                                 <label for="">&nbsp;</label>
                                 <a href="../../template/No of Teams.csv" class="form-control text-dark text-center mb-2"><i class="fas fa-download"></i> Template</a>
                             </div>
+                            <div class="col-md-8 mb-2">
+                                <label for="">Kanban Masterlist:</label>
+                                <input type="file" class="form-control p-1" name="file" accept=".csv, .xls, .xlsx" id="csvFileInput_kanban">
+                            </div>
                             <input type="submit" name="upload" class="form-control mt-3  btn-success" value="Upload">
                         </div>
                     </form>
