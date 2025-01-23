@@ -36,41 +36,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $teams = $_FILES['csvFile_teams'];
     $kanban = $_FILES['csvFile_kanban'];
 
-    $allowedMimeType = 'text/plain';
-    if (
-        mime_content_type($maxplan['tmp_name']) !== $allowedMimeType ||
-        mime_content_type($minlot['tmp_name']) !== $allowedMimeType ||
-        mime_content_type($teams['tmp_name']) !== $allowedMimeType ||
-        mime_content_type($kanban['tmp_name']) !== $allowedMimeType
-    ) {
-        echo "error:Invalid file type. Only CSV files are allowed.";
-        exit;
-    }
+    // $allowedMimeType = 'text/plain';
+    // if (
+    //     mime_content_type($maxplan['tmp_name']) !== $allowedMimeType ||
+    //     mime_content_type($minlot['tmp_name']) !== $allowedMimeType ||
+    //     mime_content_type($teams['tmp_name']) !== $allowedMimeType ||
+    //     mime_content_type($kanban['tmp_name']) !== $allowedMimeType
+    // ) {
+    //     echo "error:Invalid file type. Only CSV files are allowed.";
+    //     exit;
+    // }
 
     $maxplan_data = readCsvData($maxplan['tmp_name']);
     $minlot_data = readCsvData($minlot['tmp_name']);
     $teams_data = readCsvData($teams['tmp_name']);
     $kanban_data = readCsvData($kanban['tmp_name']);
 
-    if (!$maxplan_data || !$minlot_data || !$teams_data || !$kanban_data) {
-        echo "error:Error reading uploaded files.";
-        exit;
-    }
+    // if (!$maxplan_data || !$minlot_data || !$teams_data || !$kanban_data) {
+    //     echo "error:Error reading uploaded files.";
+    //     exit;
+    // }
 
     try {
         $conn->beginTransaction();
 
-        if (!empty($maxplan_data)) {
+        if (!empty($maxplan['tmp_name'])) {
             $conn->exec("TRUNCATE TABLE m_max_plan");
-        } else if (!empty($minlot_data)) {
+            $maxplan_data = readCsvData($maxplan['tmp_name']);
+            if (!$maxplan_data) {
+                throw new Exception("Error reading maxplan file.");
+            }
+        }
+
+        if (!empty($minlot['tmp_name'])) {
             $conn->exec("TRUNCATE TABLE m_min_lot");
-        } else if (!empty($teams_data)) {
+            $minlot_data = readCsvData($minlot['tmp_name']);
+            if (!$minlot_data) {
+                throw new Exception("Error reading minlot file.");
+            }
+        }
+
+        if (!empty($teams['tmp_name'])) {
             $conn->exec("TRUNCATE TABLE m_no_teams");
-        } else if (!empty($kanban_data)) {
+            $teams_data = readCsvData($teams['tmp_name']);
+            if (!$teams_data) {
+                throw new Exception("Error reading teams file.");
+            }
+        }
+
+        if (!empty($kanban['tmp_name'])) {
             $conn->exec("TRUNCATE TABLE kanban_master");
-        } else {
-            echo "error:No data found in uploaded files.";
-            exit;
+            $kanban_data = readCsvData($kanban['tmp_name']);
+            if (!$kanban_data) {
+                throw new Exception("Error reading kanban file.");
+            }
         }
 
         // Insert max plan

@@ -10,14 +10,14 @@
             var teams = $('#csvFileInput_teams')[0].files[0];
             var kanban = $('#csvFileInput_kanban')[0].files[0];
 
-            if (!maxplan || !minlot || !teams || !kanban) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Missing File',
-                    text: 'Please upload all required CSV files.',
-                });
-                return;
-            }
+            // if (!maxplan || !minlot || !teams || !kanban) {
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'Missing File',
+            //         text: 'Please upload all required CSV files.',
+            //     });
+            //     return;
+            // }
 
             Swal.fire({
                 icon: 'info',
@@ -35,7 +35,7 @@
             formData.append('csvFile_minlot', minlot);
             formData.append('csvFile_teams', teams);
             formData.append('csvFile_kanban', kanban);
-
+            $('#import_masters').modal('hide');
             $.ajax({
                 url: '../../process/import/import_masters.php',
                 type: 'POST',
@@ -54,7 +54,7 @@
                             showConfirmButton: false,
                             timer: 3000,
                         });
-                        $('#import_minlot').modal('hide');
+                        $('#import_masters').modal('hide');
                         $('#csvFileForms')[0].reset(); // Reset form
                     } else if (status === 'error') {
                         Swal.fire({

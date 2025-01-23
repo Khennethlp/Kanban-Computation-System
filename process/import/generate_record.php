@@ -45,8 +45,8 @@ try {
         exit;
     }
 
-    // $existingCheckQuery = "SELECT COUNT(*) FROM m_master WHERE product_no = ? AND line_no = ? AND partcode = ? AND partname = ?";
-    // $existingCheckStmt = $conn->prepare($existingCheckQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+    $existingCheckQuery = "SELECT COUNT(*) FROM m_master WHERE product_no = ? AND line_no = ? AND partcode = ? AND partname = ?";
+    $existingCheckStmt = $conn->prepare($existingCheckQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
     // Prepare for batch inserts
     $placeholdersPerRow = 12;
@@ -61,26 +61,26 @@ try {
     $placeholders = [];
     $currentBatch = 0;
 
-    // $newRecordsInserted = false;
+    $newRecordsInserted = false;
 
     foreach ($rows as $index => $row) {
 
         // Check if the record already exists
-        // $existingCheckStmt->execute([
-        //     $row['product_no'],
-        //     $row['line_no'],
-        //     $row['partcode'],
-        //     $row['partname']
-        // ]);
+        $existingCheckStmt->execute([
+            $row['product_no'],
+            $row['line_no'],
+            $row['partcode'],
+            $row['partname']
+        ]);
 
-        // $existingCount = $existingCheckStmt->fetchColumn();
+        $existingCount = $existingCheckStmt->fetchColumn();
 
-        // if ($existingCount > 0) {
-        //     // Skip insertion if the record already exists
-        //     continue;
-        // }
+        if ($existingCount > 0) {
+            // Skip insertion if the record already exists
+            continue;
+        }
 
-        // $newRecordsInserted = true;
+        $newRecordsInserted = true;
         $values[] = $row['product_no'];
         $values[] = $row['line_no'];
         $values[] = $row['partcode'];
@@ -110,11 +110,11 @@ try {
     }
 
     // echo "All data inserted successfully.";
-    echo 'success'; // Some new records were inserted
-    // if ($newRecordsInserted) {
-    // } else {
-    //     echo 'Records already generated.'; // No new records were inserted
-    // }
+    if ($newRecordsInserted) {
+        echo 'success'; // Some new records were inserted
+    } else {
+        echo 'Records already generated.'; // No new records were inserted
+    }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
