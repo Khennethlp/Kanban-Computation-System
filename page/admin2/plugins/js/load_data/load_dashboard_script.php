@@ -42,7 +42,6 @@
 
         var line_no = document.getElementsByClassName('line_no')[0].value;
         var search_key = document.getElementById('search_key').value;
-        // var getDate = document.getElementById('getDate').value;
         var search_by_month = document.getElementById('search_by_month').value;
         var search_by_year = document.getElementById('search_by_year').value;
 
@@ -52,7 +51,6 @@
             data: {
                 method: 'load_dashboard',
                 line_no: line_no,
-                // search_date: getDate,
                 search_key: search_key,
                 search_by_month: search_by_month,
                 search_by_year: search_by_year,
@@ -62,6 +60,14 @@
             success: function(response) {
                 const responseData = JSON.parse(response);
                 const new_count = parseInt(responseData.total).toLocaleString();
+                const err_msg = responseData.err_msg;
+
+                if (err_msg) {
+                    document.getElementById('err_msg').innerHTML = err_msg;
+                    document.querySelector('.err_msg_container').style.display = 'block';
+                } else {
+                    document.querySelector('.err_msg_container').style.display = 'none';
+                }
 
                 document.getElementById('dash_count').innerHTML = 'Results: ' + new_count;
                 Swal.close();
@@ -108,25 +114,6 @@
             }
         }, 200);
     });
-
-
-    // const count_dash = () => {
-    //     var line_no = document.getElementById('line_no').value;
-    //     var getDate = document.getElementById('getDate').value;
-
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "../../process/admin/dash_computation.php",
-    //         data: {
-    //             method: 'count_dash',
-    //             line_no: line_no,
-    //             search_date: getDate
-    //         },
-    //         success: function(response) {
-    //             $('#dash_count').html(response);
-    //         }
-    //     });
-    // }
 
     const export_dashboard = () => {
         var line_no = document.getElementsByClassName('line_no')[0].value;

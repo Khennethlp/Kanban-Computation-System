@@ -9,6 +9,16 @@ include('plugins/navbar/index_navbar.php');
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
+
+          <div class="err_msg_container" style="display:block;">
+            <div class="alert alert-dismissible fade show" style="background-color: #C3423F; color: #fff; " role="alert">
+              <strong>Oops!</strong>&nbsp;<span id="err_msg"></span>
+              <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+
           <div class="card mt-5" style="border-radius: 14px;">
             <div class="card-header border-0">
               <h3 class="card-title text-uppercase text-bold">overview dashboard</h3>

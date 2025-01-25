@@ -123,6 +123,7 @@ if ($method == 'load_dashboard') {
     $totalCount = $master[0]['total_count'] ?? 0;
 
     $data = '';
+    $division_by_zero = '';
     $c = ($page - 1) * $rowsPerPage + 1;
 
     foreach ($master as $row) {
@@ -134,6 +135,11 @@ if ($method == 'load_dashboard') {
         $max_plan = $row['max_plan'];
         $no_teams = $row['no_teams'];
         $issued_pd = $row['issued_pd'];
+
+        if (empty($no_teams)) {
+            $division_by_zero = "Division by zero detected in calculations for Line No: $line_no";
+            continue; // Skip this iteration
+        }
 
         // Perform calculations
         $takt_time = floor(510 / ($max_plan / $no_teams) * 60);
@@ -149,6 +155,7 @@ if ($method == 'load_dashboard') {
         $kanban_qty = ceil(($lead_time + $safety_inv) / $min_lot);
         $add_reduce_kanban = $kanban_qty -  $issued_pd;
         $fill_color = ($add_reduce_kanban < 0) ? ' red-highlight' : '';
+
 
         $data .= '<tr>';
         $data .= '<td>' . $c . '</td>';
@@ -180,6 +187,6 @@ if ($method == 'load_dashboard') {
         'html' => $data,
         'has_more' => $has_more,
         'total' => $totalCount,
-
+        'err_msg' => $division_by_zero
     ]);
 }
