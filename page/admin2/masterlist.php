@@ -31,11 +31,14 @@ include('plugins/navbar/index_navbar.php');
                     <input type="hidden" name="" id="user_name" class="form-control" value="<?= $_SESSION['name'] ?>">
                     <div class="col-md-12">
                       <div class="row mb-4">
-                        <div class="col-md-2 ml-auto">
-                          <button class="form-control btn exportBtn mb-2" data-toggle="modal" data-target="#import_masters"><i class="fas fa-cloud-upload-alt"></i> Import Master</button>
+                        <div class="col-md-1 ml-auto">
+                          <button class="form-control btn btn-sm delBtn mb-2" id="del_masterlist" onclick="delete_master();"><i class="fas fa-trash"></i> Delete</button>
                         </div>
                         <div class="col-md-2 ">
-                          <button class="form-control btn exportBtn mb-2" onclick="export_master();"><i class="fas fa-cloud-download-alt"></i>&nbsp;Export Master</button>
+                          <button class="form-control btn btn-sm exportBtn mb-2" data-toggle="modal" data-target="#import_masters"><i class="fas fa-cloud-upload-alt"></i> Import Master</button>
+                        </div>
+                        <div class="col-md-2 ">
+                          <button class="form-control btn btn-sm exportBtn mb-2" onclick="export_master();"><i class="fas fa-cloud-download-alt"></i>&nbsp;Export Master</button>
                         </div>
                       </div>
                     </div>
@@ -78,21 +81,12 @@ include('plugins/navbar/index_navbar.php');
                         <span class="input-group-text" style="background-color: #fff; border: none;">
                           <i class="fas fa-search text-secondary"></i>
                         </span>
-                        <input type="search" class="form-control" id="search_key" placeholder="Search" style="border: none;" onchange="load_master();" />
+                        <input type="search" class="form-control" id="search_key" placeholder="Search by Line, Product, Partcode, Partname" style="border: none;" onchange="" />
                       </div>
                     </div>
                     <div class="col-md-2 mb-2 ml-auto">
                       <button class="form-control btn generateBtn" id="generateRecords" onclick="generateRecords();"><i class="fas fa-sync-alt"></i> Generate record</button>
                     </div>
-
-                    <!-- <div class="col-md-3">
-                      <label for="">Date</label>
-                      <input type="date" name="" id="search_date" class="form-control" placeholder="">
-                    </div> -->
-                    <!-- <div class="col-md-2">
-                      <label for="">&nbsp;</label>
-                      <button class="form-control btn activeBtn" onclick="load_master();"><i class="fas fa-search"></i> Search</button>
-                    </div> -->
                   </div>
                 </div>
 

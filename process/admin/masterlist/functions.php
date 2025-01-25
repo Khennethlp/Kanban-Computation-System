@@ -41,7 +41,7 @@ if ($method === 'update_master') {
 if ($method == "add_car_maker_code") {
     $maker_code = strtoupper(trim($_POST['maker_code'] ?? ''));
     $car_maker = $_POST['car_maker'];
-    
+
     $car_maker = ucfirst(strtolower($car_maker));
 
     try {
@@ -68,5 +68,29 @@ if ($method == "add_car_maker_code") {
         }
     } catch (PDOException $e) {
         echo 'error';
+    }
+}
+
+if ($method == 'delete_master') {
+    $search_key = $_POST['search_key'] ?? '';
+
+    try {
+        $conn->beginTransaction();
+    
+        $sql = "DELETE FROM m_master WHERE line_no = :line_no OR partcode = :partcode OR partname = :partname OR product_no = :product_no";
+        $stmt_master = $conn->prepare($sql);
+        $stmt_master->bindParam(':line_no', $search_key);
+        $stmt_master->bindParam(':partcode', $search_key);
+        $stmt_master->bindParam(':partname', $search_key);
+        $stmt_master->bindParam(':product_no', $search_key);
+        
+        // Execute the statement
+        $stmt_master->execute();
+        $conn->commit();
+        echo 'success';
+    } catch (Exception $e) {
+        $conn->rollBack();
+        echo 'failed';
+        echo "Error: " . $e->getMessage();
     }
 }

@@ -1,7 +1,6 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // load_master();
-
+        document.getElementById('del_masterlist').style.display = 'none';
     });
 
     document.querySelectorAll('#search_key, #search_by_month').forEach(input => {
@@ -10,9 +9,6 @@
                 load_master();
             }
         });
-        // input.addEventListener("input", () => {
-        //     load_dashboard();
-        // });
     });
 
     const countDisplayedRows = () => {
@@ -53,7 +49,6 @@
 
         var user_name = $('#user_name').val();
         var search_key = $('#search_key').val();
-        // var search_date = $('#search_date').val();
         var search_by_month = $('#search_by_month').val();
         var search_by_year = $('#search_by_year').val();
 
@@ -65,7 +60,6 @@
                 method: 'load_master',
                 user_name: user_name,
                 search_key: search_key,
-                // search_date: search_date,
                 search_by_month: search_by_month,
                 search_by_year: search_by_year,
                 page: page,
@@ -74,7 +68,7 @@
             success: function(response) {
                 const responseData = JSON.parse(response);
                 const new_count = parseInt(responseData.total).toLocaleString();
-                
+
                 document.getElementById('count_master').innerHTML = 'Results: ' + new_count;
                 Swal.close();
                 if (isPagination) {
@@ -103,6 +97,12 @@
                 }
 
                 isLoading = false;
+                (search_key !== "" && new_count > 0) ? $('#del_masterlist').css('display', 'block'): $('#del_masterlist').css('display', 'none');
+
+                console.log('Search Key Value:', search_key);
+                console.log('Search Month Value:', search_by_month);
+                console.log('Search Year Value:', search_by_year);
+
             }
         });
     }
@@ -118,25 +118,6 @@
             }
         }, 100);
     });
-
-
-    // const count_master = () => {
-    //     var search_key = document.getElementById('search_key').value;
-    //     var getDate = document.getElementById('search_date').value;
-
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "../../process/admin/masterlist/load_master.php",
-    //         data: {
-    //             method: 'count_master',
-    //             search_key: search_key,
-    //             search_date: getDate
-    //         },
-    //         success: function(response) {
-    //             $('#count_master').html(response);
-    //         }
-    //     });
-    // }
 
     const getMaster = (param) => {
         $data = param.split('~!~');
@@ -227,5 +208,69 @@
         var search_by_year = $('#search_by_year').val();
 
         window.open('../../process/export/export_master.php?search_key=' + search_key + '&month=' + search_by_month + '&year=' + search_by_year, '_blank');
+    }
+
+    const delete_master = () => {
+        var search_key = $('#search_key').val();
+        var search_by_month = $('#search_by_month').val();
+        var search_by_year = $('#search_by_year').val();
+
+        console.log('Search Key Value:', search_key);
+        console.log('Month Value:', search_by_month);
+        console.log('Year Value:', search_by_year);
+
+        var new_month = new Date(0, search_by_month - 1).toLocaleString('default', {
+            month: 'long'
+        });
+
+        // let del_message = search_key === '' ? (search_by_month === '' ? (search_by_year === '' ? 'All data' : 'all data from Year of ' + search_by_year) : 'all data from Month of ' + new_month) : search_key;
+        let del_message = !search_key ? "All data" : search_key;
+        Swal.fire({
+            title: 'Do you want to delete ' + del_message + '?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#19323C',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "../../process/admin/masterlist/functions.php",
+                    data: {
+                        method: 'delete_master',
+                        search_key: search_key,
+                    },
+                    success: function(response) {
+                        if (response == 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted Successfully!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            load_master();
+                        } else if (response == 'failed') {
+                            Swal.fire("Delete failed. Try again.", "", "error");
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Delete failed. Try again.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else {
+                            Swal.fire("Something went wrong.", "", "error");
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Something went wrong.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    }
+                });
+            }
+        });
     }
 </script>
