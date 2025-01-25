@@ -96,13 +96,9 @@ include('plugins/navbar/index_navbar.php');
                           <span class="input-group-text" style="background-color: #fff; border: none;">
                             <i class="fas fa-search text-secondary"></i>
                           </span>
-                          <input type="search" class="form-control" id="search_key" placeholder="Search" style="border: none;" />
+                          <input type="search" class="form-control" id="search_key" placeholder="Search by Partcode, Partname" style="border: none;" />
                         </div>
                       </div>
-                      <!-- <div class="col-md-2">
-                        <label for="">&nbsp;</label>
-                        <button class="form-control btn activeBtn" onclick="load_dashboard();"><i class="fas fa-search"></i> Search</button>
-                      </div> -->
                       <div class="col-md-2 ml-auto mb-2">
                         <!-- <label for="">&nbsp;</label> -->
                         <button class="form-control exportBtn" onclick="export_dashboard();"><i class="fas fa-cloud-download-alt"></i> Export Data</button>
