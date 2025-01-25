@@ -12,7 +12,7 @@ include('plugins/navbar/index_navbar.php');
         <div class="col-md-12 mt-2">
           <ol class="breadcrumb float-sm-right" style="background-color: #f4f6f8;">
             <li class="breadcrumb-item"><a href="index.php" class="text-dark">Home</a></li>
-            <li class="breadcrumb-item" style="font-weight: 600; color: #275DAD;">Masterlist Overview</li>
+            <li class="breadcrumb-item" style="font-weight: 600; color: #19323C;">Masterlist Overview</li>
           </ol>
         </div>
         <div class="col-md-12">

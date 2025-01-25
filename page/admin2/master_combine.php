@@ -28,13 +28,13 @@ try {
         <div class="col-md-12 mt-3">
           <ol class="breadcrumb float-sm-right" style="background-color: #f4f6f8;">
             <li class="breadcrumb-item"><a href="index.php" class="text-dark">Home</a></li>
-            <li class="breadcrumb-item" style="font-weight: 600; color: #275DAD;">Bom Combine</li>
+            <li class="breadcrumb-item" style="font-weight: 600; color: #19323C;">Bom Combine</li>
           </ol>
         </div>
         <div class="col-md-12">
           <div class="row mt-0">
             <div class="col-lg-3 col-6">
-              <div class="small-box" style="background-color: #275DAD; color:#ffffff; border-radius: 14px;">
+              <div class="small-box" style="background-color: #19323C; color:#ffffff; border-radius: 14px;">
                 <div class="inner">
                   <h3>Auto Combine</h3>
                   <p>BOM & BOM AID</p>
@@ -42,26 +42,11 @@ try {
                 <div class="icon">
                   <i class="fas fa-object-group"></i>
                 </div>
-                <a href="#" data-toggle="modal" data-target="#import_master_combine" class="small-box-footer" style="border-radius: 14px;">
+                <a href="#" data-toggle="modal" data-target="#import_master_combine" class="small-box-footer text-white" style="border-radius: 14px;">
                   Click to Upload Files
                 </a>
               </div>
             </div>
-
-            <!-- <div class="col-lg-3 col-6">
-              <div class="small-box bg-success" style=" border-radius: 14px;">
-                <div class="inner">
-                  <h3>Import</h3>
-                  <p>Combined Master</p>
-                </div>
-                <div class="icon">
-                  <i class="fas fa-file-excel"></i>
-                </div>
-                <a href="#" data-toggle="modal" data-target="#bom_aid" class="small-box-footer" style="border-radius: 14px;">
-                  Click to Import
-                </a>
-              </div>
-            </div> -->
 
             <div class="col-md-12">
               <div class="row">
