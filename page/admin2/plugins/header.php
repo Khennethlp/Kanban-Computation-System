@@ -179,10 +179,9 @@ if (!isset($_SESSION['username'])) {
     border-bottom: 4px solid #19323C !important;
     color: #19323C !important;
     font-weight: 600;
-
   }
 
-  .nav-item:hover>.nav-link {
+  .nav-item:hover>.nav-link{
     background-color: #244656 !important;
     color: #ffffff !important;
     border-radius: 3px;
@@ -318,6 +317,7 @@ if (!isset($_SESSION['username'])) {
   #sticky-navbar {
     background-color: #ffffff;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
   }
 
   #sticky-navbar.scrolled {
@@ -333,6 +333,5 @@ if (!isset($_SESSION['username'])) {
 
   #sticky-navbar.scrolled .nav-link.active {
     border-bottom: 4px solid #ffffff !important;
-    /* Add underline for active links */
   }
 </style>
