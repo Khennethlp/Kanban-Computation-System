@@ -38,7 +38,7 @@ include('plugins/navbar/index_navbar.php');
                           <datalist id="line_no">
                             <?php
                             require '../../process/conn.php';
-                            $sql = "SELECT DISTINCT line_no FROM m_master";
+                            $sql = "SELECT DISTINCT line_no FROM m_master ORDER BY line_no ";
                             $stmt = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
                             $stmt->execute();
 
