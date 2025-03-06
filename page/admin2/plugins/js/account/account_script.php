@@ -36,6 +36,11 @@
         var section = $('#add_section').val();
         var role = $('#add_role').val();
 
+        if(!emp_id || !fullname || !username || !password || !section || !role){
+            Swal.fire("Please fill up all fields.", "", "warning");
+            return;
+        }
+        
         $.ajax({
             type: "POST",
             url: "../../process/admin/account/load_accounts.php",

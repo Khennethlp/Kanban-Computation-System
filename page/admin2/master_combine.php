@@ -61,7 +61,8 @@ try {
             <div class="card-header border-0">
               <h3 class="card-title text-uppercase text-bold">Combined Bom Records</h3>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                <span class="btn btn-sm" id="downloadMasterCombine" onclick="export_master_combine();">Download CSV</span>
+                <!-- <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button> -->
               </div>
             </div>
             <div class="card-body">
@@ -192,4 +193,5 @@ include 'plugins/footer.php';
 include 'plugins/js/load_data/load_combine_script.php';
 include 'plugins/js/import/master_combine_script.php';
 include 'plugins/js/import/bom_aid_script.php';
+include 'plugins/js/functions/export_csv_script.php';
 ?>

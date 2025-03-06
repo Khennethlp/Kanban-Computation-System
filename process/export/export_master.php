@@ -35,12 +35,15 @@ if (!empty($search_key)) {
     $params[':search_product_no'] = '%' . $search_key . '%';
 }
 
+// Apply Month and Year filter
 if (!empty($getMonth)) {
-    $start_date = $current_year . '-' . str_pad($getMonth, 2, '0', STR_PAD_LEFT) . '-01';
-    $end_date = date("Y-m-t", strtotime($start_date));
-    $conditions[] = "created_at BETWEEN :start_date AND :end_date";
-    $params[':start_date'] = $start_date;
-    $params[':end_date'] = $end_date;
+    $conditions[] = " MONTH(created_at) = :month";
+    $params[':month'] = $getMonth;
+}
+
+if (!empty($current_year)) {
+    $conditions[] = " YEAR(created_at) = :year";
+    $params[':year'] = $current_year;
 }
 
 $conditions[] = "max_plan != '0'";

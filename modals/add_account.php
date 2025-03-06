@@ -37,7 +37,11 @@
                     </div>
                     <div class="col-sm-12 ">
                         <span><b>Role:</b></span>
-                        <input type="text" name="" id="add_role" class="form-control mb-2">
+                        <!-- <input type="text" name="" id="add_role" class="form-control mb-2"> -->
+                        <select name="" id="add_role" class="form-control mb-2" required>
+                            <option value=""></option>
+                            <option value="admin">Admin</option>
+                        </select>
                     </div>
                 </div>
                 <br>
