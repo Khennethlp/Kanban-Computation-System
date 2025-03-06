@@ -13,7 +13,7 @@ if ($method == 'load_accounts') {
     if (!empty($search_key)) {
         $conditions[] = "(emp_id LIKE :search_key_empid OR fullname LIKE :search_key_fullname OR username LIKE :search_key_username OR dept LIKE :search_like_dept)";
     }
-
+    $conditions[] = "dept != 'IT'";
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
@@ -57,7 +57,7 @@ if ($method == 'load_accounts') {
             </td>';
             echo '</tr>';
         }
-    }else {
+    } else {
         echo '<tr><td colspan="10" style="text-align:center;">No user found.</td></tr>';
     }
 }
