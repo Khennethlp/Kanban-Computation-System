@@ -74,7 +74,9 @@
                                 showConfirmButton: true,
                                 // timer: 2000
                             });
+                            
                             $('#import_master_combine').modal('hide');
+                            Swal.close();
                         } else if (response === 'error') {
                             Swal.fire({
                                 icon: "error",
