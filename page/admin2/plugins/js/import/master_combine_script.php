@@ -79,12 +79,15 @@
 
                         Swal.close();
 
+                        document.getElementById('csvFileInput_bom').value = '';
+                        document.getElementById('csvFileInput_bomAid').value = '';
+                        
                         Swal.fire({
                             icon: icon,
                             title: title,
                             text: text,
                             showConfirmButton: false,
-                            timer: 3000
+                            timer: 2500
                         });
 
                     } catch (e) {
