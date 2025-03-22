@@ -7,10 +7,7 @@ SELECT
             a.created_at, 
             a.created_by
         FROM m_combine a
-        LEFT JOIN m_maker_code b ON a.maker_code = b.maker_code WHERE b.maker_code = :car_model AND  MONTH(created_at) = :month AND  YEAR(created_at) = :year ORDER BY a.product_no ASC, a.id DESC
+        LEFT JOIN m_maker_code b ON a.maker_code = b.maker_code ORDER BY a.product_no ASC, a.id DESC
 Array
 (
-    [:car_model] => B
-    [:month] => 1
-    [:year] => 2024
 )

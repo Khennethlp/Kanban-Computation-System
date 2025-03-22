@@ -58,6 +58,7 @@
                 rows_per_page: rowsPerPage
             },
             success: function(response) {
+                Swal.close();
                 const responseData = JSON.parse(response);
                 const new_count = parseInt(responseData.total).toLocaleString();
                 const err_msg = responseData.err_msg;
@@ -70,7 +71,6 @@
                 }
 
                 document.getElementById('dash_count').innerHTML = 'Results: ' + new_count;
-                Swal.close();
 
                 if (isPagination) {
                     if (responseData.html.trim() !== '') {

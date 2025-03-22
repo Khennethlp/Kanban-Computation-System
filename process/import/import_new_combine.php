@@ -1,10 +1,7 @@
 <?php
 require '../conn.php';
 
-// ini_set('post_max_size', '100M');
-// ini_set('upload_max_filesize', '100M');
-// ini_set('memory_limit', '256M');
-set_time_limit(0); // Unlimited time to process large files
+set_time_limit(0);
 
 function readCsvData($filename)
 {
@@ -51,8 +48,6 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
         try {
             $conn->beginTransaction();
 
-            $conn->exec("TRUNCATE TABLE m_combine");
-
             // Create a single temporary table for combined data
             $conn->exec("CREATE TABLE #temp_combined (
                 maker_code NVARCHAR(255),
@@ -79,7 +74,6 @@ if (isset($_FILES['csvFile_bom']) && isset($_FILES['csvFile_bomAid'])) {
                 $stmt->execute([$row[0], $row[1], $row[2], $row[4], $row[9], $row[3], $row[5], $row[6], $row[7], $row[8], $userName]);
             }
 
-            // query to insert into m_combine table
             $sql = "
                 INSERT INTO m_combine (maker_code, product_no, partcode, partname, need_qty, created_by)
                 SELECT 

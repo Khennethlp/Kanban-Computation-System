@@ -10,16 +10,16 @@ include('plugins/navbar/index_navbar.php');
       <div class="row">
         <div class="col-md-12">
 
-          <div class="err_msg_container" style="display:block;">
+          <div class="err_msg_container mt-2" style="display:block;">
             <div class="alert alert-dismissible fade show" style="background-color: #C3423F; color: #fff; " role="alert">
-              <strong>Oops!</strong>&nbsp;<span id="err_msg"></span>
+              <strong>Oops!</strong>&nbsp;<span>A Division by zero detected in calculations for</span><strong><span id="err_msg"></span></strong><span>. Kindly update the No. of Teams in the Masterlist.</span>
               <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
           </div>
 
-          <div class="card mt-5" style="border-radius: 14px;">
+          <div class="card mt-4" style="border-radius: 14px;">
             <div class="card-header border-0">
               <h3 class="card-title text-uppercase text-bold">overview dashboard</h3>
               <div class="card-tools">
@@ -66,7 +66,6 @@ include('plugins/navbar/index_navbar.php');
                         </div>
                       </div>
                       <div class="col-md-2 mb-2">
-                        <!-- <label for="">&nbsp;</label> -->
                         <div class="d-flex align-items-center" style="border:1px solid #ccc;border-radius: 10px; padding: 0 10px;">
                           <span class="fas fa-calendar-alt mx-2 text-secondary"></span>
                           <select name="search_by_month" id="search_by_month" class="form-control ms-2" onchange="load_dashboard();" style="border:none; background-color:transparent; padding: 10px;">
@@ -151,7 +150,6 @@ include('plugins/navbar/index_navbar.php');
                         <div id="load_more" class="text-center" style="display: none;">
                           <p class="badge badge-dark border border-outline px-3 py-2 mt-3 " style="cursor: pointer; font-size: 15px; padding: 20px 0;">Load More...</p>
                         </div>
-
                       </div>
                     </div>
                   </div>

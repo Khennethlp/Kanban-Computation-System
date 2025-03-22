@@ -13,57 +13,6 @@ if ($method == 'load_dashboard') {
     $rowsPerPage = isset($_POST['rows_per_page']) ? (int)$_POST['rows_per_page'] : 10;
     $offset = ($page - 1) * $rowsPerPage;
 
-    //     $sql = "
-    //            SELECT 
-    //     a.id, 
-    //     a.partcode, 
-    //     a.partname, 
-    //     a.need_qty, 
-    //     a.created_by, 
-    //     b.partcode AS b_partcode, 
-    //     b.partname AS b_partname, 
-    //     b.min_lot, 
-    //     b.parts_group, 
-    //     c.product_no, 
-    //     c.max_plan, 
-    //     c.maxPlan_total AS maxplan_total, 
-    //     c.line_no, 
-    //     d.no_teams, 
-    //     COUNT(*) OVER() AS total_count,
-    //     e.masterlist_count
-    // FROM 
-    //     m_combine a
-    // LEFT JOIN 
-    //     m_min_lot b 
-    //     ON a.partcode = b.partcode AND a.partname = b.partname
-    // LEFT JOIN (
-    //     SELECT 
-    //         line_no, 
-    //         max_plan, 
-    //         SUM(max_plan) OVER (PARTITION BY line_no) AS maxPlan_total, 
-    //         product_no 
-    //     FROM 
-    //         m_max_plan
-    // ) c 
-    //     ON a.product_no = c.product_no
-    // LEFT JOIN 
-    //     m_no_teams d 
-    //     ON c.line_no = d.line_no
-    // LEFT JOIN (
-    //     SELECT 
-    //         partscode, 
-    //         partsname, 
-    //         LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1) AS numeric_line_number,
-    //         COUNT(*) AS masterlist_count
-    //     FROM [new_ekanban].[dbo].[mm_masterlist]
-    //     GROUP BY partscode, partsname, LEFT(line_number, PATINDEX('%[^0-9]%', line_number + 'X') - 1)
-    // ) e 
-    //     ON a.partcode = e.partscode 
-    //     AND a.partname = e.partsname 
-    //     AND e.numeric_line_number = CAST(c.line_no AS VARCHAR)
-    //";
-
-
     $sql = "SELECT *, COUNT(*) OVER() AS total_count FROM m_master";
     $conditions = [];
 
@@ -86,7 +35,6 @@ if ($method == 'load_dashboard') {
         $conditions[] = "(partcode = :partcode OR partname = :partname)";
     }
 
-    // $conditions[] = "b.parts_group NOT LIKE 'B%' AND b.parts_group NOT LIKE 'Q%' AND c.line_no IS NOT NULL AND c.product_no IS NOT NULL AND d.no_teams IS NOT NULL AND c.max_plan != '0' AND b.partcode IS NOT NULL";
     $conditions[] = "max_plan != '0'";
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
@@ -105,9 +53,7 @@ if ($method == 'load_dashboard') {
     if (!empty($line_no)) {
         $stmt->bindParam(':line_no', $line_no);
     }
-    // if (!empty($search_date)) {
-    //     $stmt->bindParam(':search_date', $search_date);
-    // }
+   
     if (!empty($search_key)) {
         $stmt->bindParam(':partcode', $search_key);
         $stmt->bindParam(':partname', $search_key);
@@ -124,9 +70,11 @@ if ($method == 'load_dashboard') {
 
     $data = '';
     $division_by_zero = '';
-    $c = ($page - 1) * $rowsPerPage + 1;
+    $c = ($page - 1) * $rowsPerPage;
 
     foreach ($master as $row) {
+        $c++;
+
         $line_no = $row['line_no'];
         $partcode = $row['partcode'];
         $partname = $row['partname'];
@@ -137,7 +85,7 @@ if ($method == 'load_dashboard') {
         $issued_pd = $row['issued_pd'];
 
         if (empty($no_teams)) {
-            $division_by_zero = "Division by zero detected in calculations for Line No: $line_no";
+            $division_by_zero = " Line No: $line_no";
             continue; // Skip this iteration
         }
 
@@ -155,7 +103,6 @@ if ($method == 'load_dashboard') {
         $kanban_qty = ceil(($lead_time + $safety_inv) / $min_lot);
         $add_reduce_kanban = $kanban_qty -  $issued_pd;
         $fill_color = ($add_reduce_kanban < 0) ? ' red-highlight' : '';
-
 
         $data .= '<tr>';
         $data .= '<td>' . $c . '</td>';
@@ -176,7 +123,6 @@ if ($method == 'load_dashboard') {
         $data .= '<td class="' . $fill_color . '">' . $add_reduce_kanban . '</td>';
         $data .= '<td> </td>';
         $data .= '</tr>';
-        $c++;
     }
 
     if (empty($data)) {

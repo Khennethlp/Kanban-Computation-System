@@ -36,32 +36,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $teams = $_FILES['csvFile_teams'];
     $kanban = $_FILES['csvFile_kanban'];
 
-    // $allowedMimeType = 'text/plain';
-    // if (
-    //     mime_content_type($maxplan['tmp_name']) !== $allowedMimeType ||
-    //     mime_content_type($minlot['tmp_name']) !== $allowedMimeType ||
-    //     mime_content_type($teams['tmp_name']) !== $allowedMimeType ||
-    //     mime_content_type($kanban['tmp_name']) !== $allowedMimeType
-    // ) {
-    //     echo "error:Invalid file type. Only CSV files are allowed.";
-    //     exit;
-    // }
-
     $maxplan_data = readCsvData($maxplan['tmp_name']);
     $minlot_data = readCsvData($minlot['tmp_name']);
     $teams_data = readCsvData($teams['tmp_name']);
     $kanban_data = readCsvData($kanban['tmp_name']);
 
-    // if (!$maxplan_data || !$minlot_data || !$teams_data || !$kanban_data) {
-    //     echo "error:Error reading uploaded files.";
-    //     exit;
-    // }
+    if(empty($maxplan_data) && empty($minlot_data) && empty($teams_data) && empty($kanban_data)) {
+        echo "error:No data found in the uploaded files.";
+        exit;
+    }
 
     try {
         $conn->beginTransaction();
 
         if (!empty($maxplan['tmp_name'])) {
-            $conn->exec("TRUNCATE TABLE m_max_plan");
+            // $conn->exec("TRUNCATE TABLE m_max_plan");
             $maxplan_data = readCsvData($maxplan['tmp_name']);
             if (!$maxplan_data) {
                 throw new Exception("Error reading maxplan file.");
@@ -69,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (!empty($minlot['tmp_name'])) {
-            $conn->exec("TRUNCATE TABLE m_min_lot");
+            // $conn->exec("TRUNCATE TABLE m_min_lot");
             $minlot_data = readCsvData($minlot['tmp_name']);
             if (!$minlot_data) {
                 throw new Exception("Error reading minlot file.");
@@ -77,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (!empty($teams['tmp_name'])) {
-            $conn->exec("TRUNCATE TABLE m_no_teams");
+            // $conn->exec("TRUNCATE TABLE m_no_teams");
             $teams_data = readCsvData($teams['tmp_name']);
             if (!$teams_data) {
                 throw new Exception("Error reading teams file.");
@@ -85,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (!empty($kanban['tmp_name'])) {
-            $conn->exec("TRUNCATE TABLE kanban_master");
+            // $conn->exec("TRUNCATE TABLE kanban_master");
             $kanban_data = readCsvData($kanban['tmp_name']);
             if (!$kanban_data) {
                 throw new Exception("Error reading kanban file.");
@@ -95,13 +84,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Insert max plan
         $stmt_maxplan = $conn->prepare("INSERT INTO m_max_plan (product_no, line_no, max_plan, created_by) VALUES (?, ?, ?, ?)");
         foreach ($maxplan_data as $row) {
-            $product_no = $row[0];
-            $line_no = $row[1];
-            $max_plan = $row[2];
+            $product_no = trim($row[0]);
+            $line_no = str_replace('*', '', $row[1]);
+            $max_plan = is_numeric($row[2]) ? (float)$row[2] : 0;
 
-            if (is_numeric($max_plan)) {
-                $stmt_maxplan->execute([$product_no, $line_no, $max_plan, $userName]);
+            if (
+                empty($product_no) ||                    
+                $line_no === '#N/A' || $line_no === '0' || 
+                $max_plan <= 0           
+            ) {
+                continue; 
             }
+
+            $stmt_maxplan->execute([$product_no, $line_no, $max_plan, $userName]);
         }
 
         // Insert min lot

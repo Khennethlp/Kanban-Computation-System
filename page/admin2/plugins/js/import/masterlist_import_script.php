@@ -66,10 +66,13 @@
         var user_name = document.getElementById('user_name').value;
 
         Swal.fire({
+            icon: "info",
             title: "Continue to generate records?",
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: "Proceed",
+            text: "This will generate records based on the combined BOM and uploaded master list.",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Continue",
+
         }).then((result) => {
             if (result.isConfirmed) {
 

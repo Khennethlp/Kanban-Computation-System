@@ -25,7 +25,7 @@
             formData.append('csvFile_bom', fileInputBom);
             formData.append('csvFile_bomAid', fileInputBomAid);
             console.log(userName);
-            
+
             Swal.fire({
                 icon: 'info',
                 title: 'Processing...',
@@ -34,31 +34,11 @@
                 showConfirmButton: false,
                 willOpen: () => {
                     Swal.showLoading();
-
-                    // Update after 30 seconds
-                    setTimeout(() => {
-                        Swal.update({
-                            html: 'Still processing... Please be patient.',
-                        });
-                        Swal.showLoading();
-                    }, 30000);
-
-                    setTimeout(() => {
-                        Swal.update({
-                            html: 'Still processing... This might take a while.',
-                        });
-                        Swal.showLoading();
-                    }, 120000); // 2 minutes
-
-                    setTimeout(() => {
-                        Swal.update({
-                            html: 'Still processing...',
-                        });
-                        Swal.showLoading();
-                    }, 160000); //  minutes
                 }
             });
+
             $('#import_master_combine').modal('hide');
+
             $.ajax({
                 url: '../../process/import/import_new_combine.php',
                 type: 'POST',
@@ -66,54 +46,47 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
+                    let icon, title, text;
+
                     try {
                         if (response === 'success') {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Combined Successfully!",
-                                showConfirmButton: true,
-                                // timer: 2000
-                            });
-                            
-                            $('#import_master_combine').modal('hide');
-                            Swal.close();
+                            icon = "success";
+                            title = "Combined Successfully!";
+                            text = "The files have been combined successfully.";
                         } else if (response === 'error') {
-                            Swal.fire({
-                                icon: "error",
-                                title: "There were errors during the upload.",
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
+                            icon = "error";
+                            title = "Error!";
+                            text = "There was an error processing the files.";
                         } else if (response === 'no_matches') {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "No matching rows found!",
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
+                            icon = "warning";
+                            title = "No Matches Found!";
+                            text = "No matching rows found in the files.";
+
                         } else if (response === 'file1 error') {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Could not read file 1",
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
+                            icon = "warning";
+                            title = "Could not read file 1";
+                            text = "Please check the file format and try again.";
+
                         } else if (response === 'file2 error') {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Could not read file 2",
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
+                            icon = "warning";
+                            title = "Could not read file 2";
+                            text = "Please check the file format and try again.";
                         } else if (response === 'file upload') {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Failed uploaded files.",
-                                text: "Please, check both files.",
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
+                            icon = "warning";
+                            title = "File Upload Error!";
+                            text = "Please check the file format and try again.";
                         }
+
+                        Swal.close();
+
+                        Swal.fire({
+                            icon: icon,
+                            title: title,
+                            text: text,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
                     } catch (e) {
                         console.error('Error parsing response:', e);
                         alert('Unexpected server response.');

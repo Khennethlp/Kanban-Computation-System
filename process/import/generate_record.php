@@ -4,19 +4,40 @@ require '../conn.php';
 $userName = isset($_POST['userName']) ? $_POST['userName'] : '';
 
 try {
-    $query = "SELECT 
+    $conn->beginTransaction();
+
+    $conn->exec("
+        CREATE TABLE #temp_master (
+            product_no NVARCHAR(255),
+            line_no NVARCHAR(255),
+            partcode NVARCHAR(255),
+            partname NVARCHAR(255),
+            min_lot DECIMAL(10,3),
+            max_usage DECIMAL(10,3),
+            max_plan DECIMAL(10,3),
+            no_teams INT,
+            issued_pd INT,
+            parts_group NVARCHAR(255),
+            created_by NVARCHAR(255),
+            maker_code NVARCHAR(255)
+        )
+    ");
+
+    $insertTempSql = "
+        INSERT INTO #temp_master (product_no, line_no, partcode, partname, min_lot, max_usage, max_plan, no_teams, issued_pd, parts_group, created_by, maker_code)
+        SELECT 
             a.product_no, 
-            b.line_no AS line_no, 
+            b.line_no, 
             a.partcode, 
             a.partname, 
-            c.min_lot AS min_lot, 
+            c.min_lot, 
             a.need_qty AS max_usage, 
             b.max_plan AS maxplan_total, 
-            e.line_no AS no_teams_line,
             e.no_teams AS no_teams, 
-            c.parts_group AS parts_group,
-            a.maker_code,
-            COUNT(d.partcode) AS issued_pd
+            COUNT(d.partcode) AS issued_pd,
+            c.parts_group,
+            ? AS created_by, 
+            a.maker_code
         FROM 
             m_combine a
         LEFT JOIN 
@@ -34,87 +55,46 @@ try {
             AND c.parts_group NOT LIKE 'q%'
         GROUP BY 
             b.line_no, a.product_no, a.partcode, a.partname, c.min_lot, a.need_qty, b.max_plan, 
-            e.line_no, e.no_teams, c.parts_group, a.maker_code, d.line_no
-            ";
+            e.no_teams, c.parts_group, a.maker_code;
+    ";
 
-    $stmt = $conn->query($query);
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $conn->prepare($insertTempSql);
+    $stmt->execute([$userName]);
 
-    if (empty($rows)) {
-        echo "No matching records found.";
-        exit;
-    }
+    $insertMainSql = "
+        INSERT INTO m_master (product_no, line_no, partcode, partname, min_lot, max_usage, max_plan, no_teams, issued_pd, parts_group, created_by, maker_code)
+        SELECT 
+            t.product_no, 
+            t.line_no, 
+            t.partcode, 
+            t.partname, 
+            t.min_lot, 
+            t.max_usage, 
+            t.max_plan, 
+            t.no_teams, 
+            t.issued_pd, 
+            t.parts_group, 
+            t.created_by, 
+            t.maker_code
+        FROM #temp_master t
+        LEFT JOIN m_master m
+        ON t.product_no = m.product_no 
+        AND t.line_no = m.line_no 
+        AND t.partcode = m.partcode 
+        AND t.partname = m.partname
+        WHERE m.product_no IS NULL;
+    ";
 
-    $existingCheckQuery = "SELECT COUNT(*) FROM m_master WHERE product_no = ? AND line_no = ? AND partcode = ? AND partname = ?";
-    $existingCheckStmt = $conn->prepare($existingCheckQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+    $conn->exec($insertMainSql);
 
-    // Prepare for batch inserts
-    $placeholdersPerRow = 12;
-    $maxParamsPerBatch = 2000;
-    $maxRowsPerBatch = floor($maxParamsPerBatch / $placeholdersPerRow);
+    $conn->exec("DROP TABLE #temp_master");
 
-    $insertSql = "INSERT INTO m_master 
-                  (product_no, line_no, partcode, partname, min_lot, max_usage, max_plan, no_teams, issued_pd, parts_group, created_by, maker_code) 
-                  VALUES ";
+    $conn->commit();
 
-    $values = [];
-    $placeholders = [];
-    $currentBatch = 0;
+    echo 'success'; 
 
-    $newRecordsInserted = false;
-
-    foreach ($rows as $index => $row) {
-
-        // Check if the record already exists
-        $existingCheckStmt->execute([
-            $row['product_no'],
-            $row['line_no'],
-            $row['partcode'],
-            $row['partname']
-        ]);
-
-        $existingCount = $existingCheckStmt->fetchColumn();
-
-        if ($existingCount > 0) {
-            // Skip insertion if the record already exists
-            continue;
-        }
-
-        $newRecordsInserted = true;
-        $values[] = $row['product_no'];
-        $values[] = $row['line_no'];
-        $values[] = $row['partcode'];
-        $values[] = $row['partname'];
-        $values[] = $row['min_lot'];
-        $values[] = $row['max_usage'];
-        $values[] = $row['maxplan_total'];
-        $values[] = $row['no_teams'];
-        $values[] = $row['issued_pd'];  // issued to PD    
-        $values[] = $row['parts_group'];
-        $values[] = $userName;
-        $values[] = $row['maker_code'];
-
-        $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        // Insert batch if batch size is reached or it's the last row
-        if ((count($placeholders) >= $maxRowsPerBatch) || ($index === count($rows) - 1)) {
-            $batchQuery = $insertSql . implode(", ", $placeholders);
-            $insertStmt = $conn->prepare($batchQuery);
-            $insertStmt->execute($values);
-
-            // Reset placeholders and values for the next batch
-            $placeholders = [];
-            $values = [];
-            $currentBatch++;
-        }
-    }
-
-    // echo "All data inserted successfully.";
-    if ($newRecordsInserted) {
-        echo 'success'; // Some new records were inserted
-    } else {
-        echo 'Records already generated.'; // No new records were inserted
-    }
 } catch (PDOException $e) {
+    $conn->rollBack();
     echo "Error: " . $e->getMessage();
 }
+?>
